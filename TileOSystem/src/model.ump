@@ -1,0 +1,169 @@
+class TileOSystem
+{
+  1 <@>- * User;
+  1 <@>- * Board;
+  1 <@>- * Deck;
+  1 <@>- * Game;
+  singleton;
+}
+
+class User
+{
+  name;
+}
+
+class Designer
+{
+    isA User;
+}
+
+class Player
+{
+    color;
+autounique identity;
+isA User;
+  0..4 -- 1 Tile position;
+}
+
+class Game
+{
+  int currentTurn;
+  int spareConnectors;
+  int currentPlayer;
+  immutable int numberOfPlayers;
+1 -- 2..4 Player;
+}
+
+class Board
+{
+  boardName;
+  1 <@>- * Connection;
+	1 -- * Game;
+    1 <@>- 2..* Tile; 
+    1 -- 1 Designer;
+}
+
+class Tile
+{
+  boolean wasVisited;
+}
+
+
+class HiddenTile
+{
+  boolean wasFound = false;
+  isA Tile;
+}
+
+class Connection
+{
+  0..4 -- 2 Tile; //Each connection must have 2 tiles associated with it
+}
+
+class Dice
+{
+  1 -<@> 1 Game;
+}
+
+class ActionTile
+{
+  int nextActiveTurn;
+typeOfAction; 
+immutable int inactiveTurns;
+isA Tile;
+}
+
+class ActionCard
+{
+    32 -<@> 1 Deck;
+  actionType {rollAgain{} addConnection{} removeConnection{} moveToTile{} skipTurn{}}
+}
+
+class Deck
+{
+  1 -- 1 Game;
+  1 -- 1 Designer;
+}
+
+
+
+class TileOSystem
+{
+  position 43 20 109 45;
+  position.association Board__TileOSystem 59,45 0,0;
+  position.association Deck__TileOSystem 109,2 0,1;
+  position.association Game__TileOSystem 109,28 0,6;
+  position.association TileOSystem__User 10,45 30,0;
+}
+
+class User
+{
+  position 10 119 112 58;
+}
+
+class Designer
+{
+  position 244 168 109 45;
+}
+
+class Player
+{
+  position 29 225 134 75;
+  position.association Player__Tile:position 96,75 6,0;
+}
+
+class Game
+{
+  position 528 269 167 109;
+  position.association Game__Player 0,8 134,25;
+}
+
+class Board
+{
+  position 252 294 152 58;
+  position.association Board__Connection 73,58 30,0;
+  position.association Board__Game 77,0 0,28;
+  position.association Board__Tile 28,58 83,0;
+  position.association Board__HiddenTile 0,24 30,0;
+  position.association Board__Designer 0,26 109,12;
+}
+
+class Tile
+{
+  position 226 406 158 58;
+}
+
+class HiddenTile
+{
+  position 32 535 154 58;
+}
+
+class Connection
+{
+  position 489 438 109 45;
+  position.association Connection__Tile 2,0 107,28;
+}
+
+class Dice
+{
+  position 601 143 109 45;
+  position.association Dice__Game 45,0 167,18;
+}
+
+class ActionTile
+{
+  position 247 527 161 92;
+}
+
+class ActionCard
+{
+  position 572 42 109 45;
+  position.association ActionCard__Deck 42,28 109,18;
+}
+
+class Deck
+{
+  position 429 40 109 45;
+  position.association Deck__Game 51,0 146,28;
+  position.association Deck__Designer 0,28 109,5;
+}
