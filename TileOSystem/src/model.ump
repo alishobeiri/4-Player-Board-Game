@@ -1,3 +1,5 @@
+namespace ca.mcgill.ecse223.tileo.model;
+
 class TileOSystem
 {
   1 <@>- * User;
