@@ -41,6 +41,10 @@ public class BoardPanel extends JPanel {
 	public BoardPanel(){
 		addMouseListener(new MouseSelectionListener());
 		
+		setBackground(Color.GRAY);
+		
+		
+		
 		//TESTING TODO: REMOVE
 			tiles.add(tile1);
 			tiles.add(tile2);
@@ -58,26 +62,25 @@ public class BoardPanel extends JPanel {
 		
 		rectangles.clear();
 		
-		//This fills the grid with retangles
-		/*for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
-			rectangles.add(new ArrayList<Rectangle2D>());
-			for(int j = 0; j < VERTICAL_RECTANGLES; j++){*/
+		//This fills the grid with rectangles
+		for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
+			for(int j = 0; j < VERTICAL_RECTANGLES; j++){
 		
-		for(Tile tile: game.getTiles()){
+		/*for(Tile tile: game.getTiles()){
 				int i = tile.getX();
-				int j = tile.getY();
+				int j = tile.getY();*/
 			
 				Rectangle2D rectangle = new Rectangle2D.Float(GAP*(j+1) + WIDTH*j, GAP*(i+1) + HEIGHT*i, WIDTH, HEIGHT);
 				
 				rectangles.add(rectangle);
-				tiles.add(tile);
+				//tiles.add(tile);
 				
 				g2d.setColor(Color.WHITE);
 				g2d.fill(rectangle);
 				g2d.setColor(Color.BLACK);
 				g2d.draw(rectangle);
 				
-			//}
+			}
 		}
 	}
 	
@@ -88,7 +91,8 @@ public class BoardPanel extends JPanel {
 			for(Rectangle2D rect : rectangles){
 				if(rect.contains(x, y)){
 					System.out.println("Found me!");
-					tiles.remove(rect);
+					//TODO ADD HASHMAP (TILES, RECTNAGLES)
+					//tiles.get(rect);
 				}
 			}
 		}
