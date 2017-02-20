@@ -19,10 +19,11 @@ public class GamePage extends JFrame{
 	JButton getCard = new JButton("Get Action Card");
 	JButton rollDie = new JButton("Roll Die");
 	JButton finishTurn = new JButton("Finish Turn");
+	JButton addConnection = new JButton("Add Connection");
+	JButton removeConnection = new JButton("Remove Connection");
 	JTextField dieResult = new JTextField(20);
 	JLabel status = new JLabel("Current Player:");
 	JLabel currentPlayer = new JLabel("Player 1");
-	JLabel deckTitle = new JLabel("Deck");
 	
 	public GamePage(){
 		initComponents();
@@ -31,6 +32,7 @@ public class GamePage extends JFrame{
 	public void initComponents(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(885, 680);
+		setResizable(false);
 		
 		//Settings for text field
 		dieResult.setFont(new Font("Gill Sans", Font.BOLD, 56));
@@ -39,7 +41,6 @@ public class GamePage extends JFrame{
 		//Change fonts
 		status.setFont(new Font("Gill Sans", Font.PLAIN, 26));
 		currentPlayer.setFont(new Font("Gill Sans", Font.BOLD, 30));
-		deckTitle.setFont(new Font("Gill Sans", Font.BOLD, 26));
 		
 		//Set Group Layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -51,6 +52,8 @@ public class GamePage extends JFrame{
 		getCard.addActionListener(new getCardListener());
 		rollDie.addActionListener(new rollDieListener());
 		finishTurn.addActionListener(new finishTurnListener());
+		addConnection.addActionListener(new addConnectionListener());
+		removeConnection.addActionListener(new removeConnectionListener());
 		
 		//Component placement
 		layout.setHorizontalGroup(
@@ -59,11 +62,10 @@ public class GamePage extends JFrame{
 					.addGroup(layout.createParallelGroup()
 							.addComponent(status)
 							.addComponent(currentPlayer)
-							.addGroup(layout.createSequentialGroup()
-									.addGap(80, 80, 80)
-									.addComponent(deckTitle))
 							.addComponent(deck, 220, 220, 220)
 							.addComponent(getCard, 220, 220, 220)
+							.addComponent(addConnection, 220, 220, 220)
+							.addComponent(removeConnection, 220, 220, 220)
 							.addGap(220, 220, 220)
 							.addGroup(layout.createSequentialGroup()
 									.addGap(70, 70, 70)
@@ -78,10 +80,10 @@ public class GamePage extends JFrame{
 						.addComponent(status)
 						.addComponent(currentPlayer)
 						.addGap(20, 20, 20)
-						.addComponent(deckTitle)
 						.addComponent(deck, 300, 300, 300)
 						.addComponent(getCard)
-						.addGap(35, 35, 35)
+						.addComponent(addConnection)
+						.addComponent(removeConnection)
 						.addComponent(dieResult, 80, 80, 80)
 						.addComponent(rollDie)
 						.addComponent(finishTurn))
@@ -106,5 +108,15 @@ public class GamePage extends JFrame{
 		}
 	}
 	
+	class addConnectionListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			//TODO Add button functionality.
+		}
+	}
 
+	class removeConnectionListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			//TODO Add button functionality.
+		}
+	}
 }

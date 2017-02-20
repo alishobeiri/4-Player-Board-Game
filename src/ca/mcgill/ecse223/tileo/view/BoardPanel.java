@@ -41,9 +41,7 @@ public class BoardPanel extends JPanel {
 	public BoardPanel(){
 		addMouseListener(new MouseSelectionListener());
 		
-		setBackground(Color.GRAY);
-		
-		
+		setBackground(Color.LIGHT_GRAY);
 		
 		//TESTING TODO: REMOVE
 			tiles.add(tile1);
