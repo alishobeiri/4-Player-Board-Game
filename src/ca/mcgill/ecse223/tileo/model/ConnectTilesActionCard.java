@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+
 // line 72 "../../../../../TileO (updated Feb10).ump"
 public class ConnectTilesActionCard extends ActionCard
 {
@@ -27,6 +29,13 @@ public class ConnectTilesActionCard extends ActionCard
   public void delete()
   {
     super.delete();
+  }
+  
+  public void play(Tile tile1, Tile tile2) throws InvalidInputException{
+	  Game game = this.getDeck().getGame();
+	  
+	  //TODO Check this method works
+	  game.connectTiles(tile1, tile2);
   }
 
 }

@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+
 // line 80 "../../../../../TileO (updated Feb10).ump"
 public class TeleportActionCard extends ActionCard
 {
@@ -27,6 +29,23 @@ public class TeleportActionCard extends ActionCard
   public void delete()
   {
     super.delete();
+  }
+  
+  public void play(Tile tile) throws InvalidInputException{
+	  
+	  //TODO Check if methods work.
+	  if(tile instanceof NormalTile){
+		  NormalTile normal = (NormalTile) tile;
+		  normal.land();
+	  }
+	  else if(tile instanceof ActionTile){
+		  ActionTile action = (ActionTile) tile;
+		  action.land();
+	  }
+	  else if(tile instanceof WinTile){
+		  WinTile win = (WinTile) tile;
+		  win.land();
+	  }
   }
 
 }

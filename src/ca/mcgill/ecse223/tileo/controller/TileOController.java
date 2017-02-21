@@ -33,7 +33,7 @@ public class TileOController {
 		RollDieActionCard rollDieCard = (RollDieActionCard) card;
 		
 		List<Tile> tiles = new ArrayList<Tile>();
-		//tiles = rollDieCard.play();
+		tiles = rollDieCard.play();
 		
 		advanceCurrentCard(deck);
 		
@@ -46,7 +46,7 @@ public class TileOController {
 		Game game = TileOApplication.getCurrentGame();
 		
 		//Valid input checks
-		if(!(hasTile(game.getTiles(), tile1)) || !(hasTile(game.getTiles(), tile2))){
+		if(!(game.getTiles().contains(tile1)) || !(game.getTiles().contains(tile2))){
 			throw new InvalidInputException("That tile is not in the game.");
 		}
 		
@@ -68,29 +68,88 @@ public class TileOController {
 		
 		ConnectTilesActionCard connectTilesCard = (ConnectTilesActionCard) card;
 		
-		//connectTilesCard.play(tile1, tile2);
+		connectTilesCard.play(tile1, tile2);
 		
+		setNextPlayer(game);
 		
+		advanceCurrentCard(deck);
+		
+		game.setMode(Mode.GAME);
+		
+	}
+	
+	public void playRemoveConnectionActionCard(Connection aConnection) throws InvalidInputException{
+		Game game = TileOApplication.getCurrentGame();
+		
+		if(!(game.getConnections().contains(aConnection))){
+			throw new InvalidInputException("The connections did not exist.");
+		}
+		
+		Deck deck = game.getDeck();
+		ActionCard card = deck.getCurrentCard();
+		
+		if(!(card instanceof RemoveConnectionActionCard)){
+			throw new InvalidInputException("Current card is not a Remove Connection Action Card");
+		}
+		
+		RemoveConnectionActionCard removeConnectionCard = (RemoveConnectionActionCard) card;
+		
+		removeConnectionCard.play(aConnection);
+		
+		setNextPlayer(game);
+		
+		advanceCurrentCard(deck);
+		
+		game.setMode(Mode.GAME);
+
+	}
+	
+	public void playTeleportActionCart(Tile tile) throws InvalidInputException{
+		Game game = TileOApplication.getCurrentGame();
+		
+		if(!(game.getTiles().contains(tile))){
+			throw new InvalidInputException("The tile is not in the game.");
+		}
+		
+		Deck deck = game.getDeck();
+		
+		ActionCard card = deck.getCurrentCard();
+		
+		advanceCurrentCard(deck);
+		
+		if(!(card instanceof TeleportActionCard)){
+			throw new InvalidInputException("Current card is not a Teleport Action Card");
+		}
+		
+		TeleportActionCard teleportCard = (TeleportActionCard) card;
+		
+		teleportCard.play(tile);
+		
+		tile.setHasBeenVisited(true);
+		
+		game.setMode(Mode.GAME);
 	}
 	
 	//Helper methods
-	public boolean hasTile(List<Tile> tiles, Tile tile){
-		Iterator iter = tiles.iterator();
-		
-		while(iter.hasNext()){
-			if(iter.next() == tile){
-				return true;
-			}
+	
+	//Sets the current player to the next player
+	public void setNextPlayer(Game game){
+		List<Player> players = game.getPlayers();
+		Player current = game.getCurrentPlayer();
+		int index = game.indexOfPlayer(current);
+		if(players.get(index + 1) == null){
+			index = 0;
 		}
-		
-		return false;
+		Player next = players.get(index);
+		game.setCurrentPlayer(next);
 	}
 	
+	//Checks if two tiles are adjacent (connected) to each other
 	public boolean areAdjacent(Tile tile1, Tile tile2){
 		List<Connection> connections = tile1.getConnections();
 		
 		for(Connection c: connections){
-			if(hasTile(c.getTiles(), tile1) && hasTile(c.getTiles(), tile2)){
+			if(c.getTiles().contains(tile1) && c.getTiles().contains(tile2)){
 				return true;
 			}
 		}
@@ -98,17 +157,18 @@ public class TileOController {
 		return false;
 	}
 	
+	//Sets the current card on the deck to the next one
 	public void advanceCurrentCard(Deck deck){
 		ActionCard card = deck.getCurrentCard();
 		int index = deck.indexOfCard(card);
+		if(deck.getCard(index + 1) == null){
+			//TODO Check that this method works.
+			deck.shuffle();
+			index = 0;
+		}
 		ActionCard nextCard = deck.getCard(index);
 		deck.setCurrentCard(nextCard);
 	}
-	
-	//TESTING METHODS
-	/*public List<Tile> rollDie(){
-		return new ArrayList<Tile>();
-	}*/
 	
 	
 }

@@ -4,7 +4,6 @@
 package ca.mcgill.ecse223.tileo.model;
 
 import java.util.*;
-import ca.mcgill.ecse223.tileo.controller.TileOController;
 
 // line 68 "../../../../../TileO (updated Feb10).ump"
 public class RollDieActionCard extends ActionCard
@@ -35,7 +34,10 @@ public class RollDieActionCard extends ActionCard
   //Added play method
   public List<Tile> play(){
 	  List<Tile> tiles = new ArrayList<Tile>();
-	  //tiles = new TileOController().rollDie();
+	  Game game = this.getDeck().getGame();
+	  
+	  //TODO Check this method works
+	  tiles = game.rollDie();
 	  
 	  return tiles;
   }
