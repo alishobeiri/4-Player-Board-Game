@@ -18,7 +18,7 @@ public class GamePage extends JFrame{
 	DeckPanel deck = new DeckPanel();
 	JButton getCard = new JButton("Get Action Card");
 	JButton rollDie = new JButton("Roll Die");
-	JButton finishTurn = new JButton("Finish Turn");
+	JButton finishTurn = new JButton("Move To Tile");
 	JButton addConnection = new JButton("Add Connection");
 	JButton removeConnection = new JButton("Remove Connection");
 	JTextField dieResult = new JTextField(20);
