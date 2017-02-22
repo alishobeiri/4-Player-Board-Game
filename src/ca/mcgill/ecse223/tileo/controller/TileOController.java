@@ -170,13 +170,58 @@ public class TileOController {
 		deck.setCurrentCard(nextCard);
 	}
 	
-	//Thomas
-	//
+	// Thomas
+	// Returns a list of possible moves the current player can make based on the number they roll
 	public List<Tile> rollDie() {
 		Game game = TileOApplication.getCurrentGame();
 		// Returns a list of possible moves the current player can make
 		return game.rollDie();
 	}
-	
-	
+
+	// Thomas
+	// TODO Implement validation and fix errors
+	public void startGame(Game selectedGame) throws InvalidInputException {
+		// validation check:
+		// there needs to be:
+		// NumberOfActionCards cards
+		// a winTile
+		// the starting tile of each player has to be defined
+
+		List<Tile> tiles;
+		List<Player> players;
+		Tile startingTile;
+		Deck deck;
+
+		// not sure what to do about the following error
+		// i suppose all occurrences of 'selectedGame' below should be changed
+		// to 'game'
+		Game game = TileOApplication.getCurrentGame(selectedGame);
+
+		deck = selectedGame.getDeck();
+		deck.shuffle();
+
+		// Get all tiles in current game
+		tiles = selectedGame.getTiles();
+		// Get all players in current game
+		players = selectedGame.getPlayers();
+
+		// Set all tiles in selectedGame to unvisited
+		for (Tile tile : tiles) {
+			tile.setHasBeenVisited(false);
+		}
+
+		// Place all players on board, and set their starting tiles to visited
+		for (Player player : players) {
+			startingTile = player.getStartingTile();
+			player.setCurrentTile(startingTile);
+			startingTile.setHasBeenVisited(true);
+		}
+
+		// Set the first player as the current player
+		selectedGame.setCurrentPlayer(selectedGame.getPlayers().get(0));
+		// Set the number of connection pieces to the default value
+		selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
+		// Set the game mode to GAME
+		selectedGame.setMode(Mode.GAME);
+	}
 }
