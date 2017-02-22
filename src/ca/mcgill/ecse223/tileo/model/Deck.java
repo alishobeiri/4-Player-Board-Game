@@ -202,4 +202,38 @@ public class Deck
     }
   }
 
+//Thomas
+public void shuffle() {
+	// TODO Clean this up
+	
+	if(!hasCards()){
+		throw new RuntimeException("Unable to shuffle empty Deck");
+	}
+	//Random index to swap cards to/from
+	int randIndex;
+	//Temporary deck
+//	List<ActionCard> temp;
+	//Temporary Card
+//	ActionCard tempCard;
+	//Random
+    Random rand = new Random();
+    //Size of deck
+    int deckSize = numberOfCards();
+    
+    //shuffle the array list called 'cards'
+    
+    //Fisher-Yates shuffle, assuming we can shuffle in place?
+    // theres another method that will shuffle into a temp
+    
+    //Fisher-Yates in-place shuffle
+    for(int i=0;i<deckSize-2;i++){
+    	randIndex = rand.nextInt(deckSize-i)+i;
+    	Collections.swap(cards, i,randIndex);
+    }
+	
+	//After shuffle set the current card to the first card in the stack
+	currentCard = getCard(0);
+	
+}
+
 }
