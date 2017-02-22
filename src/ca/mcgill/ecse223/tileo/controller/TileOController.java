@@ -170,5 +170,13 @@ public class TileOController {
 		deck.setCurrentCard(nextCard);
 	}
 	
+	//Thomas
+	//
+	public List<Tile> rollDie() {
+		Game game = TileOApplication.getCurrentGame();
+		// Returns a list of possible moves the current player can make
+		return game.rollDie();
+	}
+	
 	
 }

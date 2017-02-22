@@ -581,5 +581,26 @@ public class Game
             "  " + "winTile = "+(getWinTile()!=null?Integer.toHexString(System.identityHashCode(getWinTile())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "tileO = "+(getTileO()!=null?Integer.toHexString(System.identityHashCode(getTileO())):"null")
      + outputString;
-  }
+	}
+
+	// Thomas
+	public List<Tile> rollDie() {
+		// List of tiles to return that represents possible moves
+		List<Tile> tiles = new ArrayList<Tile>();
+		// this = game
+		Die die = this.getDie();
+
+		// roll the die
+		int dieValue = die.roll();
+
+		// Get the current player
+		Player currentPlayer = this.getCurrentPlayer();
+
+		//TODO Check getPossibleMoves is implemented
+		// Tiles is a list of possible moves the current player can make based
+		// on their die role
+		tiles = currentPlayer.getPossibleMoves(dieValue);
+
+		return tiles;
+	}
 }
