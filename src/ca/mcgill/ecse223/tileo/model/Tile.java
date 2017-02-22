@@ -263,4 +263,7 @@ public abstract class Tile
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
+  
+  //Thomas
+  public abstract void land();
 }
