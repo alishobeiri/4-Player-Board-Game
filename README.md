@@ -21,3 +21,11 @@
   * Action card "Remove a connection piece from the board and place it in the pile of spare connection pieces"
   * Action card "Move your playing piece to an arbitrary tile that is not your current tile"
   * Save and load game to continue playing at a later point
+  
+### Git Workflow
+  * Before editing any code run `git pull` or `git pull origin master`
+  * After editing code run `git status` to see what files have changed
+  * Then use `git add <filename1> <filename2>` to add stage specific files or `git add .` to stage all files
+  * Run `git status` again for good measure
+  * Run `git commit -m "<you_commit_message>"` to commit to your local repository with a commit message in the present tense
+  * Finally, to commit the the github repository, run `git push`
