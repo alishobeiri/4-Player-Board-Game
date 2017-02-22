@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
+import java.util.Random;
+
 // line 88 "../../../../../TileO (updated Feb10).ump"
 public class Die
 {
@@ -49,6 +51,17 @@ public class Die
     {
       existingGame.delete();
     }
-  }
+	}
+
+  	//Thomas
+  	//Return a random die roll, [1-6]
+	public int roll() {
+		//Default value
+		int dieValue = 0;
+		Random rand = new Random();
+		// Get a random value between 1 and 6 inclusive
+		dieValue = rand.nextInt(6) + 1;
+		return dieValue;
+	}
 
 }
