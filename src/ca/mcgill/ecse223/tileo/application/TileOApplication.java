@@ -14,6 +14,11 @@ public class TileOApplication {
 		return tileO.getCurrentGame();
 	}
 	
+	//Thomas generated - on advice of Berk in tutorial
+	public static boolean setCurrentGame(Game aNewCurrentGame){
+		return tileO.setCurrentGame(aNewCurrentGame);
+	}
+	
 	public static void save() {
 		//Use to save
 	}

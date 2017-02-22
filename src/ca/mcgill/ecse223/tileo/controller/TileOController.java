@@ -191,11 +191,14 @@ public class TileOController {
 		List<Player> players;
 		Tile startingTile;
 		Deck deck;
+		TileO tileo;
 
 		// TODO not sure what to do about the following error
 		// i suppose all occurrences of 'selectedGame' below should be changed
 		// to 'game'
-		Game game = TileOApplication.getCurrentGame(selectedGame);
+		//Game game = TileOApplication.setCurrentGame(selectedGame);
+		TileOApplication.setCurrentGame(selectedGame);
+//		tileo.setCurrentGame(selectedGame);
 
 		deck = selectedGame.getDeck();
 		deck.shuffle();
@@ -223,5 +226,11 @@ public class TileOController {
 		selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
 		// Set the game mode to GAME
 		selectedGame.setMode(Mode.GAME);
+	}
+	
+	//Thomas
+	//TODO Implement this
+	public void land(Tile tile) {
+		
 	}
 }
