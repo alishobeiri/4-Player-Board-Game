@@ -192,7 +192,7 @@ public class TileOController {
 		Tile startingTile;
 		Deck deck;
 
-		// not sure what to do about the following error
+		// TODO not sure what to do about the following error
 		// i suppose all occurrences of 'selectedGame' below should be changed
 		// to 'game'
 		Game game = TileOApplication.getCurrentGame(selectedGame);
