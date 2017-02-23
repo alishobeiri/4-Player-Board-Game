@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
 // line 62 "../../../../../TileO (updated Feb10).ump"
 public abstract class ActionCard
 {
@@ -92,4 +94,9 @@ public abstract class ActionCard
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
      + outputString;
   }
+
+public Mode getActionCardGameMode() {
+	// TODO Auto-generated method stub
+	return null;
+}
 }
