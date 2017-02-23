@@ -229,8 +229,10 @@ public class TileOController {
 	}
 	
 	//Thomas
-	//TODO Implement this
+	// TODO
 	public void land(Tile tile) {
-		
+		//validation check:
+		//make sure tile exists as one of the game tiles
+		tile.land();
 	}
 }

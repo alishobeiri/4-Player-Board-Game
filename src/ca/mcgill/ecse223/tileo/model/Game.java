@@ -603,4 +603,11 @@ public class Game
 
 		return tiles;
 	}
+
+	// Thomas made this but its someone elses
+	// TODO Implement this
+	public void connectTiles(Tile tile1, Tile tile2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

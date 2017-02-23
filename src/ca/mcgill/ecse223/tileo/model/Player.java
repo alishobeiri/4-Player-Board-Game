@@ -211,4 +211,11 @@ public class Player
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
   }
+
+// Thomas made this but its someone elses
+// TODO Implement this
+public List<Tile> getPossibleMoves(int dieValue) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

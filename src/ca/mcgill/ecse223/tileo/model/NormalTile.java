@@ -25,9 +25,24 @@ public class NormalTile extends Tile
   // INTERFACE
   //------------------------
 
-  public void delete()
-  {
-    super.delete();
-  }
+	public void delete() {
+		super.delete();
+	}
 
+	// Thomas
+	// TODO
+	public void land() {
+		// Get the game that this tile is a part of 
+		Game currentGame = getGame();
+		// Get the player that wants to move to the tile
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		// Set the current tile to this tile
+		currentPlayer.setCurrentTile(this);
+		
+		//If the current player is the last player
+		if(currentPlayer.getNumber() == currentGame.numberOfPlayers()){
+			
+		}
+		
+	}
 }

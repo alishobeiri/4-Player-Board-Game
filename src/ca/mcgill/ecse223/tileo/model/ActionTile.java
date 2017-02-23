@@ -63,4 +63,10 @@ public class ActionTile extends Tile
             "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]"
      + outputString;
   }
+
+  // Thomas
+  // TODO
+  public void land(){
+	  
+  }
 }

@@ -30,4 +30,10 @@ public class WinTile extends Tile
     super.delete();
   }
 
+  // Thomas
+  // TODO
+  public void land(){
+	  
+  }
+
 }
