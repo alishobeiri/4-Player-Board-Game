@@ -2,7 +2,10 @@ package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.TileOController;
+import ca.mcgill.ecse223.tileo.model.Game;
+import ca.mcgill.ecse223.tileo.model.TileO;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,6 +14,8 @@ public class TileOPage extends JFrame {
 
 	// data elements
 	private String error = null;
+	// UI elements
+	private JLabel errorMessage;
 
 	public static void main(String[] args) {
 
@@ -24,6 +29,9 @@ public class TileOPage extends JFrame {
 	}
 
 	public void initComponents() {
+		// elements for error message
+		errorMessage = new JLabel();
+		errorMessage.setForeground(Color.RED);
 
 		// Frame settings
 		setTitle("Tile-O");
@@ -32,23 +40,25 @@ public class TileOPage extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Components
-		JButton playNewGame = new JButton(" Play New Game ");
-		JButton loadGame = new JButton("    Load Game    ");
-		JLabel title = new JLabel("   Tile-O   ");
+		JButton playNewGameButton = new JButton(" Play New Game ");
+		JButton loadGameButton = new JButton("    Load Game    ");
+		JLabel titleLabel = new JLabel("   Tile-O   ");
 		JPanel panel = new JPanel();
 
 		// Title settings
 		Font titleFont = new Font("Gill Sans", Font.BOLD, 36);
-		title.setFont(titleFont);
+		titleLabel.setFont(titleFont);
 
 		// Add components
 		getContentPane().add(panel, BorderLayout.CENTER);
-		panel.add(title);
-		panel.add(playNewGame);
-		panel.add(loadGame);
+		panel.add(titleLabel);
+		panel.add(playNewGameButton);
+		panel.add(loadGameButton);
+		panel.add(errorMessage);
 
 		// ActionListeners
-		loadGame.addActionListener(new loadButtonListener());
+		playNewGameButton.addActionListener(new playButtonListener());
+		loadGameButton.addActionListener(new loadButtonListener());
 	}
 
 	// Thomas
@@ -66,15 +76,33 @@ public class TileOPage extends JFrame {
 		}
 	}
 
+	// Thomas
+	// TODO chec
 	public void playButtonActionPerformed(ActionEvent ev) {
 		// clear error message
 		error = null;
 
 		// Call the controller
 		TileOController toc = new TileOController();
+		TileO tileO = new TileO();
+		Game game = new Game(32, tileO);
+
+		try {
+			toc.startGame(game);
+		} catch (ca.mcgill.ecse223.tileo.controller.InvalidInputException e) {
+			error = e.getMessage();
+		}
 
 		// update visual?
-		// refresh();
+		 refresh();
 
+	}
+
+	private void refresh() {
+		// error
+//		errorMessage.setText(error);
+
+		errorMessage.setText("blah");
+		
 	}
 }

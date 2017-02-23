@@ -190,14 +190,15 @@ public class TileOController {
 		Tile startingTile;
 		Deck deck;
 		TileO tileo;
+//		TileOApplication tileO = 
 
 		boolean playerStartPosSet;
 
 		/* SET */
 		// TODO check if the following is correct
 		// Game game = TileOApplication.setCurrentGame(selectedGame);
-		TileOApplication.setCurrentGame(selectedGame);
-		// tileo.setCurrentGame(selectedGame);
+//		TileOApplication.setCurrentGame(selectedGame);
+		 tileo.setCurrentGame(selectedGame);
 
 		/* GET */
 		// Get the deck in the game
