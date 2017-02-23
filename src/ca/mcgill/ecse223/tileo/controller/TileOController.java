@@ -176,6 +176,7 @@ public class TileOController {
 	// number they roll
 	public List<Tile> rollDie() {
 		Game game = TileOApplication.getCurrentGame();
+		
 		// Returns a list of possible moves the current player can make
 		return game.rollDie();
 	}
@@ -190,15 +191,11 @@ public class TileOController {
 		Tile startingTile;
 		Deck deck;
 		TileO tileo;
-//		TileOApplication tileO = 
-
-		boolean playerStartPosSet;
-
-		/* SET */
-		// TODO check if the following is correct
-		// Game game = TileOApplication.setCurrentGame(selectedGame);
-//		TileOApplication.setCurrentGame(selectedGame);
-		 tileo.setCurrentGame(selectedGame);
+		
+		// Get the TileO instance
+		tileo = TileOApplication.getTileO();
+		// Set the game to the selected game
+		tileo.setCurrentGame(selectedGame);
 
 		/* GET */
 		// Get the deck in the game

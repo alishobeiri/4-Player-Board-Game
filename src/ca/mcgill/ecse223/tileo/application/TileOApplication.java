@@ -27,13 +27,23 @@ public class TileOApplication {
         });
 	}
 	
+	public static TileO getTileO() {
+		if (tileO == null) {
+			tileO = new TileO();
+		}
+		return tileO;
+	}
+	
 	public static Game getCurrentGame(){
 		return tileO.getCurrentGame();
 	}
 	
 	//Thomas generated - on advice of Berk in tutorial
 	public static boolean setCurrentGame(Game aNewCurrentGame){
-		return tileO.setCurrentGame(aNewCurrentGame);
+		boolean wasSet = false;
+		tileO.setCurrentGame(aNewCurrentGame);
+		wasSet = true;
+		return wasSet;
 	}
 	
 	public static void save() {

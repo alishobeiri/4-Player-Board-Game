@@ -36,7 +36,8 @@ public class TileOPage extends JFrame {
 		// Frame settings
 		setTitle("Tile-O");
 		setSize(300, 150);
-		setResizable(false);
+		//TODO set to false
+		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Components
@@ -85,6 +86,7 @@ public class TileOPage extends JFrame {
 		// Call the controller
 		TileOController toc = new TileOController();
 		TileO tileO = new TileO();
+		// TODO this game should be either the loaded game or a new game i think
 		Game game = new Game(32, tileO);
 
 		try {
@@ -100,9 +102,7 @@ public class TileOPage extends JFrame {
 
 	private void refresh() {
 		// error
-//		errorMessage.setText(error);
-
-		errorMessage.setText("blah");
+		errorMessage.setText(error);
 		
 	}
 }
