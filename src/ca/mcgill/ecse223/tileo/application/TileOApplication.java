@@ -2,6 +2,9 @@ package ca.mcgill.ecse223.tileo.application;
 
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.tileo.model.*;
+import ca.mcgill.ecse223.tileo.view.BoardPanel;
+import ca.mcgill.ecse223.tileo.view.DeckPanel;
+import ca.mcgill.ecse223.tileo.view.GamePage;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
 
 
@@ -14,6 +17,10 @@ public class TileOApplication {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TileOPage().setVisible(true);
+                //TODO remove following line after testing
+                new GamePage().setVisible(true);
+                
+
             }
         });
 	}
@@ -34,6 +41,7 @@ public class TileOApplication {
 		PersistenceObjectStream.serialize(tileO);
 	}
 	
+	// TODO basically copy the code from BTMS
 	public static void load() {
 		//Use to load
 	}

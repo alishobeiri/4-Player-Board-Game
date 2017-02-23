@@ -4,7 +4,13 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.controller.TileOController;
+
 public class GamePage extends JFrame{
+	
+	// data elements
+	private String error = null;
 	
 	//TESTING
 	public static void main(String[] args){
@@ -36,7 +42,7 @@ public class GamePage extends JFrame{
 		
 		//Settings for text field
 		dieResult.setFont(new Font("Gill Sans", Font.BOLD, 56));
-		dieResult.setEditable(false);
+		dieResult.setEditable(true);
 		
 		//Change fonts
 		status.setFont(new Font("Gill Sans", Font.PLAIN, 26));
@@ -99,6 +105,7 @@ public class GamePage extends JFrame{
 	class rollDieListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			//TODO Add button functionality.
+			rollDieActionPerformed(ev);
 		}
 	}
 	
@@ -118,5 +125,29 @@ public class GamePage extends JFrame{
 		public void actionPerformed(ActionEvent ev){
 			//TODO Add button functionality.
 		}
+	}
+	
+	// Thomas
+	// TODO Implement this
+	public void rollDieActionPerformed(ActionEvent ev) {
+		//clear error message
+		error = null;
+		
+		//Call the controller
+		TileOController toc = new TileOController();
+		
+		//try/catch
+//		try {
+			//pass the returned list of tiles somewhere
+			// need to update the visual with the number of the die roll but only the list of tiles is returned
+			toc.rollDie();
+//		}
+//		catch(InvalidInputException e) {
+//			error = e.getMessage();
+//		}
+		 
+		//update die visual
+		
+		
 	}
 }
