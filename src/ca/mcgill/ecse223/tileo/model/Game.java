@@ -587,7 +587,7 @@ public class Game
 	public List<Tile> rollDie() {
 		// List of tiles to return that represents possible moves
 		List<Tile> tiles = new ArrayList<Tile>();
-		// this = game
+		// 'this' is the game
 		Die die = this.getDie();
 
 		// roll the die

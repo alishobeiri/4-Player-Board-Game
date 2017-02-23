@@ -61,6 +61,8 @@ public class Die
 		Random rand = new Random();
 		// Get a random value between 1 and 6 inclusive
 		dieValue = rand.nextInt(6) + 1;
+		//
+		System.out.println(dieValue);
 		return dieValue;
 	}
 
