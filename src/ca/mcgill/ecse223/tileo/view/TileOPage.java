@@ -6,6 +6,11 @@ import java.awt.event.*;
 
 public class TileOPage extends JFrame {
 	
+	/**
+	 * Generated
+	 */
+	private static final long serialVersionUID = 7387503875754529117L;
+
 	public static void main(String[] args){
 		
 		TileOPage page = new TileOPage();

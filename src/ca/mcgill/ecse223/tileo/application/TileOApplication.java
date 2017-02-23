@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.tileo.application;
 
+import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
 
@@ -8,6 +9,7 @@ public class TileOApplication {
 	private static TileO tileO;
 	
 	public static void main(String args[]){
+		// Thomas - not actually sure this is the right way to do this
 		// start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -27,6 +29,9 @@ public class TileOApplication {
 	
 	public static void save() {
 		//Use to save
+
+		// Thomas - not sure this is right, copied from btms, also copied persistence java file
+		PersistenceObjectStream.serialize(tileO);
 	}
 	
 	public static void load() {
