@@ -29,3 +29,6 @@
   * Run `git status` again for good measure
   * Run `git commit -m "<you_commit_message>"` to commit to your local repository with a commit message in the present tense
   * Finally, to commit the the github repository, run `git push`
+
+#### Umple
+  * Make sure to copy any additional Java methods into the Umple code so that they persist across regeneration
