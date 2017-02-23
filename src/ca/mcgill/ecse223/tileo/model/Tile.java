@@ -252,6 +252,14 @@ public abstract class Tile
     placeholderGame.removeTile(this);
   }
 
+  @Override
+  public boolean equals(Object other){
+	  if(((Tile)other).x==this.x && ((Tile)other).y==this.y){
+		  return true;
+	  }else{
+		  return false;
+	  }
+  }
 
   public String toString()
   {
