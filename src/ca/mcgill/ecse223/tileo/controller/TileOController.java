@@ -247,9 +247,15 @@ public class TileOController {
 
 	// Thomas
 	// TODO
-	public void land(Tile tile) {
-		// validation check:
-		// make sure tile exists as one of the game tiles
-		tile.land();
+	public void land(Tile tile) throws InvalidInputException {
+		// Validation check: Make sure tile exists as one of the game tiles
+		Game game = tile.getGame();
+		List<Tile> tiles = game.getTiles();
+		// If the tile is in the list of game tiles
+		if(tiles.indexOf(tile)!=-1){
+			tile.land();
+		}else{
+			throw new InvalidInputException("Tile is not part of the game");
+		}
 	}
 }

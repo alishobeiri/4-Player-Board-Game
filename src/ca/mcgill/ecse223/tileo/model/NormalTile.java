@@ -2,28 +2,29 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
 // line 46 "../../../../../TileO (updated Feb10).ump"
-public class NormalTile extends Tile
-{
+public class NormalTile extends Tile {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
 
-  public NormalTile(int aX, int aY, Game aGame)
-  {
-    super(aX, aY, aGame);
-  }
+	public NormalTile(int aX, int aY, Game aGame) {
+		super(aX, aY, aGame);
+	}
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	// ------------------------
+	// INTERFACE
+	// ------------------------
 
 	public void delete() {
 		super.delete();
@@ -32,17 +33,24 @@ public class NormalTile extends Tile
 	// Thomas
 	// TODO
 	public void land() {
-		// Get the game that this tile is a part of 
-		Game currentGame = getGame();
+		// Get the game that this tile is a part of
+		Game currentGame = this.getGame();
 		// Get the player that wants to move to the tile
 		Player currentPlayer = currentGame.getCurrentPlayer();
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
 		
-		//If the current player is the last player
-		if(currentPlayer.getNumber() == currentGame.numberOfPlayers()){
-			
-		}
+		// Get increase the index of the current player by one
+		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+		// Loop back if it is the last player
+		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
+		// Get the next player
+		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
+		// Set the next player as the current player
+		currentGame.setCurrentPlayer(nextPlayer);
 		
+		this.setHasBeenVisited(true);
+		
+		currentGame.setMode(Mode.GAME);
 	}
 }
