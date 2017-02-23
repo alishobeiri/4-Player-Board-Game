@@ -8,7 +8,7 @@
   * Remove connection between two tiles
   * Identify the hidden til e
   * Identify the starting tile of a player
-  * Identify an action tile (inactivity period not required for this iteration)
+  * Identify an action tile
   * Select 32 cards from predefined choices
    
 ### Play Mode (9 features)
