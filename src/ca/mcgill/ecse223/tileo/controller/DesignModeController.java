@@ -6,7 +6,6 @@ import java.security.InvalidParameterException;
 
 public class DesignModeController {
 	public void createNewActionTile(int x, int y, int numTurns) throws InvalidInputException{
-		TileO tileO=TileOApplication.getTileO();
 		Game game=TileOApplication.getCurrentGame();
 		try{
 			new ActionTile(x, y, game, numTurns);
@@ -16,6 +15,11 @@ public class DesignModeController {
 	}
 
 	public void createStartingTile(int x, int y, int playerNumber) throws Exception {
-		
+		Game game=TileOApplication.getCurrentGame();
+		try{
+			game.getPlayer(50);
+		}catch(RuntimeException e){
+			
+		}
 	}
 }
