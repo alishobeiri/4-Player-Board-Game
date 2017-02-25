@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.TileOController;
 import ca.mcgill.ecse223.tileo.model.Game;
@@ -36,7 +37,7 @@ public class TileOPage extends JFrame {
 		// Frame settings
 		setTitle("Tile-O");
 		setSize(300, 150);
-		//TODO set to false
+		// TODO set to false
 		setResizable(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -85,7 +86,11 @@ public class TileOPage extends JFrame {
 
 		// Call the controller
 		TileOController toc = new TileOController();
-		TileO tileO = new TileO();
+		
+		// TODO not sure which of the two following lines are correct
+		// TileO tileO = new TileO();
+		TileO tileO = TileOApplication.getTileO();
+		
 		// TODO this game should be either the loaded game or a new game i think
 		Game game = new Game(32, tileO);
 
@@ -95,14 +100,18 @@ public class TileOPage extends JFrame {
 			error = e.getMessage();
 		}
 
+		//open the game page
+		new GamePage().setVisible(true);
+		//close the tileO page
+		this.dispose();
 		// update visual?
-		 refresh();
+		refresh();
 
 	}
 
 	private void refresh() {
 		// error
 		errorMessage.setText(error);
-		
+
 	}
 }
