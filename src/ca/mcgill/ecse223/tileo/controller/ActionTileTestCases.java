@@ -11,12 +11,10 @@ public class ActionTileTestCases {
 
 	@Test
 	public void test() {
-		TileOController control=new TileOController();
 		TileO tileO=TileOApplication.getTileO();
 		Game game=new Game(0, tileO);
 		TileOApplication.setCurrentGame(game);
-		control.createNewActionTile(5, 3, 5);
-		control.createNewActionTile(5, 3, 5);
+		DesignModeController.createNewActionTile(5, 5, 5);
 	}
 
 }

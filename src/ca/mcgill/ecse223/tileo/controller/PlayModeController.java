@@ -1,14 +1,23 @@
 package ca.mcgill.ecse223.tileo.controller;
 
-import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
-import ca.mcgill.ecse223.tileo.model.*;
+import ca.mcgill.ecse223.tileo.model.ActionCard;
+import ca.mcgill.ecse223.tileo.model.ConnectTilesActionCard;
+import ca.mcgill.ecse223.tileo.model.Connection;
+import ca.mcgill.ecse223.tileo.model.Deck;
+import ca.mcgill.ecse223.tileo.model.Game;
+import ca.mcgill.ecse223.tileo.model.Player;
+import ca.mcgill.ecse223.tileo.model.RemoveConnectionActionCard;
+import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
+import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
+import ca.mcgill.ecse223.tileo.model.Tile;
+import ca.mcgill.ecse223.tileo.model.TileO;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
-import ca.mcgill.ecse223.tileo.controller.InvalidInputException;;
 
-public class TileOController {
+public class PlayModeController {
 
 	// Add controller methods that you need to the file
 
