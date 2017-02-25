@@ -31,6 +31,7 @@ public class RemoveConnectionActionCard extends ActionCard
     super.delete();
   }
   
+  //Angel
   public void play(Connection aConnection) throws InvalidInputException{
 	  Game game = this.getDeck().getGame();
 	  

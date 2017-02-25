@@ -48,7 +48,7 @@ public class TileOPage extends JFrame {
 		JPanel panel = new JPanel();
 
 		// Title settings
-		Font titleFont = new Font("Gill Sans", Font.BOLD, 36);
+		Font titleFont = new Font("Futura", Font.BOLD, 36);
 		titleLabel.setFont(titleFont);
 
 		// Add components

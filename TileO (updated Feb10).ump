@@ -76,18 +76,47 @@ class ActionCard {
 
 class RollDieActionCard {
   isA ActionCard;
+  //Angel
+   public List<Tile> play(){
+	  List<Tile> tiles = new ArrayList<Tile>();
+	  Game game = this.getDeck().getGame();
+	  
+	  //TODO Check this method works
+	  tiles = game.rollDie();
+	  
+	  return tiles;
+  	}
 }
 
 class ConnectTilesActionCard {
   isA ActionCard;
+  //Angel
+    public void play(Tile tile1, Tile tile2) throws InvalidInputException{
+	  Game game = this.getDeck().getGame();
+	  
+	  //TODO Check this method works
+	  game.connectTiles(tile1, tile2);
+  	}
 }
 
 class RemoveConnectionActionCard {
   isA ActionCard;
+  //Angel
+  	public void play(Connection aConnection) throws InvalidInputException{
+	  Game game = this.getDeck().getGame();
+	  
+	  //TODO Check this method works
+	  game.removeConnection(aConnection);
+  	}
 }
 
 class TeleportActionCard {
   isA ActionCard;
+  //Angel
+    public void play(Tile tile) throws InvalidInputException{ 
+	  	//TODO Check if methods work.
+	  	tile.land();
+  	}
 }
 
 class LoseTurnActionCard {
