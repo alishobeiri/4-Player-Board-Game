@@ -31,6 +31,7 @@ public class ConnectTilesActionCard extends ActionCard
     super.delete();
   }
   
+  //Angel
   public void play(Tile tile1, Tile tile2) throws InvalidInputException{
 	  Game game = this.getDeck().getGame();
 	  

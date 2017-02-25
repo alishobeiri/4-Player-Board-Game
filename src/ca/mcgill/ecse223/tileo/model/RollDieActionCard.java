@@ -31,7 +31,7 @@ public class RollDieActionCard extends ActionCard
     super.delete();
   }
   
-  //Added play method
+  //Angel
   public List<Tile> play(){
 	  List<Tile> tiles = new ArrayList<Tile>();
 	  Game game = this.getDeck().getGame();

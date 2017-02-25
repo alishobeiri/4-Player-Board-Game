@@ -5,7 +5,7 @@ import ca.mcgill.ecse223.tileo.model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.*;
 
 public class BoardPanel extends JPanel {
@@ -29,19 +29,17 @@ public class BoardPanel extends JPanel {
 	NormalTile tile3 = new NormalTile(13, 3, game);
 	
 	
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		
 		JFrame frame = new JFrame();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(new BoardPanel(), BorderLayout.CENTER);
 		frame.setSize(650, 670);
-	}
+	}*/
 	
 	public BoardPanel(){
 		addMouseListener(new MouseSelectionListener());
-		
-		setBackground(Color.LIGHT_GRAY);
 		
 		//TESTING TODO: REMOVE
 			tiles.add(tile1);
@@ -57,6 +55,13 @@ public class BoardPanel extends JPanel {
 	public void doDrawing(Graphics g){
 		
 		Graphics2D g2d = (Graphics2D) g;
+		
+		//Contour line
+		RoundRectangle2D contour = new RoundRectangle2D.Float(0, 0, 646, 646, 10, 10);
+		g2d.setColor(new Color(208, 208, 208));
+		g2d.fill(contour);
+		g2d.setColor(Color.LIGHT_GRAY);
+		g2d.draw(contour);
 		
 		rectangles.clear();
 		
@@ -75,7 +80,7 @@ public class BoardPanel extends JPanel {
 				
 				g2d.setColor(Color.WHITE);
 				g2d.fill(rectangle);
-				g2d.setColor(Color.BLACK);
+				g2d.setColor(Color.DARK_GRAY);
 				g2d.draw(rectangle);
 				
 			}

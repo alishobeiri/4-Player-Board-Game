@@ -41,12 +41,12 @@ public class GamePage extends JFrame {
 		setResizable(false);
 
 		// Settings for text field
-		dieResult.setFont(new Font("Gill Sans", Font.BOLD, 56));
+		dieResult.setFont(new Font("Futura", Font.BOLD, 56));
 		dieResult.setEditable(true);
 
 		// Change fonts
-		status.setFont(new Font("Gill Sans", Font.PLAIN, 26));
-		currentPlayer.setFont(new Font("Gill Sans", Font.BOLD, 30));
+		status.setFont(new Font("Futura", Font.PLAIN, 26));
+		currentPlayer.setFont(new Font("Futura", Font.BOLD, 30));
 
 		// Set Group Layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -62,18 +62,32 @@ public class GamePage extends JFrame {
 		removeConnection.addActionListener(new removeConnectionListener());
 
 		// Component placement
-		layout.setHorizontalGroup(layout.createSequentialGroup().addComponent(board, 647, 647, 647)
-				.addGroup(layout.createParallelGroup().addComponent(status).addComponent(currentPlayer)
-						.addComponent(deck, 220, 220, 220).addComponent(getCard, 220, 220, 220)
-						.addComponent(addConnection, 220, 220, 220).addComponent(removeConnection, 220, 220, 220)
+		layout.setHorizontalGroup(layout.createSequentialGroup()
+				.addComponent(board, 647, 647, 647)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(status)
+						.addComponent(currentPlayer)
+						.addComponent(deck, 220, 220, 220)
+						.addComponent(getCard, 220, 220, 220)
+						.addComponent(addConnection, 220, 220, 220)
+						.addComponent(removeConnection, 220, 220, 220)
 						.addGap(220, 220, 220)
-						.addGroup(layout.createSequentialGroup().addGap(70, 70, 70).addComponent(dieResult, 80, 80, 80))
+						.addGroup(layout.createSequentialGroup()
+								.addGap(70, 70, 70)
+								.addComponent(dieResult, 80, 80, 80))
 						.addComponent(rollDie, 220, 220, 220).addComponent(finishTurn, 220, 220, 220)));
-		layout.setVerticalGroup(layout.createParallelGroup().addComponent(board, 647, 647, 647)
-				.addGroup(layout.createSequentialGroup().addComponent(status).addComponent(currentPlayer)
-						.addGap(20, 20, 20).addComponent(deck, 300, 300, 300).addComponent(getCard)
-						.addComponent(addConnection).addComponent(removeConnection).addComponent(dieResult, 80, 80, 80)
-						.addComponent(rollDie).addComponent(finishTurn)));
+		layout.setVerticalGroup(layout.createParallelGroup()
+				.addComponent(board, 647, 647, 647)
+				.addGroup(layout.createSequentialGroup()
+						.addComponent(status)
+						.addComponent(currentPlayer)
+						.addComponent(deck, 300, 300, 300)
+						.addComponent(getCard)
+						.addComponent(addConnection)
+						.addComponent(removeConnection)
+						.addComponent(dieResult, 80, 80, 80)
+						.addComponent(rollDie)
+						.addComponent(finishTurn)));
 	}
 
 	class getCardListener implements ActionListener {
