@@ -79,18 +79,19 @@ public class TileOPage extends JFrame {
 	}
 
 	// Thomas
-	// TODO chec
+	// TODO this button should launch design mode, then there should be a start
+	// game button on the design mode page
 	public void playButtonActionPerformed(ActionEvent ev) {
 		// clear error message
 		error = null;
 
 		// Call the controller
 		TileOController toc = new TileOController();
-		
+
 		// TODO not sure which of the two following lines are correct
 		// TileO tileO = new TileO();
 		TileO tileO = TileOApplication.getTileO();
-		
+
 		// TODO this game should be either the loaded game or a new game i think
 		Game game = new Game(32, tileO);
 
@@ -100,9 +101,9 @@ public class TileOPage extends JFrame {
 			error = e.getMessage();
 		}
 
-		//open the game page
+		// open the game page
 		new GamePage().setVisible(true);
-		//close the tileO page
+		// close the tileO page
 		this.dispose();
 		// update visual?
 		refresh();
