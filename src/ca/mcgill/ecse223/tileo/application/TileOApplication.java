@@ -19,10 +19,6 @@ public class TileOApplication {
                 new TileOPage().setVisible(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
-                
-//                Game game = tileO.getCurrentGame();
-//                game.rollDie();
-
             }
         });
 	}
