@@ -227,8 +227,7 @@ public abstract class Tile
     {
       existingGame.removeTile(this);
     }
-    game.addTile(this);
-    wasSet = true;
+    wasSet=game.addTile(this);
     return wasSet;
   }
 

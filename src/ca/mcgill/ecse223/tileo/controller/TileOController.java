@@ -12,18 +12,17 @@ public class TileOController {
 
 	// Add controller methods that you need to the file
 	public void createNewActionTile(int x, int y, int numTurns) {
-		TileO tileO=new TileO();
-		Game game = new Game(5, tileO);
-		ActionTile action=new ActionTile(5, 4, game, 5);
-		Game game2 = new Game(5, tileO);
-		game.addTile(action);
-		System.out.println(game.removeTile(new ActionTile(5, 4, game2, 5)));
-		ActionTile action2=new ActionTile(5, 4, game, 5);
-		System.out.println(game.removeTile(action2));
+		TileO tileO=TileOApplication.getTileO();
+		Game game=TileOApplication.getCurrentGame();
+		try{
+			new ActionTile(x, y, game, numTurns);	
+		}catch(RuntimeException e){
+			System.out.println("Hello");
 		}
+	}
 
 	public void createStartingTile(int x, int y, int playerNumber) throws Exception {
-
+		
 	}
 
 	// Action Card Methods
