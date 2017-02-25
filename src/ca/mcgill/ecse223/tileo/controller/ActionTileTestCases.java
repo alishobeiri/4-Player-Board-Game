@@ -13,9 +13,12 @@ public class ActionTileTestCases {
 		TileO tileO=TileOApplication.getTileO();
 		Game game=new Game(0, tileO);
 		TileOApplication.setCurrentGame(game);
+<<<<<<< HEAD
+=======
 //		DesignModeController.createNewActionTile(5, 5, 5);
 		
 //		TileOController.startGame(game);
+>>>>>>> origin/master
 	}
 
 }
