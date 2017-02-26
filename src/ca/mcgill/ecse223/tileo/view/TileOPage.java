@@ -18,7 +18,7 @@ public class TileOPage extends JFrame {
 	
 	//***TESTING***
 	public static void main(String[] args){
-		new TileOPage2().setVisible(true);
+		new TileOPage().setVisible(true);
 	}
 	
 	//Constructor

@@ -25,21 +25,20 @@ public class DeckSetUpPage extends JFrame{
 	JComboBox teleportNum;
 	JComboBox loseTurnNum;
 	JLabel title = new JLabel("Deck Settings");
-	JLabel description1 = new JLabel("Select the number of Action Cards of each kind you want to add");
-	JLabel description2 = new JLabel("in the deck. There must be exactly 32 cards in the deck.");
+	JLabel description1 = new JLabel("  Select the number of Action Cards of each kind you want to have");
+	JLabel description2 = new JLabel("  in the deck. There must be exactly 32 cards in the deck.");
 	JButton cancel = new JButton("Cancel");
 	JButton save = new JButton("Save");
 	CardsPanel panel = new CardsPanel();
 	
 	public DeckSetUpPage(DesignPage aDesignPage){
 		initComponents();
-		done = false;
 		designPage = aDesignPage;
 	}
 	
 	public void initComponents(){
 		//Frame settings
-		setSize(600, 390);
+		setSize(600, 380);
 		setResizable(false);
 		
 		for(int i = 0; i < 32; i++){
@@ -52,9 +51,9 @@ public class DeckSetUpPage extends JFrame{
 		
 		//Font settings
 		title.setFont(new Font("Futura", Font.PLAIN, 32));
-		description1.setFont(new Font("Futura", Font.PLAIN, 18));
-		description2.setFont(new Font("Futura", Font.PLAIN, 18));
-		Font labelFont = new Font("Futura", Font.PLAIN, 18);
+		description1.setFont(new Font("San Francisco", Font.PLAIN, 15));
+		description2.setFont(new Font("San Francisco", Font.PLAIN, 15));
+		Font labelFont = new Font("San Francisco", Font.PLAIN, 16);
 		rollDieCard.setFont(labelFont);
 		connectTilesCard.setFont(labelFont);
 		removeConnectionCard.setFont(labelFont);
@@ -78,23 +77,23 @@ public class DeckSetUpPage extends JFrame{
 		panelLayout.setHorizontalGroup(panelLayout.createParallelGroup()
 				.addGroup(panelLayout.createSequentialGroup()
 						.addGap(15, 15, 15)
-						.addComponent(rollDieCard, 495, 495, 495)
+						.addComponent(rollDieCard, 490, 490, 490)
 						.addComponent(rollDieNum, 70, 70, 70))
 				.addGroup(panelLayout.createSequentialGroup()
 						.addGap(15, 15, 15)
-						.addComponent(connectTilesCard, 495, 495, 495)
+						.addComponent(connectTilesCard, 490, 490, 490)
 						.addComponent(connectTilesNum, 70, 70, 70))
 				.addGroup(panelLayout.createSequentialGroup()
 						.addGap(15, 15, 15)
-						.addComponent(removeConnectionCard, 495, 495, 495)
+						.addComponent(removeConnectionCard, 490, 490, 490)
 						.addComponent(removeConnectionNum, 70, 70, 70))
 				.addGroup(panelLayout.createSequentialGroup()
 						.addGap(15, 15, 15)
-						.addComponent(teleportCard, 495, 495, 495)
+						.addComponent(teleportCard, 490, 490, 490)
 						.addComponent(teleportNum, 70, 70, 70))
 				.addGroup(panelLayout.createSequentialGroup()
 						.addGap(15, 15, 15)
-						.addComponent(loseTurnCard, 495, 495, 495)
+						.addComponent(loseTurnCard, 490, 490, 490)
 						.addComponent(loseTurnNum, 70, 70, 70)));
 		
 		panelLayout.setVerticalGroup(panelLayout.createSequentialGroup()
@@ -124,7 +123,9 @@ public class DeckSetUpPage extends JFrame{
 		//Component positioning
 		layout.setHorizontalGroup(layout.createParallelGroup()
 				.addGroup(layout.createParallelGroup()
-						.addComponent(title)
+						.addGroup(layout.createSequentialGroup()
+								.addGap(200, 200, 200)
+								.addComponent(title))
 						.addComponent(description1)
 						.addComponent(description2)
 				)
@@ -138,6 +139,7 @@ public class DeckSetUpPage extends JFrame{
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(title)
+						.addGap(10, 10, 10)
 						.addComponent(description1)
 						.addComponent(description2)
 						.addGap(15, 15, 15)
@@ -159,9 +161,9 @@ public class DeckSetUpPage extends JFrame{
 		public void doDrawing(Graphics g){
 			Graphics2D g2d = (Graphics2D) g;
 			RoundRectangle2D rect = new RoundRectangle2D.Float(5, 5, 580, 190, 10, 10);
-			g2d.setColor(new Color(208, 208, 208));
+			g2d.setColor(new Color(226, 226, 226));
 			g2d.fill(rect);
-			g2d.setColor(Color.LIGHT_GRAY);
+			g2d.setColor(new Color(210, 210, 210));
 			g2d.draw(rect);
 		}
 	}
