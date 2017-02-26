@@ -2,14 +2,19 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-
+import java.io.Serializable;
 import java.util.*;
 
 // line 68 "../../../../../TileO (updated Feb10).ump"
-public class RollDieActionCard extends ActionCard
+public class RollDieActionCard extends ActionCard implements Serializable
 {
 
-  //------------------------
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7460499981901527552L;
+
+//------------------------
   // MEMBER VARIABLES
   //------------------------
 
@@ -31,7 +36,7 @@ public class RollDieActionCard extends ActionCard
     super.delete();
   }
   
-  //Angel
+  //Added play method
   public List<Tile> play(){
 	  List<Tile> tiles = new ArrayList<Tile>();
 	  Game game = this.getDeck().getGame();

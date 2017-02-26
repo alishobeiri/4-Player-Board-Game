@@ -14,17 +14,27 @@ public class TileOController {
 
 	// Add controller methods that you need to the file
 	public void createNewActionTile(int x, int y, int numTurns) throws InvalidInputException{
+		TileO tileO=TileOApplication.getTileO();
 		Game game=TileOApplication.getCurrentGame();
+<<<<<<< HEAD
 		List<Tile> list=game.getTiles();
 		for(Tile tile: list){
 			if(tile.getX()==x && tile.getY()==y){
 				throw new InvalidInputException("A tile already exists in that position.");
 			}
+=======
+		try{
+			new ActionTile(x, y, game, numTurns);
+			TileOApplication.save();
+		}catch(RuntimeException e){
+			throw new InvalidInputException("Error");
+>>>>>>> origin/master
 		}
 		game.setMode(Mode.DESIGN);
 		Tile action = new ActionTile(x, y, game, numTurns);
 	}
 
+<<<<<<< HEAD
 	public void assignStartingTile(int x, int y, int playerNumber) throws Exception {
 		Game game=TileOApplication.getCurrentGame();
 		Player player;
@@ -43,6 +53,10 @@ public class TileOController {
 		if(!found){
 			throw new InvalidInputException("The tile could not be found");
 		}		
+=======
+	public void createStartingTile(int x, int y, int playerNumber) throws Exception {
+		
+>>>>>>> origin/master
 	}
 
 	// Action Card Methods
