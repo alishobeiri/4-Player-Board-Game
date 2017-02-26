@@ -104,7 +104,7 @@ public class PlayModeController {
 
 	}
 
-	public void playTeleportActionCart(Tile tile) throws InvalidInputException {
+	public void playTeleportActionCard(Tile tile) throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
 
 		if (!(game.getTiles().contains(tile))) {

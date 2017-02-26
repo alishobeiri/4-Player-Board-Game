@@ -232,7 +232,8 @@ public abstract class Tile implements Serializable
     {
       existingGame.removeTile(this);
     }
-    wasSet=game.addTile(this);
+    game.addTile(this);
+    wasSet=true;
     return wasSet;
   }
 
@@ -254,15 +255,6 @@ public abstract class Tile implements Serializable
     Game placeholderGame = game;
     this.game = null;
     placeholderGame.removeTile(this);
-  }
-
-  @Override
-  public boolean equals(Object other){
-	  if(((Tile)other).x==this.x && ((Tile)other).y==this.y){
-		  return true;
-	  }else{
-		  return false;
-	  }
   }
 
   public String toString()
