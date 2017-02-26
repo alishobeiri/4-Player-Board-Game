@@ -14,11 +14,43 @@ public class PlayModeController {
 
 	// Action Card Methods
 	
-	public void pickActionCard(){
+	public ActionCard pickActionCard(){
 		Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
-		ActionCard newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
+		ActionCard newCard;
+		if(deck.hasCards()){
+			newCard = deck.getCurrentCard();
+			if(deck.indexOfCard(deck.getCurrentCard())+1 > 31){
+				deck.shuffle();
+			}
+		}
+		newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
 		deck.setCurrentCard(newCard);
+		return newCard;
+	}
+	
+	public void action(){
+		Game game = TileOApplication.getCurrentGame();
+		Game.Mode mode = game.getMode();
+		
+		if(mode == Mode.GAME_CONNECTTILESACTIONCARD){
+	
+		}
+		
+		else if(mode == Mode.GAME_LOSETURNACTIONCARD){
+			
+		}
+		
+		else if(mode == Mode.GAME_REMOVECONNECTIONACTIONCARD){
+			
+		}
+		
+		else if(mode == Mode.GAME_ROLLDIEACTIONCARD){
+			
+		}
+		else if(mode == Mode.GAME_TELEPORTACTIONCARD){
+			
+		}
 	}
 
 	public List<Tile> playRollDieActionCard() throws InvalidInputException {
