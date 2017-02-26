@@ -1,0 +1,102 @@
+external interface Serializable {}
+
+class TileO {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 12L;
+}
+
+class ActionCard{
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 4590779001575729728L;
+}
+
+class ActionTile {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 1595118367869312744L;
+}
+
+class Connection {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -4706969448162468811L;
+}
+
+class ConnectTilesActionCard {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -629288172349309738L;s
+}
+
+class Deck {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -1457355157278225256L;
+}
+
+class Die{
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -2819346463911992740L;
+}
+
+class Game {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -872799388868582624L;
+}
+
+class LoseTurnActionActionCard {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -6738972650323824494L;
+}
+
+class NormalTile {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -4242199115754805670L;
+}
+
+class Player {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 1273309447595594009L;
+}
+
+class RemoveConnectionActionCard{
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -8619851883729304845L;
+}
+
+class RollDieActionCard {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 7460499981901527552L;
+}
+
+class TeleportActionCard {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 6478806027360279851L;
+}
+
+class Tile {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 6268872893876940875L;
+}
+
+class TileO {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -1402467009912279401L;
+}
+class WinTile{
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 5300378506557006889L;
+}

@@ -2,13 +2,18 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-
+import java.io.Serializable;
 import java.util.*;
 
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 50 "../../../../../TileO (updated Feb10).ump"
-public class WinTile extends Tile {
+public class WinTile extends Tile implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5300378506557006889L;
 
 	// ------------------------
 	// MEMBER VARIABLES

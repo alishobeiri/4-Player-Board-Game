@@ -14,29 +14,18 @@ public class TileOController {
 
 	// Add controller methods that you need to the file
 	public void createNewActionTile(int x, int y, int numTurns) throws InvalidInputException{
+		TileO tileO=TileOApplication.getTileO();
 		Game game=TileOApplication.getCurrentGame();
 		try{
 			new ActionTile(x, y, game, numTurns);
+			TileOApplication.save();
 		}catch(RuntimeException e){
 			throw new InvalidInputException("Error");
 		}
 	}
 
 	public void createStartingTile(int x, int y, int playerNumber) throws Exception {
-		Game game=TileOApplication.getCurrentGame();
-		int totalPlayers=game.numberOfPlayers();
-		if(totalPlayers<playerNumber && playerNumber<4){
-			game.addPlayer(new Player(playerNumber, game));
-			totalPlayers=game.numberOfPlayers();
-		}else if(playerNumber>4){ //Could remove this later down the line
-			throw new InvalidInputException("Player number is invalid");
-		}
-		Player player = game.getPlayer(totalPlayers-1);
-		if(player.hasStartingTile()){
-			throw new InvalidInputException("Player already has starting tile");
-		}else{
-			player.setStartingTile(new NormalTile(x, y, game));
-		}
+		
 	}
 
 	// Action Card Methods

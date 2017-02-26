@@ -2,14 +2,18 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-
+import java.io.Serializable;
 import java.util.Random;
 
 // line 88 "../../../../../TileO (updated Feb10).ump"
-public class Die
+public class Die implements Serializable
 {
 
-  //------------------------
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2819346463911992740L;
+//------------------------
   // MEMBER VARIABLES
   //------------------------
 

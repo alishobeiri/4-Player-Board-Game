@@ -32,6 +32,8 @@ public class PlayModeController {
 		advanceCurrentCard(deck);
 
 		game.setMode(Mode.GAME);
+		
+		TileOApplication.save();
 
 		return tiles;
 	}
@@ -69,6 +71,8 @@ public class PlayModeController {
 		advanceCurrentCard(deck);
 
 		game.setMode(Mode.GAME);
+		
+		TileOApplication.save();
 
 	}
 
@@ -95,6 +99,8 @@ public class PlayModeController {
 		advanceCurrentCard(deck);
 
 		game.setMode(Mode.GAME);
+		
+		TileOApplication.save();
 
 	}
 
@@ -122,6 +128,8 @@ public class PlayModeController {
 		tile.setHasBeenVisited(true);
 
 		game.setMode(Mode.GAME);
+		
+		TileOApplication.save();
 	}
 
 	// Helper methods
@@ -211,6 +219,7 @@ public class PlayModeController {
 		/* ACTION */
 		// Shuffle the deck
 		deck.shuffle();
+		
 
 		// Set all tiles in selectedGame to unvisited
 		for (Tile tile : tiles) {
@@ -224,6 +233,7 @@ public class PlayModeController {
 				startingTile = player.getStartingTile();
 				player.setCurrentTile(startingTile);
 				startingTile.setHasBeenVisited(true);
+				TileOApplication.save();
 			} else {
 				throw new InvalidInputException("The starting position is not set for a player");
 			}
@@ -247,6 +257,7 @@ public class PlayModeController {
 		// If the tile is in the list of game tiles
 		if(tiles.indexOf(tile)!=-1){
 			tile.land();
+			TileOApplication.save();
 		}else{
 			throw new InvalidInputException("Tile is not part of the game");
 		}

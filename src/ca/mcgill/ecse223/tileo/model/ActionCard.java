@@ -2,18 +2,23 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-
+import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 62 "../../../../../TileO (updated Feb10).ump"
-public abstract class ActionCard
+public abstract class ActionCard implements Serializable
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //ActionCard Attributes
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4590779001575729728L;
+
+//ActionCard Attributes
   private String instructions;
 
   //ActionCard Associations

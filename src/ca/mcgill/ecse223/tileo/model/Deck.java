@@ -2,13 +2,18 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
 // line 57 "../../../../../TileO (updated Feb10).ump"
-public class Deck
+public class Deck implements Serializable
 {
 
-  //------------------------
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1457355157278225256L;
+//------------------------
   // MEMBER VARIABLES
   //------------------------
 
