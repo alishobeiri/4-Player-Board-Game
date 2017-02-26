@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
-import ca.mcgill.ecse223.tileo.controller.TileOController;
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 
 public class GamePage extends JFrame {
 
@@ -128,7 +128,7 @@ public class GamePage extends JFrame {
 		error = null;
 
 		// Call the controller
-		TileOController toc = new TileOController();
+		PlayModeController toc = new PlayModeController();
 
 		// pass the returned list of tiles somewhere
 		// need to update the visual with the number of the die roll but only
@@ -145,7 +145,7 @@ public class GamePage extends JFrame {
 	private void refresh() {
 
 		// Call the controller
-		TileOController toc = new TileOController();
+		PlayModeController toc = new PlayModeController();
 
 		dieResult.setText("");
 	}

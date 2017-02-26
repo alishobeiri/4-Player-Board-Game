@@ -2,13 +2,19 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
 // line 22 "../../../../../TileO (updated Feb10).ump"
-public class Player
+public class Player implements Serializable
 {
 
-  //------------------------
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1273309447595594009L;
+
+//------------------------
   // STATIC VARIABLES
   //------------------------
 
