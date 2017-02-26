@@ -4,6 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 80 "../../../../../TileO (updated Feb10).ump"
 public class TeleportActionCard extends ActionCard implements Serializable
@@ -30,6 +31,11 @@ public class TeleportActionCard extends ActionCard implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_TELEPORTACTIONCARD);
+  }
 
   public void delete()
   {

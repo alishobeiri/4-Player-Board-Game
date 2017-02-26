@@ -4,6 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 72 "../../../../../TileO (updated Feb10).ump"
 public class ConnectTilesActionCard extends ActionCard implements Serializable
@@ -30,6 +31,12 @@ public class ConnectTilesActionCard extends ActionCard implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_CONNECTTILESACTIONCARD);
+  }
 
   public void delete()
   {

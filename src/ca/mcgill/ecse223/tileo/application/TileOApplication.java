@@ -1,22 +1,6 @@
 package ca.mcgill.ecse223.tileo.application;
 
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
-import ca.mcgill.ecse223.tileo.model.ActionCard;
-import ca.mcgill.ecse223.tileo.model.ActionTile;
-import ca.mcgill.ecse223.tileo.model.Connection;
-import ca.mcgill.ecse223.tileo.model.ConnectTilesActionCard;
-import ca.mcgill.ecse223.tileo.model.Deck;
-import ca.mcgill.ecse223.tileo.model.Die;
-import ca.mcgill.ecse223.tileo.model.Game;
-import ca.mcgill.ecse223.tileo.model.LoseTurnActionCard;
-import ca.mcgill.ecse223.tileo.model.NormalTile;
-import ca.mcgill.ecse223.tileo.model.Player;
-import ca.mcgill.ecse223.tileo.model.RemoveConnectionActionCard;
-import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
-import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
-import ca.mcgill.ecse223.tileo.model.Tile;
-import ca.mcgill.ecse223.tileo.model.TileO;
-import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel;
 import ca.mcgill.ecse223.tileo.view.DeckPanel;
@@ -77,9 +61,7 @@ public class TileOApplication {
 			tileO = new TileO();
 		}
 		else {
-			/*Driver.reinitializeAutouniqueID(btms.getDrivers());
-			BusVehicle.reinitializeUniqueLicencePlate(btms.getVehicles());
-			Route.reinitializeUniqueNumber(btms.getRoutes());*/
+			
 		}
 		return tileO;
 	}

@@ -13,6 +13,13 @@ public class PlayModeController {
 
 
 	// Action Card Methods
+	
+	public void pickActionCard(){
+		Game game = TileOApplication.getCurrentGame();
+		Deck deck = game.getDeck();
+		ActionCard newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
+		deck.setCurrentCard(newCard);
+	}
 
 	public List<Tile> playRollDieActionCard() throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
