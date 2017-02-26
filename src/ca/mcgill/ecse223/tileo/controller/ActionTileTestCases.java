@@ -14,9 +14,9 @@ public class ActionTileTestCases {
 		TileO tileO=TileOApplication.getTileO();
 		Game game=new Game(0, tileO);
 		TileOApplication.setCurrentGame(game);
-		TileOController control=new TileOController();
+		//TileOController control=new TileOController();
 		try {
-			control.assignStartingTile(5, 4, 5);
+			//control.assignStartingTile(5, 4, 5);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
