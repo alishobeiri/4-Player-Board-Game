@@ -8,6 +8,74 @@ import java.security.InvalidParameterException;
 import java.util.List;
 
 public class DesignModeController {
+    /* Creates a game, adds a number of players and sets it in the controller
+     *
+     * @param numberOfPlayers An integer value corresponding to the number of
+     *                        players in the game
+     *
+     * @throws InvalidInputException thrown if the number of players are less 
+     *                               than the minimum or greater than the 
+     *                               maximum.
+     */
+    public void createGame(int numberOfPlayers) throws InvalidInputException{
+        TileO app = TileOApplication.getTileO();
+        game = new Game(Game.SpareConnectionPieces, app);
+
+        if(numberOfPlayers<Game.minimumNumberOfPlayers() ||
+           numberOfPlayers>Game.maximumNumberOfPlayers()){
+            throw new InvalidInputException("Invalid Number of Players");
+        }
+
+        Player[] players = new Player[numberOfPlayers];
+        for(int i = 0; i < numberOfPlayers; i++){
+            players[i] = game.addPlayer(i)
+        }
+
+    }
+    /* Adds a Regular tile into the game board at the specified location
+     *
+     * @param X an integer for the correspending x coordinate for the tile
+     * @param Y an integer for the corresponding y coordinate for the tile
+     * 
+     * @throws InvalidInputException if there is a tile at the location or 
+     *                               if x and y are out of range
+     */
+
+    public void addTile(int X, int Y) throws InvalidInputException{
+        Game game = TileOApplication.getCurrentGame();
+        List<Tile> tiles = game.getTiles();
+        if(getTileFromBoard(X, Y, tiles) != null){
+            throw 
+              new InvalidInputException("Tile already exists at that location");
+        }
+        Tile tile = new Tile(X, Y, game);
+    }
+    /* Removes a tile from the game board at the specified location
+     *
+     * @param X an integer for the correspending x coordinate for the tile
+     * @param Y an integer for the corresponding y coordinate for the tile
+     * 
+     * @throws InvalidInputException if there is no tile at the location
+     */
+    public void removeTile(int X, int Y) throws InvalidInputException{
+        Game game = TileOApplication.getCurrentGame();
+        List<Tile> tiles = game.getTiles();
+        Tile tile = getTileFromBoard(X, Y, tiles);
+        if (tile == null){
+            throw new InvalidInputException("No tile at that location");
+        }
+        else{
+            tile.delete();
+        }
+    }
+    private Tile getTileFromBoard(int X, int Y, List<Tile> board){
+        for(Tile t : board){
+            if(t.getX()==x && t.getY()==y){
+                return t;
+            }
+        }
+        return null;
+    }
 	public void createNewActionTile(int x, int y, int numTurns) throws InvalidInputException{
 		TileO tileO=TileOApplication.getTileO();
 		Game game=TileOApplication.getCurrentGame();
@@ -26,7 +94,7 @@ public class DesignModeController {
 		new ActionTile(x, y, game, numTurns);
 		}
 	}
-
+    
 
 	public void assignStartingTile(int x, int y, int playerNumber) throws Exception {
 		Game game=TileOApplication.getCurrentGame();
