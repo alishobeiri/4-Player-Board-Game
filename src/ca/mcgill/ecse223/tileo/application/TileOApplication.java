@@ -77,9 +77,9 @@ public class TileOApplication {
 			tileO = new TileO();
 		}
 		else {
-			Driver.reinitializeAutouniqueID(btms.getDrivers());
+			/*Driver.reinitializeAutouniqueID(btms.getDrivers());
 			BusVehicle.reinitializeUniqueLicencePlate(btms.getVehicles());
-			Route.reinitializeUniqueNumber(btms.getRoutes());
+			Route.reinitializeUniqueNumber(btms.getRoutes());*/
 		}
 		return tileO;
 	}
