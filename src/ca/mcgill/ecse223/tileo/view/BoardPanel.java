@@ -164,6 +164,12 @@ public class BoardPanel extends JPanel {
 			//TODO: Insert real removeTile method from the controller
 			try{
 				toc.removeTile(rect.coordX, rect.coordY);
+				for(Player player: game.getPlayers()){
+					if(player.getStartingTile().getX()==rect.coordX && player.getStartingTile().getY()==rect.coordY){
+						System.out.println("Player exists on tile");
+						player.setStartingTile(null);
+					}
+				}
 			}catch (Exception e){
 				System.out.println("Tile does not exist within game");
 			}
@@ -186,7 +192,6 @@ public class BoardPanel extends JPanel {
 				Tile t = toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
 				boardTiles.put(rect, t);
 				System.out.println("Added player");
-				Ellipse2D.Double circl= new Ellipse2D.Double(rect.coordX, rect.coordY, 2, 2);
 				repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
