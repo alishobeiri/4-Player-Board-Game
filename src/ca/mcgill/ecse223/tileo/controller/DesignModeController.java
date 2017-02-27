@@ -186,10 +186,14 @@ public class DesignModeController {
 	public void chooseHiddenTile(Tile tile)
 	{
 		Game game = TileOApplication.getCurrentGame();
+		if(game.hasWinTile()){
+			game.getWinTile().delete();
+		}
 		int tileX = tile.getX();
 		int tileY = tile.getY();
 		tile.delete();
 		WinTile hiddenTile = new WinTile(tileX, tileY,game);
+		game.setWinTile(hiddenTile);
 	}
 	
 	
