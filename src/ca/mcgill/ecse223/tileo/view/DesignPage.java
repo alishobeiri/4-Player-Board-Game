@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
 
@@ -21,7 +22,7 @@ public class DesignPage extends JFrame {
 	DeckSetUpPage deckSetUp = new DeckSetUpPage(this);
 	
 	//Components
-	BoardPanel board = new BoardPanel();
+	BoardPanel board = new BoardPanel(Game.Mode.DESIGN);
 	String initialMode = "New Game";
 	JLabel mode = new JLabel("Mode: ");
 	JLabel currentMode = new JLabel(initialMode);
@@ -55,7 +56,7 @@ public class DesignPage extends JFrame {
 	}
 	
 	public void initComponents(){
-		setSize(890, 680);
+		setSize(925, 705);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

@@ -1,5 +1,7 @@
 package ca.mcgill.ecse223.tileo.view;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
+import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 
 import javax.swing.*;
@@ -28,7 +30,7 @@ public class BoardPanel extends JPanel {
 	
 	//***TESTING*** TODO: REMOVE
 	TileO tileo = new TileO();
-	Game game = new Game(32, tileo);
+	Game game=new Game(0, tileo);
 	NormalTile tile1 = new NormalTile(0, 0, game);
 	NormalTile tile2 = new NormalTile(5, 10, game);
 	NormalTile tile3 = new NormalTile(13, 3, game);
@@ -62,16 +64,16 @@ public class BoardPanel extends JPanel {
 		return null;
 	}
 	
-	public BoardPanel(){
+	public BoardPanel(Game.Mode m){
 		//TESTING TODO: REMOVE
 		gameTiles.add(tile1);
 		gameTiles.add(tile2);
 		gameTiles.add(tile3);
-		
+		game.setMode(m);
 		initComponents();
 		addMouseListener(new MouseSelectionListener());
 	}
-	
+
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		doDrawing(g);
@@ -82,11 +84,21 @@ public class BoardPanel extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		
 		//Contour line
-		RoundRectangle2D contour = new RoundRectangle2D.Float(0, 0, 646, 646, 10, 10);
-		g2d.setColor(new Color(208, 208, 208));
-		g2d.fill(contour);
-		g2d.setColor(Color.LIGHT_GRAY);
-		g2d.draw(contour);
+		
+			RoundRectangle2D contour = new RoundRectangle2D.Float(0, 0, 646, 646, 10, 10); 
+			//I added an if statement around this block as it seems to enable a grid
+			/*
+			 * I was assuming that the board panel is going to be reused in the game mode
+			 * Feel free to change it if I messed up 
+			 * 
+			 */
+			if(game.getMode()==Game.Mode.GAME){
+				g2d.setColor(new Color(208, 208, 208));
+				g2d.fill(contour);
+			}
+			
+			g2d.setColor(Color.black);
+			g2d.draw(contour);
 		
 		//Reset board
 		for(Rectangle2DCoord rectangle: rectangles){
@@ -99,8 +111,8 @@ public class BoardPanel extends JPanel {
 			g2d.setColor(Color.WHITE);
 			g2d.fill(rectangle.coordRectangle);
 			g2d.setColor(Color.GRAY);
-			g2d.draw(rectangle.coordRectangle);		
-			}
+			g2d.draw(rectangle.coordRectangle);
+		}
 		
 		Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
 		g2d.setColor(Color.RED);
@@ -109,19 +121,20 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public void addTile(Rectangle2DCoord rect){
+		DesignModeController toc=new DesignModeController();
 		if(!(boardTiles.keySet().contains(rect))){
 			
 			//TODO: Insert real addTile method from the controller
 			
 			if(tileType == TileType.NORMAL){
-				Tile t = new NormalTile(rect.coordX, rect.coordY, game);
+				NormalTile t = new NormalTile(rect.coordX, rect.coordY, game);
 				gameTiles.add(t);
 				boardTiles.put(rect, t);
 				repaint();
 				System.out.println("Normal Tile");
 			}
 			else if(tileType == TileType.ACTION){
-				Tile t = new ActionTile(rect.coordX, rect.coordY, game, inactiveTurns);
+				ActionTile t = new ActionTile(rect.coordX, rect.coordY, game, inactiveTurns);
 				gameTiles.add(t);
 				boardTiles.put(rect, t);
 				repaint();
@@ -131,7 +144,7 @@ public class BoardPanel extends JPanel {
 				if(currentWinRectangle != null){
 					removeTile(currentWinRectangle);
 				}
-				Tile t = new WinTile(rect.coordX, rect.coordY, game);
+				WinTile t = new WinTile(rect.coordX, rect.coordY, game);
 				currentWinRectangle = rect;
 				gameTiles.add(t);
 				boardTiles.put(rect, t);
@@ -140,6 +153,7 @@ public class BoardPanel extends JPanel {
 			}
 		}
 	}
+	
 	
 	public void removeTile(Rectangle2DCoord rect){
 		if(boardTiles.keySet().contains(rect)){
@@ -157,6 +171,16 @@ public class BoardPanel extends JPanel {
 		return rectangles;
 	}
 	
+	
+	//Work in progress on this one
+	public void addPlayer(Rectangle2DCoord rect){
+		if(boardTiles.keySet().contains(rect)){
+
+		}else{
+			System.out.println("Please choose a valid tile");
+		}
+	}
+	
 	class MouseSelectionListener implements MouseListener{
 		public void mouseClicked(MouseEvent ev){
 			int x = ev.getX();
@@ -170,10 +194,14 @@ public class BoardPanel extends JPanel {
 					else if(mode == Mode.REMOVE_TILE){
 						removeTile(rect);
 					}
+					else if(mode == Mode.PLACE_PLAYER){
+						addPlayer(rect);
+					}
 				}
 			}
 		}
 
+		
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub

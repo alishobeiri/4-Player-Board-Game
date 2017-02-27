@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.PlayModeController;
+import ca.mcgill.ecse223.tileo.model.Game;
 
 public class GamePage extends JFrame {
 
@@ -20,7 +21,7 @@ public class GamePage extends JFrame {
 
 	// Components
 	JPanel rightPanel = new JPanel();
-	BoardPanel board = new BoardPanel();
+	BoardPanel board = new BoardPanel(Game.Mode.GAME);
 	DeckPanel deck = new DeckPanel();
 	JButton getCard = new JButton("Get Action Card");
 	JButton rollDie = new JButton("Roll Die");
@@ -37,7 +38,7 @@ public class GamePage extends JFrame {
 
 	public void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(885, 680);
+		setSize(925, 705);
 		setResizable(false);
 
 		// Settings for text field
