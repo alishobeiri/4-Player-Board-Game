@@ -13,12 +13,14 @@ import java.awt.event.*;
 public class DesignPage extends JFrame {
 	
 	//***TESTING***
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		new DesignPage().setVisible(true);
-	}
+	}*/
 	
 	//Value Fields
 	private int rollDieCards, connectTilesCards, removeConnectionCards, teleportCards, loseTurnCards;
+	private int players;
+	private String title;
 	private Game game;
 	
 	DeckSetUpPage deckSetUp = new DeckSetUpPage(this);
@@ -37,24 +39,18 @@ public class DesignPage extends JFrame {
 	Integer[] nums = {0, 1, 2, 3, 4, 5, 6};
 	JComboBox inactiveTurns = new JComboBox(nums);
 	ButtonGroup ratioButtons = new ButtonGroup();
-	Integer[] numberOfPlayersList = {2, 3, 4};
-	JComboBox numberOfPlayers = new JComboBox(numberOfPlayersList);
-	Integer[] playerToAddList = {1, 2};
-	DefaultComboBoxModel model = new DefaultComboBoxModel(playerToAddList);
-	JComboBox playerToAdd = new JComboBox(model);
+	JComboBox playerToAdd;
 	JLabel numberOfPlayersLabel = new JLabel(" Number of players:");
 	JButton placePlayer = new JButton("Place Player");
 	JButton addConnection = new JButton("Add Connection");
 	JButton removeConnection = new JButton("Remove Connection");
 	JButton play = new JButton("Play Game");
-	JTextField gameName = new JTextField();
-	JLabel gameNameLabel = new JLabel(" Game Name:");
-	JButton setNameButton = new JButton("Save Name");
 	
 	//Constructor
-	public DesignPage(){
-		setTitle("New Game");
-		game=TileOApplication.getCurrentGame();
+	public DesignPage(String title, int aPlayers){
+		setTitle(title);
+		players = aPlayers;
+		game = TileOApplication.getCurrentGame();
 		game.setMode(Game.Mode.DESIGN);
 		initComponents();
 	}
@@ -90,10 +86,7 @@ public class DesignPage extends JFrame {
 		
 		setDeck.addActionListener(new SetDeckListener());
 		
-		numberOfPlayers.addActionListener(new NumberOfPlayersListener());
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
-		
-		setNameButton.addActionListener(new GameNameListener());
 		
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -105,7 +98,14 @@ public class DesignPage extends JFrame {
 		JSeparator line1 = new JSeparator();
 		JSeparator line2 = new JSeparator();
 		JSeparator line3 = new JSeparator();
-		JSeparator line4 = new JSeparator();
+		
+		//Test
+		Integer[] playerNums = new Integer[players];
+		for(int i = 0; i < players; i++){
+			playerNums[i] = i + 1;
+		}
+		
+		playerToAdd = new JComboBox(playerNums);
 		
 		//Component placement
 		layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -124,10 +124,6 @@ public class DesignPage extends JFrame {
 						.addComponent(removeTile, 220, 220, 220)
 						.addComponent(line1, 220, 220, 220)
 						.addGroup(layout.createSequentialGroup()
-								.addComponent(numberOfPlayersLabel, 130, 130, 130)
-								.addGap(30, 30, 30)
-								.addComponent(numberOfPlayers, 60, 60, 60))
-						.addGroup(layout.createSequentialGroup()
 								.addComponent(placePlayer, 120, 120, 120)
 								.addGap(40, 40, 40)
 								.addComponent(playerToAdd, 60, 60, 60)
@@ -136,10 +132,6 @@ public class DesignPage extends JFrame {
 						.addComponent(addConnection, 220, 220, 220)
 						.addComponent(removeConnection, 220, 220, 220)
 						.addComponent(line3, 220, 220, 220)
-						.addComponent(gameNameLabel)
-						.addComponent(gameName, 220, 220, 220)
-						.addComponent(setNameButton, 220, 220, 220)
-						.addComponent(line4, 220, 220, 220)
 						.addComponent(setDeck, 220, 220, 220)
 						.addComponent(play, 220, 220, 220)
 						)
@@ -160,9 +152,6 @@ public class DesignPage extends JFrame {
 						.addComponent(removeTile)
 						.addComponent(line1, 10, 10, 10)
 						.addGroup(layout.createParallelGroup()
-								.addComponent(numberOfPlayersLabel)
-								.addComponent(numberOfPlayers, 25, 25, 25))
-						.addGroup(layout.createParallelGroup()
 								.addComponent(placePlayer)
 								.addComponent(playerToAdd, 25, 25, 25)
 								)
@@ -170,10 +159,6 @@ public class DesignPage extends JFrame {
 						.addComponent(addConnection)
 						.addComponent(removeConnection)
 						.addComponent(line3, 10, 10, 10)
-						.addComponent(gameNameLabel)
-						.addComponent(gameName)
-						.addComponent(setNameButton)
-						.addComponent(line4, 10, 10, 10)
 						.addComponent(setDeck)
 						.addGap(62, 62, 62)
 						.addComponent(play)
@@ -254,6 +239,7 @@ public class DesignPage extends JFrame {
 		}
 	}
 	
+<<<<<<< HEAD
 	class NumberOfPlayersListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			int currentNumberOfPlayers = (int) numberOfPlayers.getSelectedItem();
@@ -268,15 +254,11 @@ public class DesignPage extends JFrame {
 	}
 	
 	
+=======
+>>>>>>> origin/master
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			board.inactiveTurns = (int) inactiveTurns.getSelectedItem();
-		}
-	}
-	
-	class GameNameListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
-			setFrameName(gameName.getText());
 		}
 	}
 	
