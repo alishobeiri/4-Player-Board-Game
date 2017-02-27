@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.*;
 
 import javax.swing.*;
@@ -20,22 +21,23 @@ public class BoardPanel extends JPanel {
 	public static final int VERTICAL_RECTANGLES = 14;
 	
 	//Attributes
-	public Game game;
 	public Game.Mode m;
 	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
-	public ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
+	int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	
 	//***TESTING*** TODO: REMOVE
 	TileO tileo = new TileO();
 	Game testGame=new Game(0, tileo);
-	NormalTile tile1 = new NormalTile(0, 0, game);
-	NormalTile tile2 = new NormalTile(5, 10, game);
-	NormalTile tile3 = new NormalTile(13, 3, game);
+	//NormalTile tile1 = new NormalTile(0, 0, game);
+	//NormalTile tile2 = new NormalTile(5, 10, game);
+	//NormalTile tile3 = new NormalTile(13, 3, game);
+
+	//Game game=TileOApplication.getCurrentGame();
 
 	
 	public void initComponents(){
@@ -49,7 +51,7 @@ public class BoardPanel extends JPanel {
 		}
 		
 		//Initialize the hashmap to match every tile to a rectangle
-		for(Tile t: gameTiles){
+		for(Tile t: game.getTiles()){
 			Rectangle2DCoord r = getRectangle(t.getX(), t.getY());
 			boardTiles.put(r, t);
 		}
@@ -69,9 +71,6 @@ public class BoardPanel extends JPanel {
 	// Constructor
 	public BoardPanel(Game.Mode m){
 		//TESTING TODO: REMOVE
-		gameTiles.add(tile1);
-		gameTiles.add(tile2);
-		gameTiles.add(tile3);
 		game.setMode(m);
 		initComponents();
 		addMouseListener(new MouseSelectionListener());
@@ -127,15 +126,25 @@ public class BoardPanel extends JPanel {
 			//TODO: Insert real addTile method from the controller
 			
 			if(tileType == TileType.NORMAL){
-				NormalTile t = new NormalTile(rect.coordX, rect.coordY, game);
-				gameTiles.add(t);
-				boardTiles.put(rect, t);
-				repaint();
-				System.out.println("Normal Tile");
+				try {
+					NormalTile t = toc.addNormalTile(rect.coordX, rect.coordY);
+					boardTiles.put(rect, t);
+					repaint();
+					System.out.println("Normal Tile");
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Tile exists at that location");
+				}
+
 			}
 			else if(tileType == TileType.ACTION){
-				ActionTile t = new ActionTile(rect.coordX, rect.coordY, game, inactiveTurns);
-				gameTiles.add(t);
+				ActionTile t = null;
+				try {
+					t=toc.addActionTile(rect.coordX, rect.coordY, inactiveTurns);
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Tile already here");
+				}
 				boardTiles.put(rect, t);
 				repaint();
 				System.out.println("Action Tile: " + inactiveTurns + " inactive turns.");
@@ -146,7 +155,6 @@ public class BoardPanel extends JPanel {
 				}
 				WinTile t = new WinTile(rect.coordX, rect.coordY, game);
 				currentWinRectangle = rect;
-				gameTiles.add(t);
 				boardTiles.put(rect, t);
 				repaint();
 				System.out.println("Win Tile");
@@ -154,14 +162,20 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
+	public void showMessage(String s){
+		JOptionPane.showMessageDialog(null, s);
+	}
 	
 	public void removeTile(Rectangle2DCoord rect){
+		DesignModeController toc=new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			
 			//TODO: Insert real removeTile method from the controller
-			
-			Tile t = boardTiles.get(rect);
-			gameTiles.remove(t); //TODO: Check if this is still necessary
+			try{
+				toc.removeTile(rect.coordX, rect.coordY);
+			}catch (Exception e){
+				System.out.println("Tile does not exist within game");
+			}
 			boardTiles.remove(rect);
 			repaint();
 			}
@@ -174,8 +188,19 @@ public class BoardPanel extends JPanel {
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){
+		DesignModeController toc = new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
-
+			Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + rect.coordX, rect.coordY, HEIGHT);
+			try {
+				NormalTile t=toc.addNormalTile(rect.coordX, rect.coordY);
+				toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
+				boardTiles.put(rect, t);
+				repaint();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("Player exists");
+				e.printStackTrace();
+			}
 		}else{
 			System.out.println("Please choose a valid tile");
 		}

@@ -4,6 +4,7 @@ import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel;
 import ca.mcgill.ecse223.tileo.view.DeckPanel;
+import ca.mcgill.ecse223.tileo.view.DesignPage;
 import ca.mcgill.ecse223.tileo.view.GamePage;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
 
@@ -11,6 +12,7 @@ import ca.mcgill.ecse223.tileo.view.TileOPage;
 public class TileOApplication {
 	private static TileO tileO;
 	private static String filename = "data.tileO";
+	private static DesignPage designPage;
 	
 	public static void main(String args[]){
 		// Thomas - not actually sure this is the right way to do this
@@ -20,7 +22,8 @@ public class TileOApplication {
 		TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TileOPage().setVisible(true);
+            	designPage=new DesignPage();
+                designPage.setVisible(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
             }
@@ -33,6 +36,10 @@ public class TileOApplication {
 			tileO = load();
 		}
 		return tileO;
+	}
+	
+	public static int getPlayer(){
+		return designPage.getPlayer();
 	}
 	
 	public static Game getCurrentGame(){
