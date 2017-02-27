@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.Font;
+import java.awt.event.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -51,6 +52,9 @@ public class TileOPage extends JFrame {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
+		//Action Listener
+		create.addActionListener(new CreateListener());
+		
 		//Component positioning
 		layout.setHorizontalGroup(layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
@@ -71,6 +75,12 @@ public class TileOPage extends JFrame {
 				.addGroup(layout.createParallelGroup()
 						.addComponent(play)
 						.addComponent(create)));
+	}
+	
+	class CreateListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			new CreateGamePage().setVisible(true);
+		}
 	}
 	
 }

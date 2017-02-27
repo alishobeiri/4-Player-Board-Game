@@ -12,21 +12,21 @@ import ca.mcgill.ecse223.tileo.view.TileOPage;
 public class TileOApplication {
 	private static TileO tileO;
 	private static String filename = "data.tileO";
-	private static DesignPage designPage;
+	private static TileOPage mainMenu;
 	
 	public static void main(String args[]){
 		// Thomas - not actually sure this is the right way to do this
 		// start UI
 		TileO tileO=TileOApplication.getTileO();
-		Game game=new Game(0, tileO);
-		TileOApplication.setCurrentGame(game);
+		//Game game=new Game(0, tileO);
+		//TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	
             	//Check the setMode here
-            	game.setMode(Game.Mode.GAME);
-            	designPage=new DesignPage();
-                designPage.setVisible(true);
+            	//game.setMode(Game.Mode.GAME);
+            	mainMenu = new TileOPage();
+            	mainMenu.setVisible(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
             }

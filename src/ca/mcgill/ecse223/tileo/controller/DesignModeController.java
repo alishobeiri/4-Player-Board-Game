@@ -17,7 +17,7 @@ public class DesignModeController {
      *                               than the minimum or greater than the 
      *                               maximum.
      */
-    public void createGame(int numberOfPlayers) throws InvalidInputException{
+    public Game createGame(int numberOfPlayers) throws InvalidInputException{
         TileO app = TileOApplication.getTileO();
         Game game = new Game(Game.SpareConnectionPieces, app);
 
@@ -30,6 +30,10 @@ public class DesignModeController {
         for(int i = 0; i < numberOfPlayers; i++){
             players[i] = game.addPlayer(i);
         }
+        
+        app.setCurrentGame(game);
+        
+        return game;
 
     }
     /* Adds a Regular tile into the game board at the specified location
