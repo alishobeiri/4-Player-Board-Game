@@ -45,8 +45,7 @@ public class DesignModeController {
         Game game = TileOApplication.getCurrentGame();
         List<Tile> tiles = game.getTiles();
         if(getTileFromBoard(X, Y, tiles) != null){
-            throw 
-              new InvalidInputException("Tile already exists at that location");
+            throw new InvalidInputException("Tile already exists at that location");
         }
         Tile tile = new NormalTile(X, Y, game);
     }
@@ -96,7 +95,7 @@ public class DesignModeController {
 	}
     
 
-	public void assignStartingTile(int x, int y, int playerNumber) throws Exception {
+	public void assignStartingTile(int x, int y, int playerNumber) throws InvalidInputException {
 		Game game=TileOApplication.getCurrentGame();
 		Player player;
 		try{

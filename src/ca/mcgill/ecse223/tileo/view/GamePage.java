@@ -21,7 +21,7 @@ public class GamePage extends JFrame {
 
 	// Components
 	JPanel rightPanel = new JPanel();
-	BoardPanel board = new BoardPanel(Game.Mode.GAME);
+	BoardPanel board = new BoardPanel(Game.Mode.DESIGN);
 	DeckPanel deck = new DeckPanel();
 	JButton getCard = new JButton("Get Action Card");
 	JButton rollDie = new JButton("Roll Die");
@@ -38,7 +38,7 @@ public class GamePage extends JFrame {
 
 	public void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(925, 705);
+		setSize(885, 682);
 		setResizable(false);
 
 		// Settings for text field

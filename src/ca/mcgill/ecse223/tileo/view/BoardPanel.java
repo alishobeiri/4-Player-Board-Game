@@ -20,6 +20,8 @@ public class BoardPanel extends JPanel {
 	public static final int VERTICAL_RECTANGLES = 14;
 	
 	//Attributes
+	public Game game;
+	public Game.Mode m;
 	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
 	public ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
@@ -30,7 +32,7 @@ public class BoardPanel extends JPanel {
 	
 	//***TESTING*** TODO: REMOVE
 	TileO tileo = new TileO();
-	Game game=new Game(0, tileo);
+	Game testGame=new Game(0, tileo);
 	NormalTile tile1 = new NormalTile(0, 0, game);
 	NormalTile tile2 = new NormalTile(5, 10, game);
 	NormalTile tile3 = new NormalTile(13, 3, game);
@@ -64,6 +66,7 @@ public class BoardPanel extends JPanel {
 		return null;
 	}
 	
+	// Constructor
 	public BoardPanel(Game.Mode m){
 		//TESTING TODO: REMOVE
 		gameTiles.add(tile1);
@@ -83,27 +86,24 @@ public class BoardPanel extends JPanel {
 		
 		Graphics2D g2d = (Graphics2D) g;
 		
-		//Contour line
-		
-			RoundRectangle2D contour = new RoundRectangle2D.Float(0, 0, 646, 646, 10, 10); 
-			//I added an if statement around this block as it seems to enable a grid
-			/*
-			 * I was assuming that the board panel is going to be reused in the game mode
-			 * Feel free to change it if I messed up 
-			 * 
-			 */
-			if(game.getMode()==Game.Mode.GAME){
-				g2d.setColor(new Color(208, 208, 208));
-				g2d.fill(contour);
-			}
-			
-			g2d.setColor(Color.black);
-			g2d.draw(contour);
+		//Background
+		RoundRectangle2D contour = new RoundRectangle2D.Float(0, 0, 646, 646, 10, 10); 
+		g2d.setColor(new Color(195, 195, 195));
+		g2d.fill(contour);
+		g2d.setColor(new Color(170, 170, 170));
+		g2d.draw(contour);
 		
 		//Reset board
 		for(Rectangle2DCoord rectangle: rectangles){
-			g2d.setColor(new Color(208, 208, 208));
+			g2d.setColor(new Color(195, 195, 195));
 			g2d.fill(rectangle.coordRectangle);
+		}
+		
+		if(game.getMode()==Game.Mode.DESIGN){
+			for(Rectangle2DCoord rectangle: rectangles){
+				g2d.setColor(new Color(230, 230, 230));
+				g2d.draw(rectangle.coordRectangle);
+			}
 		}
 		
 		//Paint currently existing tiles

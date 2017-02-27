@@ -56,7 +56,7 @@ public class DesignPage extends JFrame {
 	}
 	
 	public void initComponents(){
-		setSize(925, 705);
+		setSize(885, 682);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
