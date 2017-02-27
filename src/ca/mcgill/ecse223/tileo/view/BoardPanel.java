@@ -27,10 +27,18 @@ public class BoardPanel extends JPanel {
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
-	int playerNumber=1;
+	public int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	
+<<<<<<< HEAD
 	TileO tileo = new TileO();
+=======
+	//***TESTING*** TODO: REMOVE
+	Game game=TileOApplication.getCurrentGame();
+	//NormalTile tile1 = new NormalTile(0, 0, game);
+	//NormalTile tile2 = new NormalTile(5, 10, game);
+	//NormalTile tile3 = new NormalTile(13, 3, game);
+>>>>>>> origin/master
 
 	Game game=TileOApplication.getCurrentGame();
 

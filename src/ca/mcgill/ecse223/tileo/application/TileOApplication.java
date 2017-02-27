@@ -22,6 +22,9 @@ public class TileOApplication {
 		TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+            	
+            	//Check the setMode here
+            	game.setMode(Game.Mode.GAME);
             	designPage=new DesignPage();
                 designPage.setVisible(true);
                 //TODO remove following line after testing
@@ -39,9 +42,6 @@ public class TileOApplication {
 		
 	}
 	
-	public static int getPlayer(){
-		return designPage.getPlayer();
-	}
 	
 	public static Game getCurrentGame(){
 		return tileO.getCurrentGame();
