@@ -189,8 +189,8 @@ public class BoardPanel extends JPanel {
 		DesignModeController toc = new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			try {
+				System.out.println(playerNumber);
 				Tile t = toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
-				boardTiles.put(rect, t);
 				System.out.println("Added player");
 				repaint();
 			} catch (Exception e) {

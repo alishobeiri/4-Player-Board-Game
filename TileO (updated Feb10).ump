@@ -57,6 +57,9 @@ class Connection {
 class Deck {
   1 <@>- 0..32 ActionCard cards;
   1 -> 0..1 ActionCard currentCard;
+  public void clearDeck(){
+	  cards.clear();
+  }
 }
 
 class ActionCard {

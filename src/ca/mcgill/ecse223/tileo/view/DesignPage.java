@@ -108,6 +108,7 @@ public class DesignPage extends JFrame {
 		}
 		
 		playerToAdd = new JComboBox(playerNums);
+		playerToAdd.addActionListener(new PlayerToAddListener());
 		
 		//Component placement
 		layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -242,25 +243,16 @@ public class DesignPage extends JFrame {
 			currentMode.setText("Remove Connection");
 		}
 	}
-	
-
-	class NumberOfPlayersListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
-			int currentNumberOfPlayers = (int) numberOfPlayers.getSelectedItem();
-			playerToAddList = new Integer[currentNumberOfPlayers];
-			for(int i = 0; i < currentNumberOfPlayers; i++){
-				playerToAddList[i] = i+1;
-			}
-			model = new DefaultComboBoxModel(playerToAddList);
-			playerToAdd.setModel(model);
-			board.playerNumber=currentNumberOfPlayers;
-		}
-	}
-	
 
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			board.inactiveTurns = (int) inactiveTurns.getSelectedItem();
+		}
+	}
+	
+	class PlayerToAddListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			board.playerNumber=(int)playerToAdd.getSelectedItem();
 		}
 	}
 	
