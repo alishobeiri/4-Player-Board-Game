@@ -30,14 +30,9 @@ public class BoardPanel extends JPanel {
 	int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	
-	//***TESTING*** TODO: REMOVE
 	TileO tileo = new TileO();
-	Game testGame=new Game(0, tileo);
-	//NormalTile tile1 = new NormalTile(0, 0, game);
-	//NormalTile tile2 = new NormalTile(5, 10, game);
-	//NormalTile tile3 = new NormalTile(13, 3, game);
 
-	//Game game=TileOApplication.getCurrentGame();
+	Game game=TileOApplication.getCurrentGame();
 
 	
 	public void initComponents(){

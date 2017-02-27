@@ -36,6 +36,7 @@ public class TileOApplication {
 			tileO = load();
 		}
 		return tileO;
+		
 	}
 	
 	public static int getPlayer(){
