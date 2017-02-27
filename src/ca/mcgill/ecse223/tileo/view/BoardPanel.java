@@ -27,12 +27,11 @@ public class BoardPanel extends JPanel {
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
-	int playerNumber=1;
+	public int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	
 	//***TESTING*** TODO: REMOVE
-	TileO tileo = new TileO();
-	Game testGame=new Game(0, tileo);
+	Game game=TileOApplication.getCurrentGame();
 	//NormalTile tile1 = new NormalTile(0, 0, game);
 	//NormalTile tile2 = new NormalTile(5, 10, game);
 	//NormalTile tile3 = new NormalTile(13, 3, game);
@@ -98,7 +97,7 @@ public class BoardPanel extends JPanel {
 			g2d.fill(rectangle.coordRectangle);
 		}
 		
-		if(game.getMode()==Game.Mode.DESIGN){
+		if(game.getMode()==Game.Mode.GAME){
 			for(Rectangle2DCoord rectangle: rectangles){
 				g2d.setColor(new Color(230, 230, 230));
 				g2d.draw(rectangle.coordRectangle);
