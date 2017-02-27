@@ -18,12 +18,13 @@ public class PlayModeController {
 		Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		ActionCard newCard;
-		if(deck.hasCards()){
-			newCard = deck.getCurrentCard();
-			if(deck.indexOfCard(deck.getCurrentCard())+1 > 31){
-				deck.shuffle();
-			}
+		if(deck.indexOfCard(deck.getCurrentCard()) == deck.maximumNumberOfCards()){
+			deck.shuffle();
 		}
+		else{
+			newCard = deck.getCurrentCard();
+		}
+			
 		newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
 		deck.setCurrentCard(newCard);
 		return newCard;
