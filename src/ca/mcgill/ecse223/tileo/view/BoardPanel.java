@@ -22,6 +22,9 @@ public class BoardPanel extends JPanel {
 	public ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
 	Mode mode;
+	TileType tileType = TileType.NORMAL;
+	int inactiveTurns = 0;
+	Rectangle2DCoord currentWinRectangle;
 	
 	//***TESTING*** TODO: REMOVE
 	TileO tileo = new TileO();
@@ -85,17 +88,23 @@ public class BoardPanel extends JPanel {
 		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.draw(contour);
 		
+		//Reset board
 		for(Rectangle2DCoord rectangle: rectangles){
 			g2d.setColor(new Color(208, 208, 208));
 			g2d.fill(rectangle.coordRectangle);
 		}
 		
+		//Paint currently existing tiles
 		for(Rectangle2DCoord rectangle: boardTiles.keySet()){		
 			g2d.setColor(Color.WHITE);
 			g2d.fill(rectangle.coordRectangle);
 			g2d.setColor(Color.GRAY);
 			g2d.draw(rectangle.coordRectangle);		
 			}
+		
+		Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
+		g2d.setColor(Color.RED);
+		g2d.fill(player);
 
 	}
 	
@@ -104,10 +113,31 @@ public class BoardPanel extends JPanel {
 			
 			//TODO: Insert real addTile method from the controller
 			
-			Tile t = new NormalTile(rect.coordX, rect.coordY, game);
-			gameTiles.add(t);
-			boardTiles.put(rect, t);
-			repaint();
+			if(tileType == TileType.NORMAL){
+				Tile t = new NormalTile(rect.coordX, rect.coordY, game);
+				gameTiles.add(t);
+				boardTiles.put(rect, t);
+				repaint();
+				System.out.println("Normal Tile");
+			}
+			else if(tileType == TileType.ACTION){
+				Tile t = new ActionTile(rect.coordX, rect.coordY, game, inactiveTurns);
+				gameTiles.add(t);
+				boardTiles.put(rect, t);
+				repaint();
+				System.out.println("Action Tile: " + inactiveTurns + " inactive turns.");
+			}
+			else if(tileType == TileType.WIN){
+				if(currentWinRectangle != null){
+					removeTile(currentWinRectangle);
+				}
+				Tile t = new WinTile(rect.coordX, rect.coordY, game);
+				currentWinRectangle = rect;
+				gameTiles.add(t);
+				boardTiles.put(rect, t);
+				repaint();
+				System.out.println("Win Tile");
+			}
 		}
 	}
 	
@@ -182,7 +212,11 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION
+	}
+	
+	public enum TileType{
+		NORMAL, ACTION, WIN
 	}
 	
 }

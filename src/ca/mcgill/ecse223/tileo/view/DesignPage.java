@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.view;
 import javax.swing.*;
 
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
+import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
 
 import java.awt.Font;
 import java.awt.event.*;
@@ -30,7 +31,7 @@ public class DesignPage extends JFrame {
 	JRadioButton normalTile = new JRadioButton("Normal Tile");
 	JRadioButton actionTile = new JRadioButton("Action Tile");
 	JRadioButton hiddenTile = new JRadioButton("Hidden Tile");
-	Integer[] nums = {1, 2, 3, 4, 5, 6};
+	Integer[] nums = {0, 1, 2, 3, 4, 5, 6};
 	JComboBox inactiveTurns = new JComboBox(nums);
 	ButtonGroup ratioButtons = new ButtonGroup();
 	Integer[] numberOfPlayersList = {2, 3, 4};
@@ -43,9 +44,13 @@ public class DesignPage extends JFrame {
 	JButton addConnection = new JButton("Add Connection");
 	JButton removeConnection = new JButton("Remove Connection");
 	JButton play = new JButton("Play Game");
+	JTextField gameName = new JTextField();
+	JLabel gameNameLabel = new JLabel(" Game Name:");
+	JButton setNameButton = new JButton("Save Name");
 	
 	//Constructor
 	public DesignPage(){
+		setTitle("New Game");
 		initComponents();
 	}
 	
@@ -54,8 +59,8 @@ public class DesignPage extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		mode.setFont(new Font("Futura", Font.PLAIN, 20));
-		currentMode.setFont(new Font("Futura", Font.BOLD, 20));
+		mode.setFont(new Font("San Francisco", Font.PLAIN, 20));
+		currentMode.setFont(new Font("San Francisco", Font.BOLD, 20));
 		
 		play.setFont(new Font("San Francisco", Font.BOLD, 14));
 		
@@ -81,6 +86,9 @@ public class DesignPage extends JFrame {
 		setDeck.addActionListener(new SetDeckListener());
 		
 		numberOfPlayers.addActionListener(new NumberOfPlayersListener());
+		inactiveTurns.addActionListener(new InactiveTurnsListener());
+		
+		setNameButton.addActionListener(new GameNameListener());
 		
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -92,6 +100,7 @@ public class DesignPage extends JFrame {
 		JSeparator line1 = new JSeparator();
 		JSeparator line2 = new JSeparator();
 		JSeparator line3 = new JSeparator();
+		JSeparator line4 = new JSeparator();
 		
 		//Component placement
 		layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -122,6 +131,10 @@ public class DesignPage extends JFrame {
 						.addComponent(addConnection, 220, 220, 220)
 						.addComponent(removeConnection, 220, 220, 220)
 						.addComponent(line3, 220, 220, 220)
+						.addComponent(gameNameLabel)
+						.addComponent(gameName, 220, 220, 220)
+						.addComponent(setNameButton, 220, 220, 220)
+						.addComponent(line4, 220, 220, 220)
 						.addComponent(setDeck, 220, 220, 220)
 						.addComponent(play, 220, 220, 220)
 						)
@@ -152,8 +165,12 @@ public class DesignPage extends JFrame {
 						.addComponent(addConnection)
 						.addComponent(removeConnection)
 						.addComponent(line3, 10, 10, 10)
+						.addComponent(gameNameLabel)
+						.addComponent(gameName)
+						.addComponent(setNameButton)
+						.addComponent(line4, 10, 10, 10)
 						.addComponent(setDeck)
-						.addGap(165, 165, 165)
+						.addGap(62, 62, 62)
 						.addComponent(play)
 						)
 		);	
@@ -168,18 +185,26 @@ public class DesignPage extends JFrame {
 		loseTurnCards = values[4];
 	}
 	
+	public void setFrameName(String name){
+		setTitle(name);
+	}
+	
 	class NormalTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+			board.tileType = TileType.NORMAL;
 		}
 	}
 	
 	class ActionTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+			board.tileType = TileType.ACTION;
 		}
 	}
 	
 	class HiddenTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+			board.tileType = TileType.WIN
+					;
 		}
 	}
 	
@@ -232,6 +257,18 @@ public class DesignPage extends JFrame {
 			}
 			model = new DefaultComboBoxModel(playerToAddList);
 			playerToAdd.setModel(model);
+		}
+	}
+	
+	class InactiveTurnsListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			board.inactiveTurns = (int) inactiveTurns.getSelectedItem();
+		}
+	}
+	
+	class GameNameListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			setFrameName(gameName.getText());
 		}
 	}
 	
