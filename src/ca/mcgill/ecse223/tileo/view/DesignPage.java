@@ -2,6 +2,8 @@ package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
+
 import java.awt.Font;
 import java.awt.event.*;
 
@@ -19,7 +21,7 @@ public class DesignPage extends JFrame {
 	
 	//Components
 	BoardPanel board = new BoardPanel();
-	String initialMode = " ";
+	String initialMode = "New Game";
 	JLabel mode = new JLabel("Mode: ");
 	JLabel currentMode = new JLabel(initialMode);
 	JButton addTile = new JButton("Add Tile");
@@ -33,8 +35,9 @@ public class DesignPage extends JFrame {
 	ButtonGroup ratioButtons = new ButtonGroup();
 	Integer[] numberOfPlayersList = {2, 3, 4};
 	JComboBox numberOfPlayers = new JComboBox(numberOfPlayersList);
-	Integer[] playerToAddList = {1, 2, 3, 4};
-	JComboBox playerToAdd = new JComboBox(playerToAddList);
+	Integer[] playerToAddList = {1, 2};
+	DefaultComboBoxModel model = new DefaultComboBoxModel(playerToAddList);
+	JComboBox playerToAdd = new JComboBox(model);
 	JLabel numberOfPlayersLabel = new JLabel(" Number of players:");
 	JButton placePlayer = new JButton("Place Player");
 	JButton addConnection = new JButton("Add Connection");
@@ -60,6 +63,8 @@ public class DesignPage extends JFrame {
 		ratioButtons.add(actionTile);
 		ratioButtons.add(hiddenTile);
 		
+		normalTile.setSelected(true);
+		
 		//Add action listeners
 		normalTile.addActionListener(new NormalTileListener());
 		actionTile.addActionListener(new ActionTileListener());
@@ -74,6 +79,8 @@ public class DesignPage extends JFrame {
 		removeConnection.addActionListener(new RemoveConnectionListener());
 		
 		setDeck.addActionListener(new SetDeckListener());
+		
+		numberOfPlayers.addActionListener(new NumberOfPlayersListener());
 		
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -163,22 +170,16 @@ public class DesignPage extends JFrame {
 	
 	class NormalTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			inactiveTurns.enable(false);
-			inactiveTurns.requestFocus();
 		}
 	}
 	
 	class ActionTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			inactiveTurns.enable(true);
-			inactiveTurns.requestFocus();
 		}
 	}
 	
 	class HiddenTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			inactiveTurns.enable(false);
-			inactiveTurns.requestFocus();
 		}
 	}
 	
@@ -193,12 +194,14 @@ public class DesignPage extends JFrame {
 	class AddTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Add Tile");
+			board.mode = Mode.ADD_TILE;
 		}
 	}
 	
 	class RemoveTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Tile");
+			board.mode = Mode.REMOVE_TILE;
 		}
 	}
 	
@@ -217,6 +220,18 @@ public class DesignPage extends JFrame {
 	class RemoveConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Connection");
+		}
+	}
+	
+	class NumberOfPlayersListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			int currentNumberOfPlayers = (int) numberOfPlayers.getSelectedItem();
+			playerToAddList = new Integer[currentNumberOfPlayers];
+			for(int i = 0; i < currentNumberOfPlayers; i++){
+				playerToAddList[i] = i+1;
+			}
+			model = new DefaultComboBoxModel(playerToAddList);
+			playerToAdd.setModel(model);
 		}
 	}
 	

@@ -18,8 +18,10 @@ public class BoardPanel extends JPanel {
 	public static final int VERTICAL_RECTANGLES = 14;
 	
 	//Attributes
-	public ArrayList<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
-	public ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
+	public ArrayList<Tile> gameTiles = new ArrayList<Tile>();
+	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
+	Mode mode;
 	
 	//***TESTING*** TODO: REMOVE
 	TileO tileo = new TileO();
@@ -27,24 +29,44 @@ public class BoardPanel extends JPanel {
 	NormalTile tile1 = new NormalTile(0, 0, game);
 	NormalTile tile2 = new NormalTile(5, 10, game);
 	NormalTile tile3 = new NormalTile(13, 3, game);
+
 	
-	
-	/*public static void main(String[] args){
+	public void initComponents(){
+		//Initialize the rectangles list to cover the whole board
+		for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
+			for(int j = 0; j < VERTICAL_RECTANGLES; j++){
+				Rectangle2D r2d = new Rectangle2D.Float(GAP*(j+1) + WIDTH*j, GAP*(i+1) + HEIGHT*i, WIDTH, HEIGHT);
+				Rectangle2DCoord currentRect = new Rectangle2DCoord(r2d, i, j);
+				rectangles.add(currentRect);
+			}
+		}
 		
-		JFrame frame = new JFrame();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(new BoardPanel(), BorderLayout.CENTER);
-		frame.setSize(650, 670);
-	}*/
+		//Initialize the hashmap to match every tile to a rectangle
+		for(Tile t: gameTiles){
+			Rectangle2DCoord r = getRectangle(t.getX(), t.getY());
+			boardTiles.put(r, t);
+		}
+	}
+	
+	//Helper method
+	public Rectangle2DCoord getRectangle(int x, int y){
+		for(Rectangle2DCoord rect: rectangles){
+			if(rect.coordX == x && rect.coordY == y){
+				System.out.println("found");
+				return rect;
+			}
+		}		
+		return null;
+	}
 	
 	public BoardPanel(){
-		addMouseListener(new MouseSelectionListener());
-		
 		//TESTING TODO: REMOVE
-			tiles.add(tile1);
-			tiles.add(tile2);
-			tiles.add(tile3);
+		gameTiles.add(tile1);
+		gameTiles.add(tile2);
+		gameTiles.add(tile3);
+		
+		initComponents();
+		addMouseListener(new MouseSelectionListener());
 	}
 	
 	public void paintComponent(Graphics g){
@@ -63,39 +85,61 @@ public class BoardPanel extends JPanel {
 		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.draw(contour);
 		
-		rectangles.clear();
-		
-		//This fills the grid with rectangles
-		for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
-			for(int j = 0; j < VERTICAL_RECTANGLES; j++){
-		
-		/*for(Tile tile: game.getTiles()){
-				int i = tile.getX();
-				int j = tile.getY();*/
-			
-				Rectangle2D rectangle = new Rectangle2D.Float(GAP*(j+1) + WIDTH*j, GAP*(i+1) + HEIGHT*i, WIDTH, HEIGHT);
-				
-				rectangles.add(rectangle);
-				//tiles.add(tile);
-				
-				g2d.setColor(Color.WHITE);
-				g2d.fill(rectangle);
-				g2d.setColor(Color.DARK_GRAY);
-				g2d.draw(rectangle);
-				
-			}
+		for(Rectangle2DCoord rectangle: rectangles){
+			g2d.setColor(new Color(208, 208, 208));
+			g2d.fill(rectangle.coordRectangle);
 		}
+		
+		for(Rectangle2DCoord rectangle: boardTiles.keySet()){		
+			g2d.setColor(Color.WHITE);
+			g2d.fill(rectangle.coordRectangle);
+			g2d.setColor(Color.GRAY);
+			g2d.draw(rectangle.coordRectangle);		
+			}
+
+	}
+	
+	public void addTile(Rectangle2DCoord rect){
+		if(!(boardTiles.keySet().contains(rect))){
+			
+			//TODO: Insert real addTile method from the controller
+			
+			Tile t = new NormalTile(rect.coordX, rect.coordY, game);
+			gameTiles.add(t);
+			boardTiles.put(rect, t);
+			repaint();
+		}
+	}
+	
+	public void removeTile(Rectangle2DCoord rect){
+		if(boardTiles.keySet().contains(rect)){
+			
+			//TODO: Insert real removeTile method from the controller
+			
+			Tile t = boardTiles.get(rect);
+			gameTiles.remove(t); //TODO: Check if this is still necessary
+			boardTiles.remove(rect);
+			repaint();
+			}
+	}
+
+	public ArrayList<Rectangle2DCoord> getRectangles(){
+		return rectangles;
 	}
 	
 	class MouseSelectionListener implements MouseListener{
 		public void mouseClicked(MouseEvent ev){
 			int x = ev.getX();
 			int y = ev.getY();
-			for(Rectangle2D rect : rectangles){
-				if(rect.contains(x, y)){
+			for(Rectangle2DCoord rect : getRectangles()){
+				if(rect.coordRectangle.contains(x, y)){
 					System.out.println("Found me!");
-					//TODO ADD HASHMAP (TILES, RECTNAGLES)
-					//tiles.get(rect);
+					if(mode == Mode.ADD_TILE){
+						addTile(rect);
+					}
+					else if(mode == Mode.REMOVE_TILE){
+						removeTile(rect);
+					}
 				}
 			}
 		}
@@ -123,6 +167,22 @@ public class BoardPanel extends JPanel {
 			// TODO Auto-generated method stub
 			
 		}
+	}
+	
+	class Rectangle2DCoord{
+		Rectangle2D coordRectangle;
+		int coordX;
+		int coordY;
+		
+		public Rectangle2DCoord(Rectangle2D aRectangle, int x, int y){
+			coordRectangle = aRectangle;
+			coordX = x;
+			coordY = y;
+		}
+	}
+	
+	public enum Mode{
+		ADD_TILE, REMOVE_TILE
 	}
 	
 }
