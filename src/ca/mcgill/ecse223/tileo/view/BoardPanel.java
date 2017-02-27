@@ -30,15 +30,7 @@ public class BoardPanel extends JPanel {
 	public int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	
-<<<<<<< HEAD
 	TileO tileo = new TileO();
-=======
-	//***TESTING*** TODO: REMOVE
-	Game game=TileOApplication.getCurrentGame();
-	//NormalTile tile1 = new NormalTile(0, 0, game);
-	//NormalTile tile2 = new NormalTile(5, 10, game);
-	//NormalTile tile3 = new NormalTile(13, 3, game);
->>>>>>> origin/master
 
 	Game game=TileOApplication.getCurrentGame();
 
@@ -101,7 +93,7 @@ public class BoardPanel extends JPanel {
 			g2d.fill(rectangle.coordRectangle);
 		}
 		
-		if(game.getMode()==Game.Mode.DESIGN){
+		if(game.getMode() == Game.Mode.DESIGN){
 			for(Rectangle2DCoord rectangle: rectangles){
 				g2d.setColor(new Color(230, 230, 230));
 				g2d.draw(rectangle.coordRectangle);
