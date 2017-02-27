@@ -238,6 +238,7 @@ public class DesignPage extends JFrame {
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
+			board.mode = Mode.PLACE_PLAYER;
 		}
 	}
 	
@@ -262,6 +263,7 @@ public class DesignPage extends JFrame {
 			}
 			model = new DefaultComboBoxModel(playerToAddList);
 			playerToAdd.setModel(model);
+			board.playerNumber=currentNumberOfPlayers;
 		}
 	}
 	

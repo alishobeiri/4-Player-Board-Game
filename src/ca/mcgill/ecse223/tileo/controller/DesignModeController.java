@@ -89,7 +89,7 @@ public class DesignModeController {
 	}
     
 
-	public void assignStartingTile(int x, int y, int playerNumber) throws InvalidInputException {
+	public Tile assignStartingTile(int x, int y, int playerNumber) throws InvalidInputException {
 		Game game=TileOApplication.getCurrentGame();
 		Player player;
 		try{
@@ -97,16 +97,13 @@ public class DesignModeController {
 		}catch(Exception e){
 			player=new Player(playerNumber, game);
 		}
-		boolean found=false;
 		for(Tile tile : game.getTiles()){
 			if(tile.getX()==x && tile.getY()==y){
-				found=true;
 				player.setStartingTile(tile);
+				return tile;
 			}
 		}
-		if(!found){
-			throw new InvalidInputException("The tile could not be found");
-		}		
+		throw new InvalidInputException("The tile could not be found");	
 	}
 	
 	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn) throws InvalidInputException{
@@ -130,6 +127,51 @@ public class DesignModeController {
 		for(int i=0;i<loseTurn;i++){
 			new LoseTurnActionCard("You have lost your turn", deck);
 		}
+	}
+	
+	public void addConnection(Tile tileOne, Tile tileTwo) throws InvalidInputException
+	{
+		Game game = TileOApplication.getCurrentGame();
+		if(!(game.getTiles().contains(tileOne)) || !(game.getTiles().contains(tileTwo)))
+		{
+			throw new InvalidInputException("There is no tile in that space.");
+		}
+		else if(areAdjacent(tileOne, tileTwo) == false)
+		{
+			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
+		}
+		
+		Connection connector = new Connection(game);
+		connector.addTile(tileOne);
+		connector.addTile(tileTwo);
+		
+		return;
+	}
+	
+	public boolean areAdjacent(Tile tile1, Tile tile2) {
+		List<Connection> connections = tile1.getConnections();
+
+		for (Connection c : connections) {
+			if (c.getTiles().contains(tile1) && c.getTiles().contains(tile2)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	public void removeConnection(Connection connector)
+	{
+		connector.delete();
+	}
+	
+	public void chooseHiddenTile(Tile tile)
+	{
+		Game game = TileOApplication.getCurrentGame();
+		int tileX = tile.getX();
+		int tileY = tile.getY();
+		tile.delete();
+		WinTile hiddenTile = new WinTile(tileX, tileY,game);
 	}
 	
 	

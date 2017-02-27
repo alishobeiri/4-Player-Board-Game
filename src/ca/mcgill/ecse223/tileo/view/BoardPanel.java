@@ -157,10 +157,6 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
-	public void showMessage(String s){
-		JOptionPane.showMessageDialog(null, s);
-	}
-	
 	public void removeTile(Rectangle2DCoord rect){
 		DesignModeController toc=new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
@@ -183,13 +179,14 @@ public class BoardPanel extends JPanel {
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){
+		System.out.println("Hello");
 		DesignModeController toc = new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
-			Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + rect.coordX, rect.coordY, HEIGHT);
 			try {
-				NormalTile t=toc.addNormalTile(rect.coordX, rect.coordY);
-				toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
+				Tile t = toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
 				boardTiles.put(rect, t);
+				System.out.println("Added player");
+				Ellipse2D.Double circl= new Ellipse2D.Double(rect.coordX, rect.coordY, 2, 2);
 				repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
