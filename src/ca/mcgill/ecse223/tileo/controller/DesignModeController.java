@@ -140,7 +140,7 @@ public class DesignModeController {
 		{
 			throw new InvalidInputException("There is no tile in that space.");
 		}
-		else if(areAdjacent(tileOne, tileTwo) == false)
+		else if(checkAdjacentTiles(tileOne, tileTwo) == false)
 		{
 			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
 		}
@@ -152,17 +152,30 @@ public class DesignModeController {
 		return;
 	}
 	
-	public boolean areAdjacent(Tile tile1, Tile tile2) {
-		List<Connection> connections = tile1.getConnections();
-
-		for (Connection c : connections) {
-			if (c.getTiles().contains(tile1) && c.getTiles().contains(tile2)) {
-				return true;
-			}
+	public boolean checkAdjacentTiles(Tile tile1, Tile tile2)
+	{
+		int xOne = tile1.getX();
+		int xTwo = tile1.getX();
+		int yOne = tile1.getY();
+		int yTwo = tile1.getY();
+		boolean adjacent = true;
+		if(Math.abs(xOne - xTwo) > 1)
+		{
+			adjacent = false;
 		}
+		if(Math.abs(yOne - yTwo) > 1)
+		{
+			adjacent = false;
+		}
+		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
+		{
+			adjacent = false;
+		}
+		
 
-		return false;
+		return adjacent;
 	}
+
 	
 	public void removeConnection(Connection connector)
 	{
