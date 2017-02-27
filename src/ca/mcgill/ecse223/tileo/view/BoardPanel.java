@@ -97,7 +97,7 @@ public class BoardPanel extends JPanel {
 			g2d.fill(rectangle.coordRectangle);
 		}
 		
-		if(game.getMode()==Game.Mode.GAME){
+		if(game.getMode()==Game.Mode.DESIGN){
 			for(Rectangle2DCoord rectangle: rectangles){
 				g2d.setColor(new Color(230, 230, 230));
 				g2d.draw(rectangle.coordRectangle);

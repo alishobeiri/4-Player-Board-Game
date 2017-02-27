@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
@@ -18,6 +19,7 @@ public class DesignPage extends JFrame {
 	
 	//Value Fields
 	private int rollDieCards, connectTilesCards, removeConnectionCards, teleportCards, loseTurnCards;
+	private Game game;
 	
 	DeckSetUpPage deckSetUp = new DeckSetUpPage(this);
 	
@@ -52,6 +54,8 @@ public class DesignPage extends JFrame {
 	//Constructor
 	public DesignPage(){
 		setTitle("New Game");
+		game=TileOApplication.getCurrentGame();
+		game.setMode(Game.Mode.DESIGN);
 		initComponents();
 	}
 	

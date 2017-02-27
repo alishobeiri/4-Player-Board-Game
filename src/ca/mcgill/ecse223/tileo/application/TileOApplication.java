@@ -12,7 +12,7 @@ import ca.mcgill.ecse223.tileo.view.TileOPage;
 public class TileOApplication {
 	private static TileO tileO;
 	private static String filename = "data.tileO";
-	private static GamePage designPage;
+	private static DesignPage designPage;
 	
 	public static void main(String args[]){
 		// Thomas - not actually sure this is the right way to do this
@@ -22,8 +22,10 @@ public class TileOApplication {
 		TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+            	
+            	//Check the setMode here
             	game.setMode(Game.Mode.GAME);
-            	designPage=new GamePage();
+            	designPage=new DesignPage();
                 designPage.setVisible(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);

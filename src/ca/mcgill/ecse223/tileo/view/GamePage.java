@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.Game;
@@ -12,6 +13,7 @@ public class GamePage extends JFrame {
 
 	// data elements
 	private String error = null;
+	private Game game;
 
 	// TESTING
 	public static void main(String[] args) {
@@ -33,6 +35,8 @@ public class GamePage extends JFrame {
 	JLabel currentPlayer = new JLabel("Player 1");
 
 	public GamePage() {
+		game=TileOApplication.getCurrentGame();
+		game.setMode(Game.Mode.GAME);
 		initComponents();
 	}
 
