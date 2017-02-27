@@ -225,7 +225,6 @@ public abstract class Tile implements Serializable
     {
       return wasSet;
     }
-
     Game existingGame = game;
     game = aGame;
     if (existingGame != null && !existingGame.equals(aGame))

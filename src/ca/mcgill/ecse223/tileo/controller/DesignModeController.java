@@ -19,7 +19,7 @@ public class DesignModeController {
      */
     public void createGame(int numberOfPlayers) throws InvalidInputException{
         TileO app = TileOApplication.getTileO();
-        game = new Game(Game.SpareConnectionPieces, app);
+        Game game = new Game(Game.SpareConnectionPieces, app);
 
         if(numberOfPlayers<Game.minimumNumberOfPlayers() ||
            numberOfPlayers>Game.maximumNumberOfPlayers()){
@@ -28,7 +28,7 @@ public class DesignModeController {
 
         Player[] players = new Player[numberOfPlayers];
         for(int i = 0; i < numberOfPlayers; i++){
-            players[i] = game.addPlayer(i)
+            players[i] = game.addPlayer(i);
         }
 
     }
@@ -48,7 +48,7 @@ public class DesignModeController {
             throw 
               new InvalidInputException("Tile already exists at that location");
         }
-        Tile tile = new Tile(X, Y, game);
+        Tile tile = new NormalTile(X, Y, game);
     }
     /* Removes a tile from the game board at the specified location
      *
@@ -68,7 +68,7 @@ public class DesignModeController {
             tile.delete();
         }
     }
-    private Tile getTileFromBoard(int X, int Y, List<Tile> board){
+    private Tile getTileFromBoard(int x, int y, List<Tile> board){
         for(Tile t : board){
             if(t.getX()==x && t.getY()==y){
                 return t;
