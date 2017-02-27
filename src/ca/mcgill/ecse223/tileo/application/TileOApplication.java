@@ -4,6 +4,7 @@ import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel;
 import ca.mcgill.ecse223.tileo.view.DeckPanel;
+import ca.mcgill.ecse223.tileo.view.DesignPage;
 import ca.mcgill.ecse223.tileo.view.GamePage;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
 
@@ -20,7 +21,7 @@ public class TileOApplication {
 		TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TileOPage().setVisible(true);
+                new DesignPage().setVisible(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
             }

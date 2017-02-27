@@ -38,7 +38,7 @@ public class DeckSetUpPage extends JFrame{
 	
 	public void initComponents(){
 		//Frame settings
-		setSize(600, 380);
+		setSize(625, 400);
 		setResizable(false);
 		
 		for(int i = 0; i < 32; i++){

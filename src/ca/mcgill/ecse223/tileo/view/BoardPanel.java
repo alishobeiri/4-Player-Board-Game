@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.*;
 
 import javax.swing.*;
@@ -127,14 +128,26 @@ public class BoardPanel extends JPanel {
 			//TODO: Insert real addTile method from the controller
 			
 			if(tileType == TileType.NORMAL){
-				NormalTile t = new NormalTile(rect.coordX, rect.coordY, game);
+				NormalTile t=null;
+				try {
+					t = toc.addNormalTile(rect.coordX, rect.coordY);
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				gameTiles.add(t);
 				boardTiles.put(rect, t);
 				repaint();
 				System.out.println("Normal Tile");
 			}
 			else if(tileType == TileType.ACTION){
-				ActionTile t = new ActionTile(rect.coordX, rect.coordY, game, inactiveTurns);
+				ActionTile t = null;
+				try {
+					t=toc.addActionTile(rect.coordX, rect.coordY, inactiveTurns);
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Tile already here");
+				}
 				gameTiles.add(t);
 				boardTiles.put(rect, t);
 				repaint();
@@ -156,10 +169,15 @@ public class BoardPanel extends JPanel {
 	
 	
 	public void removeTile(Rectangle2DCoord rect){
+		DesignModeController toc=new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			
 			//TODO: Insert real removeTile method from the controller
-			
+			try{
+				toc.removeTile(rect.coordX, rect.coordY);
+			}catch (Exception e){
+				System.out.println("Could not print tile");
+			}
 			Tile t = boardTiles.get(rect);
 			gameTiles.remove(t); //TODO: Check if this is still necessary
 			boardTiles.remove(rect);
@@ -174,8 +192,18 @@ public class BoardPanel extends JPanel {
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){
+		DesignModeController toc = new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
-
+			Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + rect.coordX, rect.coordY, HEIGHT);
+			try {
+				NormalTile t=toc.addNormalTile(rect.coordX, rect.coordY);
+				gameTiles.add(t);
+				boardTiles.put(rect, t);
+				repaint();
+			} catch (InvalidInputException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else{
 			System.out.println("Please choose a valid tile");
 		}

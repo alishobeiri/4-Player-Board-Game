@@ -41,14 +41,14 @@ public class DesignModeController {
      *                               if x and y are out of range
      */
 
-    public void addTile(int X, int Y) throws InvalidInputException{
+    public NormalTile addNormalTile(int X, int Y) throws InvalidInputException{
         Game game = TileOApplication.getCurrentGame();
         List<Tile> tiles = game.getTiles();
         if(getTileFromBoard(X, Y, tiles) != null){
             throw 
               new InvalidInputException("Tile already exists at that location");
         }
-        Tile tile = new NormalTile(X, Y, game);
+        return new NormalTile(X, Y, game);
     }
     /* Removes a tile from the game board at the specified location
      *
@@ -76,23 +76,17 @@ public class DesignModeController {
         }
         return null;
     }
-	public void createNewActionTile(int x, int y, int numTurns) throws InvalidInputException{
+	public ActionTile addActionTile(int x, int y, int numTurns) throws InvalidInputException{
 		TileO tileO=TileOApplication.getTileO();
 		Game game=TileOApplication.getCurrentGame();
 		List<Tile> list=game.getTiles();
-		for(Tile tile: list){
-			if(tile.getX()==x && tile.getY()==y){
-				throw new InvalidInputException("A tile already exists in that position.");
-			}
-		try{
-			new ActionTile(x, y, game, numTurns);
-			TileOApplication.save();
-		}catch(RuntimeException e){
-			throw new InvalidInputException("Error");
+		if(getTileFromBoard(x, y, list)!=null){
+			throw new InvalidInputException("Tile already exists at that location");
 		}
+		ActionTile t = new ActionTile(x, y, game, numTurns);
+		TileOApplication.save();
 		game.setMode(Mode.DESIGN);
-		new ActionTile(x, y, game, numTurns);
-		}
+		return t;
 	}
     
 
