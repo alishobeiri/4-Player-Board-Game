@@ -1,6 +1,9 @@
 package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
+
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
@@ -18,7 +21,7 @@ public class DeckSetUpPage extends JFrame{
 	JLabel removeConnectionCard = new JLabel("Remove Connection Action Card");
 	JLabel teleportCard = new JLabel("Teleport Action Card");
 	JLabel loseTurnCard = new JLabel("Lose Turn Action Card");
-	Integer[] nums = new Integer[32];
+	Integer[] nums = new Integer[33];
 	JComboBox rollDieNum;
 	JComboBox connectTilesNum;
 	JComboBox removeConnectionNum;
@@ -41,8 +44,8 @@ public class DeckSetUpPage extends JFrame{
 		setSize(625, 400);
 		setResizable(false);
 		
-		for(int i = 0; i < 32; i++){
-			nums[i] = i+1;
+		for(int i = 0; i <= 32; i++){
+			nums[i] = i;
 		}
 		
 		//Button Listener
@@ -191,10 +194,22 @@ public class DeckSetUpPage extends JFrame{
 			values[3] = (int) teleportNum.getSelectedItem();
 			values[4] = (int) loseTurnNum.getSelectedItem();
 			
-			designPage.setCardNumbers(values);
+			try {
+				designPage.setCardNumbers(values);
+				dispose();
+			} catch (InvalidInputException e) {
+				showErrorMessage("Please choose a value of cards that adds up to 32");
+			}
 			
-			dispose();
+			
+		}
+		
+		public void showErrorMessage(String s){
+			JOptionPane.showMessageDialog(null, s);
 		}
 	}
+	
+	
+	
 
 }

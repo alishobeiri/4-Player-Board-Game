@@ -206,6 +206,10 @@ public class Deck implements Serializable
       existingGame.delete();
     }
   }
+  
+  public void clearDeck(){
+	  cards.clear();
+  }
 
 //Thomas
 public void shuffle() {

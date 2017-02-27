@@ -112,7 +112,8 @@ public class DesignModeController {
 	
 	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn) throws InvalidInputException{
 		Game game=TileOApplication.getCurrentGame();
-		Deck deck=new Deck(game);
+		Deck deck=game.getDeck();
+		deck.clearDeck();
 		if(rollDie+addConnect+removeConnect+teleport+loseTurn!=32){
 			throw new InvalidInputException("Please make sure the total number of cards adds up to 32");
 		}

@@ -218,6 +218,8 @@ public class BoardPanel extends JPanel {
 					}
 					else if(mode == Mode.PLACE_PLAYER){
 						addPlayer(rect);
+					}else if(mode == Mode.ADD_CONNECTION){
+						//addConnection()
 					}
 				}
 			}

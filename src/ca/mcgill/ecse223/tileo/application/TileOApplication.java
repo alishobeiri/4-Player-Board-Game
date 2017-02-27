@@ -25,8 +25,9 @@ public class TileOApplication {
             	
             	//Check the setMode here
             	//game.setMode(Game.Mode.GAME);
-            	mainMenu = new TileOPage();
+            	DesignPage mainMenu= new DesignPage(" ", 4);
             	mainMenu.setVisible(true);
+            	mainMenu.setResizable(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
             }

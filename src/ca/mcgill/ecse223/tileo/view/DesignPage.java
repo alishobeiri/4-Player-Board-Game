@@ -3,6 +3,8 @@ package ca.mcgill.ecse223.tileo.view;
 import javax.swing.*;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
+import ca.mcgill.ecse223.tileo.controller.DesignModeController;
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
@@ -167,12 +169,14 @@ public class DesignPage extends JFrame {
 		
 	}
 	
-	public void setCardNumbers(int[] values){
+	public void setCardNumbers(int[] values) throws InvalidInputException{
+		DesignModeController toc=new DesignModeController();
 		rollDieCards = values[0];
 		connectTilesCards = values[1];
 		removeConnectionCards = values[2];
 		teleportCards = values[3];
 		loseTurnCards = values[4];
+		toc.buildDeck(values[0], values[1], values[2], values[3], values[4]);
 	}
 	
 	public void setFrameName(String name){
@@ -193,8 +197,7 @@ public class DesignPage extends JFrame {
 	
 	class HiddenTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			board.tileType = TileType.WIN
-					;
+			board.tileType = TileType.WIN;
 		}
 	}
 	
@@ -230,6 +233,7 @@ public class DesignPage extends JFrame {
 	class AddConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Add Connection");
+			board.mode = Mode.ADD_CONNECTION;
 		}
 	}
 	
@@ -239,7 +243,7 @@ public class DesignPage extends JFrame {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	class NumberOfPlayersListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			int currentNumberOfPlayers = (int) numberOfPlayers.getSelectedItem();
@@ -253,9 +257,7 @@ public class DesignPage extends JFrame {
 		}
 	}
 	
-	
-=======
->>>>>>> origin/master
+
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			board.inactiveTurns = (int) inactiveTurns.getSelectedItem();
