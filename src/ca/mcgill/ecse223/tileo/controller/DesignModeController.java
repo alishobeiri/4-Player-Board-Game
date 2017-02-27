@@ -96,7 +96,7 @@ public class DesignModeController {
 		try{
 			player=game.getPlayer(playerNumber-1);
 		}catch(Exception e){
-			throw new InvalidInputException("Player does not exist or might not have been initialized");
+			player=new Player(playerNumber, game);
 		}
 		boolean found=false;
 		for(Tile tile : game.getTiles()){

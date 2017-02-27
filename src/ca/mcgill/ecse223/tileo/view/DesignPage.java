@@ -261,6 +261,7 @@ public class DesignPage extends JFrame {
 		}
 	}
 	
+	
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			board.inactiveTurns = (int) inactiveTurns.getSelectedItem();
