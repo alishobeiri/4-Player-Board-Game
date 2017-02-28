@@ -89,7 +89,8 @@ public class DesignPage extends JFrame {
 		setDeck.addActionListener(new SetDeckListener());
 		
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
-		
+
+		play.addActionListener(new PlayGameListener());
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
 		setLayout(layout);
@@ -183,6 +184,10 @@ public class DesignPage extends JFrame {
 	public void setFrameName(String name){
 		setTitle(name);
 	}
+
+	public void changeFrame(){
+
+	}
 	
 	class NormalTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -253,6 +258,12 @@ public class DesignPage extends JFrame {
 	class PlayerToAddListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			board.playerNumber=(int)playerToAdd.getSelectedItem();
+		}
+	}
+
+	class PlayGameListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			TileOApplication.changeGameMode();
 		}
 	}
 	

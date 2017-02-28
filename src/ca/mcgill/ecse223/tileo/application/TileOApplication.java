@@ -13,11 +13,14 @@ public class TileOApplication {
 	private static TileO tileO;
 	private static String filename = "data.tileO";
 	private static TileOPage mainMenu;
-	
+	private static DesignPage designPage;
+	private static GamePage gamePage;
+
 	public static void main(String args[]){
 		// Thomas - not actually sure this is the right way to do this
 		// start UI
 		TileO tileO=TileOApplication.getTileO();
+		designPage = new DesignPage(" ", 4);
 		//Game game=new Game(0, tileO);
 		//TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -25,9 +28,8 @@ public class TileOApplication {
             	
             	//Check the setMode here
             	//game.setMode(Game.Mode.GAME);
-            	DesignPage mainMenu= new DesignPage(" ", 4);
-            	mainMenu.setVisible(true);
-            	mainMenu.setResizable(true);
+            	TileOApplication.designPage.setVisible(true);
+            	TileOApplication.designPage.setResizable(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
             }
@@ -54,6 +56,23 @@ public class TileOApplication {
 		tileO.setCurrentGame(aNewCurrentGame);
 		wasSet = true;
 		return wasSet;
+	}
+
+	public static void changeGameMode(){
+		gamePage = new GamePage();
+		java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+            	
+            	//Check the setMode here
+            	//game.setMode(Game.Mode.GAME);
+            	getCurrentGame().setMode(Game.Mode.GAME);
+            	TileOApplication.designPage.setVisible(false);
+            	TileOApplication.gamePage.setVisible(true);
+            	TileOApplication.gamePage.setResizable(true);
+                //TODO remove following line after testing
+//                new GamePage().setVisible(true);
+            }
+        });
 	}
 	
 	public static void save() {
