@@ -118,6 +118,10 @@ public class TileOApplication {
 		PersistenceObjectStream.serialize(tileO);
 	}
 	
+	public static GamePage getDesignPanel(){
+		return gamePage;
+	}
+	
 	// TODO basically copy the code from BTMS
 	public static TileO load() {
 		PersistenceObjectStream.setFilename(filename);

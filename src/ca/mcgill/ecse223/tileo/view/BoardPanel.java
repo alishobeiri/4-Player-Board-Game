@@ -36,7 +36,7 @@ public class BoardPanel extends JPanel {
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 1;
-	int playerNumber=1;
+	int playerNumber = 1;
 	Rectangle2DCoord currentWinRectangle = null;
 	Rectangle2DCoord prev = null;
 	
@@ -337,8 +337,28 @@ public class BoardPanel extends JPanel {
 	}
 
 	public void movePlayer(Rectangle2DCoord rect){
+		int playerNumber;
 		if(rect.color.equals(Color.YELLOW)){
+			playerNumber=game.getCurrentPlayer().getNumber();
+			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
+			switch(game.getCurrentPlayer().getColorFullName()){
+				case "RED":
+					circle.setColor(Color.RED);
+					break;
+				case "YELLOW":
+					circle.setColor(Color.YELLOW);
+					break;
+				case "BLUE":
+					circle.setColor(Color.BLUE);
+					break;
+				case "GREEN":
+					circle.setColor(Color.GREEN);
+					break;
+			}
+			playerTiles.put(playerNumber, circle);
 			System.out.println("Homie we made it");
+			TileOApplication.getDesignPanel().setHasRolled(false);
+			repaint();
 		}else{
 			showMessage("Please select a valid tile");
 		}
@@ -371,18 +391,18 @@ public class BoardPanel extends JPanel {
 				Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
 				playerTiles.put(playerNumber, circle);
 				switch(playerNumber){
-				case 1:
-					circle.setColor(Color.RED);
-					break;
-				case 2:
-					circle.setColor(Color.BLUE);
-					break;
-				case 3:
-					circle.setColor(Color.YELLOW);
-					break;
-				case 4:
-					circle.setColor(Color.GREEN);
-					break;
+					case 1:
+						circle.setColor(Color.RED);
+						break;
+					case 2:
+						circle.setColor(Color.BLUE);
+						break;
+					case 3:
+						circle.setColor(Color.YELLOW);
+						break;
+					case 4:
+						circle.setColor(Color.GREEN);
+						break;
 				}
 				System.out.println("Added player");
 				repaint();
@@ -439,7 +459,7 @@ public class BoardPanel extends JPanel {
 							removeConnection(prev, rect);
 							prev = null;
 						}
-					}else if(mode == Mode.MOVE_PLAYER){
+					}else if(mode == Mode.MOVE_PLAYER && TileOApplication.getDesignPanel().getHasRolled()){
 						movePlayer(rect);
 					}
 				}
@@ -495,6 +515,7 @@ public class BoardPanel extends JPanel {
 		int coordX;
 		int coordY;
 		Color color;
+		Player player;
 		
 		public Ellipse2DCoord(int x, int y){
 			coordX = x;
