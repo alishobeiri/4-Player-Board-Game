@@ -73,6 +73,9 @@ public class BoardPanel extends JPanel {
 		return null;
 	}
 	
+	public void setMode(Mode m){
+		this.mode=m;
+	}
 	// Constructor
 	public BoardPanel(Game.Mode m){
 		//TESTING TODO: REMOVE
@@ -337,7 +340,9 @@ public class BoardPanel extends JPanel {
 		return rectangles;
 	}
 	
-
+	public void refreshBoard(){
+		repaint();
+	}
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){

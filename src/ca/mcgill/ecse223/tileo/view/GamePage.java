@@ -35,6 +35,7 @@ public class GamePage extends JFrame {
 		game=TileOApplication.getCurrentGame();
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
+		board.setMode(BoardPanel.Mode.GAME);
 		board.setVisible(true);
 		initComponents();
 	}
