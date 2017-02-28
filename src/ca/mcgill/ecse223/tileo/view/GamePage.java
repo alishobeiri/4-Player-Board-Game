@@ -16,7 +16,8 @@ public class GamePage extends JFrame {
 	// data elements
 	private String error = null;
 	private Game game;
-
+	
+	Boolean hasRolled=false;
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board;
@@ -101,6 +102,10 @@ public class GamePage extends JFrame {
 						.addComponent(finishTurn)
 						.addComponent(save)));
 	}
+	
+	public void setHasRolled(Boolean flag){
+		hasRolled=flag;
+	}
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
@@ -111,34 +116,52 @@ public class GamePage extends JFrame {
 	class rollDieListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
-			rollDieActionPerformed(ev);
+			if(!hasRolled){
+				rollDieActionPerformed(ev);
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
 	class finishTurnListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
+			if(!hasRolled){
+				
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
 	class addConnectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
+			if(!hasRolled){
+				
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
 	class removeConnectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
+			if(!hasRolled){
+				
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
-	// Thomas
-	// TODO Implement this
+
 	public void rollDieActionPerformed(ActionEvent ev) {
 		// clear error message
 		error = null;
-  
+		hasRolled=true;
 		// Call the controller
 		PlayModeController toc = new PlayModeController();
 		Game game = TileOApplication.getCurrentGame();
@@ -159,7 +182,7 @@ public class GamePage extends JFrame {
 				rect.setColor(Color.YELLOW);
 			}
 		}
-		
+		board.setMode(BoardPanel.Mode.MOVE_PLAYER);
 		board.refreshBoard();
 		// update die visual
 	}
