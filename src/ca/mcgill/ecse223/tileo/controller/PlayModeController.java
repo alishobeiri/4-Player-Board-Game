@@ -338,11 +338,6 @@ public class PlayModeController {
 		Game game = tile.getGame();
 		List<Tile> tiles = game.getTiles();
 		// If the tile is in the list of game tiles
-		if(tile instanceof WinTile){
-			TileOApplication.getDesignPanel().refresh();
-			TileOApplication.getDesignPanel().showMessage("You have found the hidden tile and won the game, good job big boy!");
-			TileOApplication.deleteGame();
-		}
 		if(tiles.indexOf(tile)!=-1){
 			tile.land();
 			//TileOApplication.save();
