@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.Font;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 import java.awt.event.*;
@@ -36,6 +37,7 @@ public class TileOPage extends JFrame {
 		tileOGames = tileO.getGames();
 		model = new DefaultListModel();
 		games = new JList(model);
+		TileOApplication.setMainMenu(this);
 		initComponents();
 	}
 	
@@ -131,7 +133,9 @@ public class TileOPage extends JFrame {
 				g = existingGames.get(gameName);
 				dmc.setTileOApplicationCurrentGame(g);
 			}
-			new DesignPage(getPage()).setVisible(true);
+			DesignPage designPage=new DesignPage(getPage());
+			TileOApplication.addPrevDesignGame(designPage);
+			designPage.setVisible(true);
 		}
 	}
 	

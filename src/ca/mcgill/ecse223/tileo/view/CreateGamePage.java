@@ -76,6 +76,8 @@ public class CreateGamePage extends JFrame {
 				.addComponent(line, 10, 10, 10)
 				.addComponent(create)
 		);
+		
+		
 	}
 	
 	class CreateListener implements ActionListener{
@@ -85,16 +87,15 @@ public class CreateGamePage extends JFrame {
 			try{
 				dmc.createGame(players);
 				TileO tileO = TileOApplication.getTileO();
-				
 				System.out.println(tileO.getGames().size());
 			}
 			catch(InvalidInputException e){
 				System.out.println(e.getMessage());
 			}
-			DesignPage designPage=new DesignPage(mainMenu);
-			designPage.setVisible(true);
-			//TileOApplication.setDesignGame(designPage);
+			TileOApplication.createDesignGame(mainMenu);
 			dispose();
 		}
+		
+
 	}
 }

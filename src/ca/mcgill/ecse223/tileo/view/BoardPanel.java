@@ -80,6 +80,15 @@ public class BoardPanel extends JPanel {
 		initComponents();
 		addMouseListener(new MouseSelectionListener());
 	}
+	
+	public BoardPanel(BoardPanel oldBoard){
+		this.boardConnections=oldBoard.boardConnections;
+		this.boardTiles=oldBoard.boardTiles;
+		this.connectors=oldBoard.connectors;
+		this.rectangles=oldBoard.rectangles;
+		this.playerTiles=oldBoard.playerTiles;
+		this.mode=BoardPanel.Mode.GAME;
+	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -112,13 +121,6 @@ public class BoardPanel extends JPanel {
 			g2d.draw(rectangle.coordRectangle);
 		}
 		
-		for(Ellipse2DCoord circle: playerTiles.values()){
-			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
-			g2d.setColor(circle.color);
-			g2d.fill(player);
-		}
-		
-		
 		for(Connector2D connector: connectors){
 			g2d.setColor(Color.DARK_GRAY);
 			g2d.fill(connector.c);
@@ -137,6 +139,15 @@ public class BoardPanel extends JPanel {
 			g2d.setColor(Color.BLACK);
 			g2d.draw(currentWinRectangle.coordRectangle);
 		}
+		
+		for(Ellipse2DCoord circle: playerTiles.values()){
+			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
+			g2d.setColor(circle.color);
+			g2d.fill(player);
+		}
+		
+		
+
 
 
 	}
@@ -492,7 +503,7 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME
 	}
 	
 	public enum TileType{

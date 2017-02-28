@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.application;
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel;
+import ca.mcgill.ecse223.tileo.view.CreateGamePage;
 import ca.mcgill.ecse223.tileo.view.DeckPanel;
 import ca.mcgill.ecse223.tileo.view.DesignPage;
 import ca.mcgill.ecse223.tileo.view.GamePage;
@@ -15,6 +16,8 @@ public class TileOApplication {
 	private static TileOPage mainMenu;
 	private static DesignPage designPage;
 	private static GamePage gamePage;
+	private static BoardPanel board;
+	private static CreateGamePage createPage;
 
 	public static void main(String args[]){
 
@@ -24,8 +27,6 @@ public class TileOApplication {
 
 		//Game game=new Game(0, tileO);
 		//TileOApplication.setCurrentGame(game);
-		TileOPage menu = new TileOPage(tileO);
-		designPage = new DesignPage(menu);
 		//game.addPlayer(new Player(0, game));
 
 		//TileOApplication.setCurrentGame(game);
@@ -67,7 +68,6 @@ public class TileOApplication {
 	}
 
 	public static void changeGameMode(BoardPanel board){
-		gamePage = new GamePage(board);
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	Game game=getCurrentGame();
@@ -77,9 +77,11 @@ public class TileOApplication {
             	System.out.println("Num of cards " + game.getDeck().numberOfCards());
             	//Check the setMode here
             	//game.setMode(Game.Mode.GAME);
+            	
             	getCurrentGame().setMode(Game.Mode.GAME);
-            	TileOApplication.designPage.setVisible(false);
-            	designPage.dispose();
+            	//board.setVisible(true);
+            	designPage.deleteWindow();
+        		gamePage = new GamePage(board);
             	TileOApplication.gamePage.setVisible(true);
             	TileOApplication.gamePage.setResizable(true);
                 //TODO remove following line after testing
@@ -88,7 +90,23 @@ public class TileOApplication {
         });
 	}
 	
-	public static void setDesignGame(DesignPage d){
+	public static void setMainMenu(TileOPage d){
+		mainMenu=d;
+	}
+	
+	public static void deleteDesign(){
+		designPage.setVisible(false);
+		mainMenu.setVisible(false);
+		designPage.dispose();
+	}
+	
+	public static void createDesignGame(TileOPage menu){
+		designPage=new DesignPage(menu);
+		board=designPage.getBoard();
+		designPage.setVisible(true);
+	}
+	
+	public static void addPrevDesignGame(DesignPage d){
 		designPage=d;
 	}
 	
@@ -112,5 +130,9 @@ public class TileOApplication {
 			
 		}
 		return tileO;
+	}
+	
+	public static void saveBoard(BoardPanel oldBoard){
+		board=new BoardPanel(oldBoard);
 	}
 }

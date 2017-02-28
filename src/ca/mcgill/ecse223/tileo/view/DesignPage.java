@@ -71,6 +71,10 @@ public class DesignPage extends JFrame {
 		
 	}
 	
+	public BoardPanel getBoard(){
+		return board;
+	}
+	
 	public void initComponents(){
 		setSize(885, 682);
 		setResizable(false);
@@ -210,13 +214,14 @@ public class DesignPage extends JFrame {
 		setTitle(name);
 	}
 
-	public void changeFrame(){
-
+	public void deleteWindow(){
+		this.setResizable(false);
+		TileOApplication.saveBoard(board);
+		board.setVisible(false);
+		dispose();
 	}
 	
-	public BoardPanel getBoard(){
-		return board;
-	}
+
 	
 	class NormalTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -294,7 +299,7 @@ public class DesignPage extends JFrame {
 	
 	class PlayGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-
+		
 		PlayModeController poc=new PlayModeController();
 		try {
 			poc.startGame(TileOApplication.getCurrentGame());
