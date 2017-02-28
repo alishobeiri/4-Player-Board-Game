@@ -21,17 +21,29 @@ public class PlayModeController {
 		ActionCard newCard;
 		if(deck.indexOfCard(deck.getCurrentCard()) == deck.maximumNumberOfCards()){
 			deck.shuffle();
+			newCard = deck.getCurrentCard();
 		}
 		else{
 			newCard = deck.getCurrentCard();
 		}
+		if (newCard instanceof RollDieActionCard) {
+            game.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
+        } else if (newCard instanceof ConnectTilesActionCard) {
+            game.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
+        } else if (newCard instanceof RemoveConnectionActionCard) {
+            game.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+        } else if (newCard instanceof TeleportActionCard) {
+            game.setMode(Game.Mode.GAME_TELEPORTACTIONCARD);
+        } else if (newCard instanceof LoseTurnActionCard) {
+            game.setMode(Game.Mode.GAME_LOSETURNACTIONCARD);
+        }
 			
 		newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
 		deck.setCurrentCard(newCard);
 		return newCard;
 	}
 	
-	public void action(){
+	/*public void action(){
 		Game game = TileOApplication.getCurrentGame();
 		Game.Mode mode = game.getMode();
 		
@@ -53,7 +65,7 @@ public class PlayModeController {
 		else if(mode == Mode.GAME_TELEPORTACTIONCARD){
 			
 		}
-	}
+	}*/
 
 	public List<Tile> playRollDieActionCard() throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
