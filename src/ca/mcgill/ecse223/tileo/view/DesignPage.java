@@ -5,7 +5,7 @@ import javax.swing.*;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
-import ca.mcgill.ecse223.tileo.model.Game;
+import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
 
@@ -22,7 +22,6 @@ public class DesignPage extends JFrame {
 	//Value Fields
 	private int rollDieCards, connectTilesCards, removeConnectionCards, teleportCards, loseTurnCards;
 	private int players;
-	private String title;
 	private Game game;
 	
 	DeckSetUpPage deckSetUp = new DeckSetUpPage(this);
@@ -48,20 +47,32 @@ public class DesignPage extends JFrame {
 	JButton removeConnection = new JButton("Remove Connection");
 	JButton play = new JButton("Play Game");
 	JButton save = new JButton("Save");
+	TileOPage mainMenu;
 	
 	//Constructor
-	public DesignPage(String title, int aPlayers){
-		setTitle(title);
+	public DesignPage(int aPlayers, TileOPage aMainMenu){
+		mainMenu = aMainMenu;
 		players = aPlayers;
 		game = TileOApplication.getCurrentGame();
 		game.setMode(Game.Mode.DESIGN);
 		initComponents();
 	}
 	
+	public DesignPage(Game aGame, TileOPage aMainMenu){
+		mainMenu = aMainMenu;
+		game = aGame;
+		initComponents();
+	}
+	
+	public void initExistingGameComponents(){
+		players = game.getPlayers().size();
+		Deck deck = game.getDeck();
+		
+	}
+	
 	public void initComponents(){
 		setSize(885, 682);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mode.setFont(new Font("San Francisco", Font.PLAIN, 20));
 		currentMode.setFont(new Font("San Francisco", Font.BOLD, 20));
@@ -92,6 +103,8 @@ public class DesignPage extends JFrame {
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
 		
 		play.addActionListener(new PlayGameListener());
+		
+		save.addActionListener(new SaveListener());
 
 		//play.addActionListener(new PlayGameListener());
 		play.addActionListener(new PlayerToAddListener());
@@ -277,9 +290,19 @@ public class DesignPage extends JFrame {
 		}
 		
 	}
+	
 	class PlayGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+
 		TileOApplication.changeGameMode(getBoard());
+		}
+	}
+	
+	class SaveListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			DesignModeController dmc = new DesignModeController();
+			dmc.save();
+			mainMenu.refresh();
 		}
 	}
 }

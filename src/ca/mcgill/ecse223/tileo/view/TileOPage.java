@@ -1,10 +1,13 @@
 package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.Font;
+
+import ca.mcgill.ecse223.tileo.controller.DesignModeController;
+import ca.mcgill.ecse223.tileo.model.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class TileOPage extends JFrame {
 	
@@ -16,14 +19,23 @@ public class TileOPage extends JFrame {
 	JList games;
 	String[] gameNames = new String[10];
 	JScrollPane scroll;
+	TileO tileO;
+	List<Game> tileOGames;
+	DefaultListModel model;
+	HashMap <String, Game> existingGames = new HashMap<String, Game>();
+	
 	
 	//***TESTING***
-	public static void main(String[] args){
+	/*public static void main(String[] args){
 		new TileOPage().setVisible(true);
-	}
+	}*/
 	
 	//Constructor
-	public TileOPage(){
+	public TileOPage(TileO aTileO){
+		tileO = aTileO;
+		tileOGames = tileO.getGames();
+		model = new DefaultListModel();
+		games = new JList(model);
 		initComponents();
 	}
 	
@@ -35,16 +47,20 @@ public class TileOPage extends JFrame {
 		title.setFont(new Font("Futura", Font.BOLD, 38));
 		description.setFont(new Font("San Francisco", Font.PLAIN, 18));
 		
-		//***TESTING***
-		
-		gameNames[0] = "Game 1";
-		gameNames[1] = "Game 2";
-		gameNames[2] = "Game 3";
-		
-		games = new JList(gameNames);
-		games.setFont(new Font("San Francisco", Font.PLAIN, 15));
-		
 		scroll = new JScrollPane(games);
+		
+		for(int i = 0; i < tileOGames.size(); i++){
+			Game current = tileOGames.get(i);
+			int index = i+1;
+			existingGames.put("Game " + index + " - " + current.getMode(), current);
+		}
+		
+		for(String s: existingGames.keySet()){
+			System.out.println(s);
+			model.addElement(s);
+		}
+		
+		games.setFont(new Font("San Francisco", Font.PLAIN, 15));
 		
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -54,6 +70,8 @@ public class TileOPage extends JFrame {
 		
 		//Action Listener
 		create.addActionListener(new CreateListener());
+		
+		play.addActionListener(new PlayListener());
 		
 		//Component positioning
 		layout.setHorizontalGroup(layout.createParallelGroup()
@@ -77,10 +95,46 @@ public class TileOPage extends JFrame {
 						.addComponent(create)));
 	}
 	
+	public TileOPage getPage(){
+		return this;
+	}
+	
+	public void refresh(){
+		tileOGames = tileO.getGames();
+		model = new DefaultListModel();
+		for(int i = 0; i < tileOGames.size(); i++){
+			Game current = tileOGames.get(i);
+			int index = i+1;
+			existingGames.put("Game " + index + " - " + current.getMode(), current);
+		}
+		
+		for(String s: existingGames.keySet()){
+			System.out.println(s);
+			model.addElement(s);
+		}
+		
+		games.setModel(model);
+	}
+	
 	class CreateListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			new CreateGamePage().setVisible(true);
+			new CreateGamePage(getPage()).setVisible(true);
 		}
 	}
+	
+	class PlayListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			DesignModeController dmc = new DesignModeController();
+			Game g = null;
+			if(!games.isSelectionEmpty()){
+				String gameName = (String) games.getSelectedValue();
+				g = existingGames.get(gameName);
+				dmc.setTileOApplicationCurrentGame(g);
+			}
+			new DesignPage(g, getPage()).setVisible(true);
+		}
+	}
+	
+	
 	
 }
