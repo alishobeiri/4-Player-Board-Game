@@ -20,14 +20,13 @@ public class TileOApplication {
 		// Thomas - not actually sure this is the right way to do this
 		// start UI
 		TileO tileO=TileOApplication.getTileO();
-<<<<<<< HEAD
+
 		Game game=new Game(0, tileO);
 		TileOApplication.setCurrentGame(game);
-=======
 		designPage = new DesignPage(" ", 4);
 		//Game game=new Game(0, tileO);
 		//TileOApplication.setCurrentGame(game);
->>>>>>> origin/master
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	
