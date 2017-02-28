@@ -79,6 +79,7 @@ public class TileOApplication {
             	//game.setMode(Game.Mode.GAME);
             	getCurrentGame().setMode(Game.Mode.GAME);
             	TileOApplication.designPage.setVisible(false);
+            	designPage.dispose();
             	TileOApplication.gamePage.setVisible(true);
             	TileOApplication.gamePage.setResizable(true);
                 //TODO remove following line after testing
@@ -89,6 +90,10 @@ public class TileOApplication {
 	
 	public static void setDesignGame(DesignPage d){
 		designPage=d;
+	}
+	
+	public static void refreshDie(int number){
+		gamePage.refreshDie(number);
 	}
 	public static void save() {
 		// Thomas - not sure this is right, copied from btms, also copied persistence java file

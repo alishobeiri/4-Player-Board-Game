@@ -147,18 +147,26 @@ public class GamePage extends JFrame {
 		// need to update the visual with the number of the die roll but only
 		// the list of tiles is returned
 		ArrayList<Tile> tiles = toc.rollDie();
+		try{
 		for(Tile t : tiles){
 			BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 			if(rect != null){
 				rect.setColor(Color.YELLOW);
 			}
 		}
+		}catch(NullPointerException e){
+			showMessage("No possible moves for current player");
+		}
 		// update die visual
 	}
 
 	// Thomas
 	// TODO Fully implement
-	private void refresh(int number) {
+	public void refreshDie(int number) {
 		dieResult.setText(Integer.toString(number));
+	}
+	
+	public void showMessage(String s){
+		JOptionPane.showMessageDialog(null, s);
 	}
 }

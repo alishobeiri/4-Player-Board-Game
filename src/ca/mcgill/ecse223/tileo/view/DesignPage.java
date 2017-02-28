@@ -303,8 +303,6 @@ public class DesignPage extends JFrame {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		
-		TileOApplication.changeGameMode(getBoard());
 
 		}
 	}

@@ -602,7 +602,7 @@ public class Game implements Serializable
 		
 		// Get the current player
 		Player currentPlayer = this.getCurrentPlayer();
-
+		TileOApplication.refreshDie(dieValue);
 		//TODO Check getPossibleMoves is implemented
 		// Tiles is a list of possible moves the current player can make based
 		// on their die role
