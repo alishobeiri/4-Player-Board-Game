@@ -27,11 +27,12 @@ public class GamePage extends JFrame {
 	JButton removeConnection = new JButton("Remove Connection");
 	JTextField dieResult = new JTextField(20);
 	JLabel status = new JLabel("Current Player:");
-	JLabel currentPlayer = new JLabel("Player 1");
+	JLabel currentPlayer = new JLabel("Player ");
 	JButton save = new JButton("Save");
 
 	public GamePage(BoardPanel oldBoard) {
 		game=TileOApplication.getCurrentGame();
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
@@ -111,6 +112,11 @@ public class GamePage extends JFrame {
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
+			if(!hasRolled){
+				rollDieActionPerformed(ev);
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 			// TODO Add button functionality.
 		}
 	}
@@ -159,16 +165,11 @@ public class GamePage extends JFrame {
 		}
 	}
 
-<<<<<<< HEAD
+
 	// Thomass
 	public void rollDieActionPerformed(ActionEvent ev) {
-=======
-
-	public void rollDieActionPerformed(ActionEvent ev) {
 		// clear error message
-		error = null;
 		hasRolled=true;
->>>>>>> 993ddae91674ea68b90d2021a9824360884d0edc
 		// Call the controller
 		PlayModeController toc = new PlayModeController();
 		Game game = TileOApplication.getCurrentGame();
@@ -189,21 +190,17 @@ public class GamePage extends JFrame {
 				rect.setColor(Color.YELLOW);
 			}
 		}
-<<<<<<< HEAD
-		}catch(NullPointerException e){
-			showMessage("No possible moves for current player");
-		}
-		// die visual is updated in the rollDie method in the Game class
+		board.setMode(BoardPanel.Mode.MOVE_PLAYER);
 		refresh();
 	}
 
-	private void refresh() {
-				
-=======
-		board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+
+	
+
+	public void refresh() {
 		board.refreshBoard();
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
 		// update die visual
->>>>>>> 993ddae91674ea68b90d2021a9824360884d0edc
 	}
 
 	// Thomas

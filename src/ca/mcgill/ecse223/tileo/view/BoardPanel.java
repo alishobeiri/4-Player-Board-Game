@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.view;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 
 import javax.swing.*;
@@ -163,11 +164,6 @@ public class BoardPanel extends JPanel {
 			g2d.setColor(circle.color);
 			g2d.fill(player);
 		}
-		
-		
-
-
-
 	}
 	
 	public Rectangle2D getHorizontalConnectionRect(Tile tile1, Tile tile2){
@@ -266,8 +262,7 @@ public class BoardPanel extends JPanel {
 	
 	public void addTile(Rectangle2DCoord rect){
 		DesignModeController toc=new DesignModeController();
-		if(!(boardTiles.keySet().contains(rect))){
-			
+		if(!(boardTiles.keySet().contains(rect))){	
 			if(tileType == TileType.NORMAL){
 				try {
 					NormalTile t = toc.addNormalTile(rect.coordX, rect.coordY);
@@ -353,6 +348,7 @@ public class BoardPanel extends JPanel {
 
 	public void movePlayer(Rectangle2DCoord rect){
 		int playerNumber;
+		PlayModeController pmc = new PlayModeController();
 		if(rect.color.equals(Color.YELLOW)){
 			playerNumber=game.getCurrentPlayer().getNumber();
 			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
@@ -371,6 +367,7 @@ public class BoardPanel extends JPanel {
 					break;
 			}
 			playerTiles.put(playerNumber, circle);
+			pmc.setNextPlayer(game);
 			System.out.println("Homie we made it");
 			TileOApplication.getDesignPanel().setHasRolled(false);
 			repaint();
@@ -476,6 +473,7 @@ public class BoardPanel extends JPanel {
 						}
 					}else if(mode == Mode.MOVE_PLAYER && TileOApplication.getDesignPanel().getHasRolled()){
 						movePlayer(rect);
+						repaint();
 					}
 				}
 			}
