@@ -90,7 +90,8 @@ public class DesignPage extends JFrame {
 		
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
 
-		play.addActionListener(new PlayGameListener());
+		//play.addActionListener(new PlayGameListener());
+		play.addActionListener(new PlayerToAddListener());
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
 		setLayout(layout);
@@ -218,35 +219,35 @@ public class DesignPage extends JFrame {
 	class AddTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Add Tile");
-			board.Mode = Mode.ADD_TILE;
+			board.mode = Mode.ADD_TILE;
 		}
 	}
 	
 	class RemoveTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Tile");
-			board.Mode = Mode.REMOVE_TILE;
+			board.mode = Mode.REMOVE_TILE;
 		}
 	}
 	
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
-			board.Mode = Mode.PLACE_PLAYER;
+			board.mode= Mode.REMOVE_TILE;
 		}
 	}
 	
 	class AddConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Add Connection");
-			board.Mode = Mode.ADD_CONNECTION;
+			board.mode = Mode.ADD_CONNECTION;
 		}
 	}
 	
 	class RemoveConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Connection");
-			board.Mode = Mode.REMOVE_CONNECTION;
+			board.mode = Mode.REMOVE_CONNECTION;
 		}
 	}
 
@@ -257,7 +258,6 @@ public class DesignPage extends JFrame {
 	}
 	
 	class PlayerToAddListener implements ActionListener{
-
 		public void actionPerformed(ActionEvent ev){
 			board.playerNumber=(int)playerToAdd.getSelectedItem();
 		}
