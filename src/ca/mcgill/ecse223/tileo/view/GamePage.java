@@ -198,10 +198,7 @@ public class GamePage extends JFrame {
 		}
 		board.setMode(BoardPanel.Mode.MOVE_PLAYER);
 		refresh();
-	}
-
-
-	
+	}	
 
 	public void refresh() {
 		board.refreshBoard();
