@@ -3,11 +3,13 @@ package ca.mcgill.ecse223.tileo.view;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.*;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.PlayModeController;
-import ca.mcgill.ecse223.tileo.model.Game;
+import ca.mcgill.ecse223.tileo.model.*;
+
 
 public class GamePage extends JFrame {
 
@@ -143,24 +145,29 @@ public class GamePage extends JFrame {
 
 		// Call the controller
 		PlayModeController toc = new PlayModeController();
+		Game game = TileOApplication.getCurrentGame();
+		Player currentPlayer = game.getCurrentPlayer();
+		Tile currentTile = currentPlayer.getCurrentTile();
 
 		// pass the returned list of tiles somewhere
 		// need to update the visual with the number of the die roll but only
 		// the list of tiles is returned
-		toc.rollDie();
-
+		int number = toc.rollDie();
+		java.util.List<Tile> tiles = toc.generateMoves(currentTile, number);
+		for(Tile t : tiles){
+			BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
+			if(rect != null){
+				rect.setColor(Color.YELLOW);
+			}
+		}
 		// update die visual
-		refresh();
+		refresh(number);
 
 	}
 
 	// Thomas
 	// TODO Fully implement
-	private void refresh() {
-
-		// Call the controller
-		PlayModeController toc = new PlayModeController();
-
-		dieResult.setText("");
+	private void refresh(int number) {
+		dieResult.setText(Integer.toString(number));
 	}
 }
