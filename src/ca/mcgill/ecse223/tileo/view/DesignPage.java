@@ -301,7 +301,7 @@ public class DesignPage extends JFrame {
 			TileOApplication.changeGameMode(getBoard());
 		} catch (InvalidInputException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "There is an error");
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		
 		TileOApplication.changeGameMode(getBoard());
