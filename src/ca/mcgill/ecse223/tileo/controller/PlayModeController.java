@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
@@ -171,6 +172,24 @@ public class PlayModeController {
 		
 		TileOApplication.save();
 	}
+	public List<Tile> generateMoves(Tile origin, int numberOfMoves){
+		Deque<Tile> toVisit = new ArrayDeque<>();
+		List<Tile> visited[] = new List[6];
+		visited[0] = new ArrayList<>();
+		visited[0].add(origin);
+		int layer = 0;
+		toVisit.add(origin);
+		while(!toVisit.isEmpty() && layer < 5){
+			Tile current = toVisit.poll();
+			layer++;
+			visited[layer] = new ArrayList<Tile>();
+			for(Tile t : getNeighbours(current)){
+				visited[layer].add(t);
+				toVisit.add(t);
+			}
+		}
+		return visited[numberOfMoves-1];
+	}
 
 	// Helper methods
 
@@ -184,6 +203,18 @@ public class PlayModeController {
 		}
 		Player next = players.get(index);
 		game.setCurrentPlayer(next);
+	}
+	public List<Tile> getNeighbours(Tile a){
+		List<Tile> neighbours = new ArrayList<>();
+
+		for(Connection c : a.getConnections()){
+			for(Tile t : c.getTiles()){
+				if(!(t.getX() == a.getX() && t.getY() == a.getY())){
+					neighbours.add(t);
+				}
+			}
+		}
+		return neighbours;
 	}
 
 	// Checks if two tiles are adjacent (connected) to each other
