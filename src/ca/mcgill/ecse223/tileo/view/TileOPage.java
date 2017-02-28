@@ -131,7 +131,7 @@ public class TileOPage extends JFrame {
 				g = existingGames.get(gameName);
 				dmc.setTileOApplicationCurrentGame(g);
 			}
-			new DesignPage(g, getPage()).setVisible(true);
+			new DesignPage(getPage()).setVisible(true);
 		}
 	}
 	

@@ -81,7 +81,8 @@ public class CreateGamePage extends JFrame {
 	class CreateListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			DesignModeController dmc = new DesignModeController();
-			int players = (int) numberOfPlayers.getSelectedItem();
+			int players = 2;
+			players = (int) numberOfPlayers.getSelectedItem();
 			try{
 				dmc.createGame(players);
 				TileO tileO = TileOApplication.getTileO();
@@ -90,7 +91,7 @@ public class CreateGamePage extends JFrame {
 			catch(InvalidInputException e){
 				System.out.println(e.getMessage());
 			}
-			DesignPage designPage=new DesignPage((int) numberOfPlayers.getSelectedItem(), mainMenu);
+			DesignPage designPage=new DesignPage(mainMenu);
 			designPage.setVisible(true);
 			TileOApplication.setDesignGame(designPage);
 			dispose();

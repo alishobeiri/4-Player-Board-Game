@@ -50,11 +50,11 @@ public class DesignPage extends JFrame {
 	TileOPage mainMenu;
 	
 	//Constructor
-	public DesignPage(int aPlayers, TileOPage aMainMenu){
+	public DesignPage(TileOPage aMainMenu){
 		mainMenu = aMainMenu;
-		players = aPlayers;
 		game = TileOApplication.getCurrentGame();
 		game.setMode(Game.Mode.DESIGN);
+		players = game.getPlayers().size();
 		initComponents();
 	}
 	

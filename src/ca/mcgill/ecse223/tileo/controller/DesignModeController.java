@@ -21,15 +21,18 @@ public class DesignModeController {
     public Game createGame(int numberOfPlayers) throws InvalidInputException{
         TileO app = TileOApplication.getTileO();
         Game game = new Game(Game.SpareConnectionPieces, app);
-
+        
+        System.out.println(game.getPlayers());
+        
         if(numberOfPlayers<Game.minimumNumberOfPlayers() ||
            numberOfPlayers>Game.maximumNumberOfPlayers()){
             throw new InvalidInputException("Invalid Number of Players");
         }
 
-        Player[] players = new Player[numberOfPlayers];
-        for(int i = 1; i < numberOfPlayers; i++){
+        Player[] players = new Player[numberOfPlayers+1];
+        for(int i = 1; i <= numberOfPlayers; i++){
             players[i] = game.addPlayer(i);
+            System.out.println("set" + i);
             switch(i){
             case 1:
             	players[i].setColor(Player.Color.RED);
