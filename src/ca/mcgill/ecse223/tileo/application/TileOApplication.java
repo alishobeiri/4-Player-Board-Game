@@ -34,6 +34,7 @@ public class TileOApplication {
             	//game.setMode(Game.Mode.GAME);
             	TileOApplication.designPage.setVisible(true);
             	TileOApplication.designPage.setResizable(true);
+            	//new GamePage().setVisible(true);
                 //TODO remove following line after testing
 //                new GamePage().setVisible(true);
             }

@@ -27,12 +27,9 @@ public class BoardPanel extends JPanel {
 	public Game.Mode m;
 	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
-<<<<<<< HEAD
 	public ArrayList<Ellipse2DCoord> playerTiles = new ArrayList<Ellipse2DCoord>();
-=======
 	public ArrayList<Rectangle2D> connectors = new ArrayList<Rectangle2D>();
 	public HashMap<Rectangle2D, Connection> boardConnections = new HashMap<Rectangle2D, Connection>();
->>>>>>> origin/master
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
@@ -118,19 +115,17 @@ public class BoardPanel extends JPanel {
 			g2d.draw(rectangle.coordRectangle);
 		}
 		
-<<<<<<< HEAD
 		//Look
 		
 		for(Ellipse2DCoord circle: playerTiles){
-			Ellipse2D player = new Ellipse2D.Float(GAP*circle.coordX + WIDTH*circle.coordX, GAP*circle.coordY+HEIGHT*circle.coordY, WIDTH, HEIGHT);
+			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
 			g2d.setColor(circle.color);
 			g2d.fill(player);
 		}
 		
-=======
-		Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
+		/*Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
 		g2d.setColor(Color.RED);
-		g2d.fill(player);
+		g2d.fill(player);*/
 		
 		g2d.setColor(Color.DARK_GRAY);
 		for(Rectangle2D connector: connectors){
@@ -144,7 +139,7 @@ public class BoardPanel extends JPanel {
 			g2d.draw(prev.coordRectangle);
 		}
 
->>>>>>> origin/master
+
 	}
 	
 	public Rectangle2D getHorizontalConnectionRect(Tile tile1, Tile tile2){
@@ -172,6 +167,7 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public void addConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
+		System.out.println("on method");
 		Tile tile1 = boardTiles.get(rect1);
 		Tile tile2 = boardTiles.get(rect2);
 		Connection c = null;
@@ -339,7 +335,7 @@ public class BoardPanel extends JPanel {
 					circle.setColor(Color.YELLOW);
 					break;
 				case 4:
-					circle.setColor(Color.BLUE);
+					circle.setColor(Color.GREEN);
 					break;
 				}
 				System.out.println("Added player");
@@ -371,13 +367,13 @@ public class BoardPanel extends JPanel {
 					else if(mode == Mode.PLACE_PLAYER){
 						prev = null;
 						addPlayer(rect);
-					}else if(mode == Mode.ADD_CONNECTION){
-						//addConnection()
 					}
 					else if(mode == Mode.ADD_CONNECTION){
+						System.out.println("on mode");
 						if(prev == null){
 							prev = rect;
 							repaint();
+							
 						}
 						else{
 							addConnection(prev, rect);
