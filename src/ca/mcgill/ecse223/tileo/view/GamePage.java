@@ -17,12 +17,6 @@ public class GamePage extends JFrame {
 	private String error = null;
 	private Game game;
 
-	// TESTING
-	/*public static void main(String[] args) {
-		GamePage view = new GamePage();
-		view.setVisible(true);
-	}*/
-
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board = new BoardPanel(Game.Mode.DESIGN);

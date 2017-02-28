@@ -74,7 +74,7 @@ public class PlayModeController {
 
 		game.setMode(Mode.GAME);
 		
-		TileOApplication.save();
+		//TileOApplication.save();
 
 		return tiles;
 	}
@@ -113,7 +113,7 @@ public class PlayModeController {
 
 		game.setMode(Mode.GAME);
 		
-		TileOApplication.save();
+		//TileOApplication.save();
 
 	}
 
@@ -141,7 +141,7 @@ public class PlayModeController {
 
 		game.setMode(Mode.GAME);
 		
-		TileOApplication.save();
+		//TileOApplication.save();
 
 	}
 
@@ -170,7 +170,7 @@ public class PlayModeController {
 
 		game.setMode(Mode.GAME);
 		
-		TileOApplication.save();
+		//TileOApplication.save();
 	}
 	public List<Tile> generateMoves(Tile origin, int numberOfMoves){
 		Deque<Tile> toVisit = new ArrayDeque<>();
@@ -328,7 +328,7 @@ public class PlayModeController {
 		// If the tile is in the list of game tiles
 		if(tiles.indexOf(tile)!=-1){
 			tile.land();
-			TileOApplication.save();
+			//TileOApplication.save();
 		}else{
 			throw new InvalidInputException("Tile is not part of the game");
 		}
