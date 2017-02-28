@@ -148,16 +148,17 @@ public class GamePage extends JFrame {
 		// need to update the visual with the number of the die roll but only
 		// the list of tiles is returned
 		ArrayList<Tile> tiles = toc.rollDie();
-		try{
+		if(tiles == null || tiles.size() == 0){
+			showMessage("No possible moves! Sucks to be you!");
+			return;
+		}
 		for(Tile t : tiles){
 			BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 			if(rect != null){
 				rect.setColor(Color.YELLOW);
 			}
 		}
-		}catch(NullPointerException e){
-			showMessage("No possible moves for current player");
-		}
+		
 		// update die visual
 	}
 

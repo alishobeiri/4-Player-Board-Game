@@ -219,23 +219,33 @@ public class Player implements Serializable
   }
 
 	public ArrayList<Tile> generateMoves(Tile origin, int numberOfMoves){
-		Deque<Tile> toVisit = new ArrayDeque<>();
-		ArrayList<Tile> visited[] = new ArrayList[6];
+		Deque<Tile> toVisit[] = new ArrayDeque[7];
+        Set<Tile> history = new HashSet<>();
+		ArrayList<Tile> visited[] = new ArrayList[7];
 		visited[0] = new ArrayList<>();
 		visited[0].add(origin);
+        toVisit[0] = new ArrayDeque<Tile>();
+        history.add(origin);
 		int layer = 0;
-		toVisit.add(origin);
-		while(!toVisit.isEmpty() && layer < 5){
-			Tile current = toVisit.poll();
-			layer++;
-			visited[layer] = new ArrayList<Tile>();
-			for(Tile t : getNeighbours(current)){
-				visited[layer].add(t);
-				toVisit.add(t);
-			}
-		}
-		return visited[numberOfMoves-1];
-	}
+		toVisit[0].add(origin);
+        while(layer<6){
+            visited[layer+1] = new ArrayList<Tile>();
+            toVisit[layer+1] = new ArrayDeque<Tile>();
+    		while(!toVisit[layer].isEmpty()){
+        		Tile current = toVisit[layer].poll();
+        		for(Tile t : getNeighbours(current)){
+                    if(!history.contains(t)){
+                        visited[layer+1].add(t);
+                        toVisit[layer+1].add(t);
+                        history.add(t);
+                    }
+    	        }
+    	    }
+            layer++;
+        }
+        System.out.println(visited[numberOfMoves]);
+    	return visited[numberOfMoves];
+    }
 	
 	public List<Tile> getNeighbours(Tile a){
 		List<Tile> neighbours = new ArrayList<>();
