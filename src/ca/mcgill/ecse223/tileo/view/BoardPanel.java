@@ -371,13 +371,13 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			player.setCurrentTile(boardTiles.get(rect));
 			try {
-				pmc.land(t);
+				//pmc.land(t);
 				pmc.setNextPlayer(game);
 				System.out.println("Homie we made it");
 				TileOApplication.getDesignPanel().setHasRolled(false);
 				TileOApplication.getDesignPanel().refresh();
 				repaint();
-			} catch (InvalidInputException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

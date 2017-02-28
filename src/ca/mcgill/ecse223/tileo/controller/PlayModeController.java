@@ -350,7 +350,7 @@ public class PlayModeController {
 		game = TileOApplication.getCurrentGame();
         Player player = game.getCurrentPlayer();
         Tile currentTile = player.getCurrentTile();
-        setCurrentPlayer(game.getCurrentPlayer().indexOfPlayer(currentPlayer+1)))
+        //game.setCurrentPlayer(game.getCurrentPlayer().indexOfPlayer(player+1)));
         currentTile.setHasBeenVisited(true);
 
         if (currentTile instanceof ActionTile) {
