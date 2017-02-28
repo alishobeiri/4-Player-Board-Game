@@ -69,7 +69,11 @@ public class TileOApplication {
 		gamePage = new GamePage(board);
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-            	
+            	Game game=getCurrentGame();
+            	System.out.println("Num of player " + game.numberOfPlayers());
+            	System.out.println("Num of connection " + game.getCurrentConnectionPieces());
+            	System.out.println("Num of tiles " + game.getTiles().size());
+            	System.out.println("Num of cards " + game.getDeck().numberOfCards());
             	//Check the setMode here
             	//game.setMode(Game.Mode.GAME);
             	getCurrentGame().setMode(Game.Mode.GAME);
