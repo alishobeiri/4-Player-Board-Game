@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.Font;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 import java.awt.event.*;
@@ -23,7 +24,7 @@ public class TileOPage extends JFrame {
 	List<Game> tileOGames;
 	DefaultListModel model;
 	HashMap <String, Game> existingGames = new HashMap<String, Game>();
-	
+	HashMap <Game, Boolean> savedGames = new HashMap<Game, Boolean>();
 	
 	//***TESTING***
 	/*public static void main(String[] args){
@@ -53,6 +54,7 @@ public class TileOPage extends JFrame {
 			Game current = tileOGames.get(i);
 			int index = i+1;
 			existingGames.put("Game " + index + " - " + current.getMode(), current);
+			savedGames.put(current, true);
 		}
 		
 		for(String s: existingGames.keySet()){
@@ -100,6 +102,7 @@ public class TileOPage extends JFrame {
 	}
 	
 	public void refresh(){
+		tileO = TileOApplication.getTileO();
 		tileOGames = tileO.getGames();
 		model = new DefaultListModel();
 		for(int i = 0; i < tileOGames.size(); i++){
@@ -129,9 +132,14 @@ public class TileOPage extends JFrame {
 			if(!games.isSelectionEmpty()){
 				String gameName = (String) games.getSelectedValue();
 				g = existingGames.get(gameName);
-				dmc.setTileOApplicationCurrentGame(g);
+				if(g != null){
+					dmc.setTileOApplicationCurrentGame(g);
+					new DesignPage(getPage()).setVisible(true);
+				}
 			}
-			new DesignPage(getPage()).setVisible(true);
+			else{
+				System.out.println("You must select or create a game");
+			}
 		}
 	}
 	

@@ -9,7 +9,6 @@ import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
-
 import java.awt.Font;
 import java.awt.event.*;
 
@@ -47,7 +46,6 @@ public class DesignPage extends JFrame {
 	JButton addConnection = new JButton("Add Connection");
 	JButton removeConnection = new JButton("Remove Connection");
 	JButton play = new JButton("Play Game");
-	JButton save = new JButton("Save");
 	TileOPage mainMenu;
 	
 	//Constructor
@@ -74,6 +72,7 @@ public class DesignPage extends JFrame {
 	public void initComponents(){
 		setSize(885, 682);
 		setResizable(false);
+		addWindowListener(new CloseListener());
 		
 		mode.setFont(new Font("San Francisco", Font.PLAIN, 20));
 		currentMode.setFont(new Font("San Francisco", Font.BOLD, 20));
@@ -104,8 +103,6 @@ public class DesignPage extends JFrame {
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
 		
 		play.addActionListener(new PlayGameListener());
-		
-		save.addActionListener(new SaveListener());
 
 		//play.addActionListener(new PlayGameListener());
 		play.addActionListener(new PlayerToAddListener());
@@ -123,8 +120,12 @@ public class DesignPage extends JFrame {
 		
 		//Initialize JComboBox
 		Integer[] playerNums = new Integer[players];
+		TileO tileO = TileOApplication.getTileO();
+		int gameIndex = tileO.indexOfGame(game);
+		int j = 4*(gameIndex) + 1;
 		for(int i = 0; i < players; i++){
-			playerNums[i] = i + 1;
+			playerNums[i] = j;
+			j++;
 		}
 		
 		playerToAdd = new JComboBox(playerNums);
@@ -150,8 +151,8 @@ public class DesignPage extends JFrame {
 						.addComponent(line1, 220, 220, 220)
 						.addGroup(layout.createSequentialGroup()
 								.addComponent(placePlayer, 120, 120, 120)
-								.addGap(40, 40, 40)
-								.addComponent(playerToAdd, 60, 60, 60)
+								.addGap(20, 20, 20)
+								.addComponent(playerToAdd, 80, 80, 80)
 								)
 						.addComponent(line2, 220, 220, 220)
 						.addComponent(addConnection, 220, 220, 220)
@@ -159,7 +160,6 @@ public class DesignPage extends JFrame {
 						.addComponent(line3, 220, 220, 220)
 						.addComponent(setDeck, 220, 220, 220)
 						.addComponent(line4, 220, 220, 220)
-						.addComponent(save, 220, 220, 220)
 						.addComponent(play, 220, 220, 220)
 						)
 		);
@@ -188,8 +188,7 @@ public class DesignPage extends JFrame {
 						.addComponent(line3, 10, 10, 10)
 						.addComponent(setDeck)
 						.addComponent(line4, 10, 10, 10)
-						.addComponent(save)
-						.addGap(153, 153, 153)
+						.addGap(187, 187, 187)
 						.addComponent(play)
 						)
 		);	
@@ -261,6 +260,7 @@ public class DesignPage extends JFrame {
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
+			board.playerNumber = (int) playerToAdd.getSelectedItem();
 			board.mode= Mode.PLACE_PLAYER;
 		}
 	}
@@ -313,5 +313,48 @@ public class DesignPage extends JFrame {
 			dmc.save();
 			mainMenu.refresh();
 		}
+	}
+	
+	class CloseListener implements WindowListener{
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			mainMenu.refresh();
+		}
+			
+		@Override
+		public void windowClosed(WindowEvent e) {
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }

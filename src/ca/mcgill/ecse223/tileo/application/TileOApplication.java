@@ -19,18 +19,16 @@ public class TileOApplication {
 	public static void main(String args[]){
 
 		TileO tileO=TileOApplication.getTileO();
-		
-
 
 		//Game game=new Game(0, tileO);
 		//TileOApplication.setCurrentGame(game);
-		TileOPage menu = new TileOPage(tileO);
-		designPage = new DesignPage(menu);
+		//TileOPage menu = new TileOPage(tileO);
+		//designPage = new DesignPage(menu);
 		//game.addPlayer(new Player(0, game));
 
 		//TileOApplication.setCurrentGame(game);
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	
             	//Check the setMode here

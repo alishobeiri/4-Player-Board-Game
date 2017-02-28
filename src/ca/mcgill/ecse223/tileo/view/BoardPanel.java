@@ -7,6 +7,7 @@ import ca.mcgill.ecse223.tileo.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.*;
@@ -29,7 +30,9 @@ public class BoardPanel extends JPanel {
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
 
 	public HashMap<Integer, Ellipse2DCoord> playerTiles = new HashMap<Integer, Ellipse2DCoord>();
-
+	
+	public ArrayList<Player> gamePlayers = new ArrayList<Player>();
+	public ArrayList<Connection> gameConnections = new ArrayList<Connection>();
 	public ArrayList<Connector2D> connectors = new ArrayList<Connector2D>();
 	public HashMap<Connector2D, Connection> boardConnections = new HashMap<Connector2D, Connection>();
 
@@ -46,6 +49,7 @@ public class BoardPanel extends JPanel {
 
 	
 	public void initComponents(){
+		
 		//Initialize the rectangles list to cover the whole board
 		for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
 			for(int j = 0; j < VERTICAL_RECTANGLES; j++){
@@ -59,6 +63,58 @@ public class BoardPanel extends JPanel {
 		for(Tile t: game.getTiles()){
 			Rectangle2DCoord r = getRectangle(t.getX(), t.getY());
 			boardTiles.put(r, t);
+		}
+		
+		for(Rectangle2DCoord rect: boardTiles.keySet()){
+			if(boardTiles.get(rect) instanceof ActionTile){
+				rect.setColor(Color.pink);
+			}
+		}
+		
+		for(Rectangle2DCoord rect: boardTiles.keySet()){
+			if(boardTiles.get(rect) instanceof WinTile){
+				currentWinRectangle = rect;
+			}
+		}
+		
+		if(game.hasConnections()){
+			for(Connection c: game.getConnections()){
+				gameConnections.add(c);
+			}
+		}
+		
+		initConnections(gameConnections);
+		
+		if(game.hasPlayers()){
+			for(Player p: game.getPlayers()){
+				gamePlayers.add(p);
+			}
+			
+			initPlayers(gamePlayers);
+		}
+	}
+	
+	public void initConnections(ArrayList<Connection> gameConnections){
+		for(Connection c: gameConnections){
+			Tile tile1 = c.getTile(0);
+			Tile tile2 = c.getTile(1);
+			Connector2D connector;
+			Rectangle2D connect=null;
+			if(tile1.getX() == tile2.getX()){
+				connect = getVerticalConnectionRect(tile1, tile2);
+			}
+			else if(tile1.getY() == tile2.getY()){
+				connect = getHorizontalConnectionRect(tile1, tile2);
+			}
+			System.out.println("if entered");
+			if(connect != null){
+				System.out.println("2nd if entered");
+				connector=new Connector2D(tile1, tile2, connect, c);
+				connectors.add(connector);
+				boardConnections.put(connector, c);
+			}
+			repaint();
+			
 		}
 	}
 	
@@ -112,16 +168,16 @@ public class BoardPanel extends JPanel {
 			g2d.draw(rectangle.coordRectangle);
 		}
 		
-		for(Ellipse2DCoord circle: playerTiles.values()){
-			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
-			g2d.setColor(circle.color);
-			g2d.fill(player);
-		}
-		
-		
 		for(Connector2D connector: connectors){
 			g2d.setColor(Color.DARK_GRAY);
 			g2d.fill(connector.c);
+		}
+		
+		if(currentWinRectangle != null && game.getMode() == Game.Mode.DESIGN){
+			g2d.setColor(Color.DARK_GRAY);
+			g2d.fill(currentWinRectangle.coordRectangle);
+			g2d.setColor(Color.BLACK);
+			g2d.draw(currentWinRectangle.coordRectangle);
 		}
 		
 		if(prev != null){
@@ -131,11 +187,10 @@ public class BoardPanel extends JPanel {
 			g2d.draw(prev.coordRectangle);
 		}
 		
-		if(currentWinRectangle != null && game.getMode() == Game.Mode.DESIGN){
-			g2d.setColor(Color.DARK_GRAY);
-			g2d.fill(currentWinRectangle.coordRectangle);
-			g2d.setColor(Color.BLACK);
-			g2d.draw(currentWinRectangle.coordRectangle);
+		for(Ellipse2DCoord circle: playerTiles.values()){
+			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
+			g2d.setColor(circle.color);
+			g2d.fill(player);
 		}
 
 
@@ -212,6 +267,7 @@ public class BoardPanel extends JPanel {
 					connectors.add(connector);
 					boardConnections.put(connector, c);
 				}
+				new DesignModeController().save();
 				repaint();
 			}
 		}
@@ -230,6 +286,7 @@ public class BoardPanel extends JPanel {
 				dmc.deleteConnection(connect.connect);
 				connectors.remove(connect);
 			}
+			new DesignModeController().save();
 			repaint();
 		}
 	}
@@ -245,6 +302,7 @@ public class BoardPanel extends JPanel {
 					boardTiles.put(rect, t);
 					repaint();
 					System.out.println("Normal Tile");
+					new DesignModeController().save();
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Tile exists at that location");
@@ -312,6 +370,7 @@ public class BoardPanel extends JPanel {
 					}
 				}
 				toc.removeTile(rect.coordX, rect.coordY);
+				toc.save();
 			}catch (InvalidInputException e){
 				System.out.println("Tile does not exist within game");
 			}
@@ -326,37 +385,99 @@ public class BoardPanel extends JPanel {
 		return rectangles;
 	}
 	
+	public void initPlayers(ArrayList<Player> players){
+		System.out.println(players);
+		int i = 1;
+		for(Player current: players){
+			TileO tileO = TileOApplication.getTileO();
+			int gameIndex = tileO.indexOfGame(game);
+			playerNumber = (gameIndex*4)+i;
+			if(current.hasStartingTile()){
+				int x = current.getStartingTile().getX();
+				int y = current.getStartingTile().getY();
+				Ellipse2DCoord circle=new Ellipse2DCoord(x, y);
+				playerTiles.put(playerNumber, circle);
+				int c1 = (gameIndex*4)+1;
+				int c2 = (gameIndex*4)+2;
+				int c3 = (gameIndex*4)+3;
+				int c4 = (gameIndex*4)+4;
+				
+				System.out.println(c1);
+				System.out.println(c2);
+				System.out.println(c3);
+				System.out.println(c4);
+				System.out.println("Player number: "+playerNumber);
+				
+				if(playerNumber == c1){
+					System.out.println("color match: RED");
+					circle.setColor(Color.RED);
+				}
+				else if(playerNumber == c2){
+					System.out.println("color match : BLUE");
+					circle.setColor(Color.BLUE);
+				}
+				else if(playerNumber == c3){
+					System.out.println("color match : YELLOW");
+					circle.setColor(Color.YELLOW);
+				}
+				else if(playerNumber == c4){
+					System.out.println("color match : GREEN");
+					circle.setColor(Color.GREEN);
+				}
+			}
+			i++;
+		}
 
+	}
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){
 		DesignModeController toc = new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			try {
-				System.out.println(playerNumber);
 				
 				if(playerTiles.containsKey(playerNumber)){
 					playerTiles.remove(playerNumber);
 				}
 				
-				Tile t=toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
 				Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
 				playerTiles.put(playerNumber, circle);
-				switch(playerNumber){
-				case 1:
+				TileO tileO = TileOApplication.getTileO();
+				int gameIndex = tileO.indexOfGame(game);
+				int c1 = (gameIndex*4)+1;
+				int c2 = (gameIndex*4)+2;
+				int c3 = (gameIndex*4)+3;
+				int c4 = (gameIndex*4)+4;
+				
+				System.out.println(gameIndex + ", " +  c1 + ", "  + c2);
+				System.out.println(playerNumber);
+				
+				int playerIndex = 0;
+				int totalPlayers = 0;
+
+				//System.out.println("total players: " + totalPlayers);
+				
+				if(playerNumber == c1){
 					circle.setColor(Color.RED);
-					break;
-				case 2:
-					circle.setColor(Color.BLUE);
-					break;
-				case 3:
-					circle.setColor(Color.YELLOW);
-					break;
-				case 4:
-					circle.setColor(Color.GREEN);
-					break;
+					playerIndex = 1;
 				}
+				else if(playerNumber == c2){
+					circle.setColor(Color.BLUE);
+					playerIndex = 2;
+				}
+				else if(playerNumber == c3){
+					circle.setColor(Color.YELLOW);
+					playerIndex = 3;
+				}
+				else if(playerNumber == c4){
+					circle.setColor(Color.GREEN);
+					playerIndex = 4;
+				}	
+				
+				//System.out.println("PlayerIndex: " + playerIndex);
+				Tile t=toc.assignStartingTile(rect.coordX, rect.coordY, playerIndex);
 				System.out.println("Added player");
+				new DesignModeController().save();
 				repaint();
 			} catch (Exception e) {
 				System.out.println("Player exists");
