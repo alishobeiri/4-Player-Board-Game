@@ -35,7 +35,7 @@ public class BoardPanel extends JPanel {
 
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
-	int inactiveTurns = 1;
+	int inactiveTurns = 0;
 	int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle = null;
 	Rectangle2DCoord prev = null;
@@ -282,15 +282,11 @@ public class BoardPanel extends JPanel {
 		DesignModeController toc=new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			try{
-				try{
 				for(Player player: game.getPlayers()){
 					if(player.getStartingTile().getX()==rect.coordX && player.getStartingTile().getY()==rect.coordY){
 						System.out.println("Player exists on tile");
 						player.setStartingTile(null);
 					}
-				}
-				}catch(Exception e){
-					
 				}
 				System.out.println(connectors.size());
 				ArrayList<Connector2D> temp=new ArrayList<Connector2D>();
