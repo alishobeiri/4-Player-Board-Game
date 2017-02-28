@@ -36,7 +36,6 @@ public class NormalTile extends Tile implements Serializable {
 	}
 
 	// Thomas
-	// TODO
 	public void land() {
 		// Get the game that this tile is a part of
 		Game currentGame = this.getGame();

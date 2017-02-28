@@ -246,8 +246,10 @@ public class DesignPage extends JFrame {
 	class RemoveConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Connection");
+			board.mode = Mode.REMOVE_CONNECTION;
 		}
 	}
+<<<<<<< Updated upstream
 
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -256,6 +258,10 @@ public class DesignPage extends JFrame {
 	}
 	
 	class PlayerToAddListener implements ActionListener{
+=======
+	
+	class InactiveTurnsListener implements ActionListener{
+>>>>>>> Stashed changes
 		public void actionPerformed(ActionEvent ev){
 			board.playerNumber=(int)playerToAdd.getSelectedItem();
 		}

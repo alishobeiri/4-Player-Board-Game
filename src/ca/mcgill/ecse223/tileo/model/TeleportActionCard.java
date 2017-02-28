@@ -44,19 +44,8 @@ public class TeleportActionCard extends ActionCard implements Serializable
   
   public void play(Tile tile) throws InvalidInputException{
 	  
-	  //TODO Check if methods work.
-	  if(tile instanceof NormalTile){
-		  NormalTile normal = (NormalTile) tile;
-		  normal.land();
-	  }
-	  else if(tile instanceof ActionTile){
-		  ActionTile action = (ActionTile) tile;
-		  action.land();
-	  }
-	  else if(tile instanceof WinTile){
-		  WinTile win = (WinTile) tile;
-		  win.land();
-	  }
+	  tile.land();
+	  
   }
 
 }

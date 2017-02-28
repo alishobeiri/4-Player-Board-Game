@@ -17,6 +17,77 @@ class Game {
   const Integer SpareConnectionPieces = 32;
   Integer currentConnectionPieces;
   const Integer NumberOfActionCards = 32;
+  
+  		public List<Tile> rollDie() {
+		// List of tiles to return that represents possible moves
+		List<Tile> tiles = new ArrayList<Tile>();
+		// 'this' is the game
+		Die die = this.getDie();
+
+		// roll the die
+		int dieValue = die.roll();
+
+		// Get the current player
+		Player currentPlayer = this.getCurrentPlayer();
+
+		//TODO Check getPossibleMoves is implemented
+		// Tiles is a list of possible moves the current player can make based
+		// on their die role
+		tiles = currentPlayer.getPossibleMoves(dieValue);
+
+		return tiles;
+	}
+
+	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
+	{
+		if(!(getTiles().contains(tileOne)) || !(getTiles().contains(tileTwo)))
+		{
+			throw new InvalidInputException("There is no tile in that space.");
+		}
+		else if(checkAdjacentTiles(tileOne, tileTwo) == false)
+		{
+			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
+		}
+		
+		Connection connector = new Connection(this);
+		connector.addTile(tileOne);
+		connector.addTile(tileTwo);
+		
+		return connector;
+	}
+	
+	//Helper Method
+	public boolean checkAdjacentTiles(Tile tile1, Tile tile2)
+	{
+		int xOne = tile1.getX();
+		int xTwo = tile1.getX();
+		int yOne = tile1.getY();
+		int yTwo = tile1.getY();
+		boolean adjacent = true;
+		if(Math.abs(xOne - xTwo) > 1)
+		{
+			adjacent = false;
+		}
+		if(Math.abs(yOne - yTwo) > 1)
+		{
+			adjacent = false;
+		}
+		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
+		{
+			adjacent = false;
+		}
+		
+
+		return adjacent;
+	}
+	
+	public Connection deleteConnection(Connection connector)
+	{
+		removeConnection(connector);
+		connector.delete();
+		
+		return connector;
+	}
 }
 
 class Player {
@@ -34,6 +105,9 @@ class Tile {
   Integer x;
   Integer y;
   Boolean hasBeenVisited = false;
+  
+  public abstract void land();
+  
 }
 
 class ActionTile {
@@ -41,14 +115,88 @@ class ActionTile {
 
   immutable Integer inactivityPeriod;
   Integer turnsUntilActive= 0;
+  
+  	public void land() {
+		// Get the game that this tile is a part of
+		Game currentGame = this.getGame();
+		// Get the player that wants to move to the tile
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		// Set the current tile to this tile
+		currentPlayer.setCurrentTile(this);
+
+		// Get increase the index of the current player by one
+		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+		// Loop back if it is the last player
+		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
+		// Get the next player
+		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
+		// Set the next player as the current player
+		currentGame.setCurrentPlayer(nextPlayer);
+
+		this.setHasBeenVisited(true);
+		
+		Deck deck = currentGame.getDeck();
+		ActionCard currentCard = deck.getCurrentCard();
+		//TODO check that this method works
+		Mode mode = currentCard.getActionCardGameMode();
+
+		currentGame.setMode(mode);
+	}
+  
 }
 
 class NormalTile {
   isA Tile;
+  
+  	public void land() {
+		// Get the game that this tile is a part of
+		Game currentGame = this.getGame();
+		// Get the player that wants to move to the tile
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		// Set the current tile to this tile
+		currentPlayer.setCurrentTile(this);
+		
+		// Get increase the index of the current player by one
+		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+		// Loop back if it is the last player
+		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
+		// Get the next player
+		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
+		// Set the next player as the current player
+		currentGame.setCurrentPlayer(nextPlayer);
+		
+		this.setHasBeenVisited(true);
+		
+		currentGame.setMode(Mode.GAME);
+	}
+  
 }
 
 class WinTile {
   isA Tile;
+  
+  	public void land() {
+		// Get the game that this tile is a part of
+		Game currentGame = this.getGame();
+		// Get the player that wants to move to the tile
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		// Set the current tile to this tile
+		currentPlayer.setCurrentTile(this);
+
+		// Get increase the index of the current player by one
+		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+		// Loop back if it is the last player
+		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
+		// Get the next player
+		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
+		// Set the next player as the current player
+		currentGame.setCurrentPlayer(nextPlayer);
+
+		this.setHasBeenVisited(true);
+
+		currentGame.setMode(Mode.GAME_WON);
+	}
+  
 }
 
 class Connection {

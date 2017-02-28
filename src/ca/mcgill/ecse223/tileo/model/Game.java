@@ -5,6 +5,9 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
+import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+
 // line 8 "../../../../../TileO (updated Feb10).ump"
 public class Game implements Serializable
 {
@@ -609,10 +612,54 @@ public class Game implements Serializable
 		return tiles;
 	}
 
-	// Thomas made this but its someone elses
-	// TODO Implement this
-	public void connectTiles(Tile tile1, Tile tile2) {
-		// TODO Auto-generated method stub
+	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
+	{
+		if(!(getTiles().contains(tileOne)) || !(getTiles().contains(tileTwo)))
+		{
+			throw new InvalidInputException("There is no tile in that space.");
+		}
+		else if(checkAdjacentTiles(tileOne, tileTwo) == false)
+		{
+			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
+		}
 		
+		Connection connector = new Connection(this);
+		connector.addTile(tileOne);
+		connector.addTile(tileTwo);
+		
+		return connector;
+	}
+	
+	//Helper Method
+	public boolean checkAdjacentTiles(Tile tile1, Tile tile2)
+	{
+		int xOne = tile1.getX();
+		int xTwo = tile1.getX();
+		int yOne = tile1.getY();
+		int yTwo = tile1.getY();
+		boolean adjacent = true;
+		if(Math.abs(xOne - xTwo) > 1)
+		{
+			adjacent = false;
+		}
+		if(Math.abs(yOne - yTwo) > 1)
+		{
+			adjacent = false;
+		}
+		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
+		{
+			adjacent = false;
+		}
+		
+
+		return adjacent;
+	}
+	
+	public Connection deleteConnection(Connection connector)
+	{
+		removeConnection(connector);
+		connector.delete();
+		
+		return connector;
 	}
 }
