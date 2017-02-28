@@ -90,6 +90,8 @@ public class DesignPage extends JFrame {
 		setDeck.addActionListener(new SetDeckListener());
 		
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
+		
+		play.addActionListener(new PlayGameListener());
 
 		//play.addActionListener(new PlayGameListener());
 		play.addActionListener(new PlayerToAddListener());
@@ -270,5 +272,10 @@ public class DesignPage extends JFrame {
 			board.playerNumber = (int) playerToAdd.getSelectedItem();
 		}
 		
+	}
+	class PlayGameListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+		TileOApplication.changeGameMode();
+		}
 	}
 }
