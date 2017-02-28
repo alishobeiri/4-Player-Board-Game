@@ -349,10 +349,11 @@ public class BoardPanel extends JPanel {
 	public void movePlayer(Rectangle2DCoord rect){
 		int playerNumber;
 		PlayModeController pmc = new PlayModeController();
-		if(rect.color.equals(Color.YELLOW)){
+		Player player=game.getCurrentPlayer();
+		if(rect.color.equals(Color.pink)){
 			playerNumber=game.getCurrentPlayer().getNumber();
 			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
-			switch(game.getCurrentPlayer().getColorFullName()){
+			switch(player.getColorFullName()){
 				case "RED":
 					circle.setColor(Color.RED);
 					break;
@@ -367,10 +368,19 @@ public class BoardPanel extends JPanel {
 					break;
 			}
 			playerTiles.put(playerNumber, circle);
-			pmc.setNextPlayer(game);
-			System.out.println("Homie we made it");
-			TileOApplication.getDesignPanel().setHasRolled(false);
-			repaint();
+			Tile t=boardTiles.get(rect);
+			player.setCurrentTile(boardTiles.get(rect));
+			try {
+				pmc.land(t);
+				pmc.setNextPlayer(game);
+				System.out.println("Homie we made it");
+				TileOApplication.getDesignPanel().setHasRolled(false);
+				TileOApplication.getDesignPanel().refresh();
+				repaint();
+			} catch (InvalidInputException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else{
 			showMessage("Please select a valid tile");
 		}

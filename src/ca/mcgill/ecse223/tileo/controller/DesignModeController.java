@@ -41,10 +41,10 @@ public class DesignModeController {
             case 2:
             	players[i].setColor(Player.Color.BLUE);
             	break;
-            case 3:
+            case 4:
             	players[i].setColor(Player.Color.GREEN);
             	break;
-            case 4:
+            case 3:
             	players[i].setColor(Player.Color.YELLOW);
             	break;
             }

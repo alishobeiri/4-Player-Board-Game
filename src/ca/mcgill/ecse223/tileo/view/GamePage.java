@@ -16,6 +16,7 @@ public class GamePage extends JFrame {
 	private Game game;
 	
 	Boolean hasRolled=false;
+	ArrayList<BoardPanel.Rectangle2DCoord> possibleMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board;
@@ -125,6 +126,10 @@ public class GamePage extends JFrame {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
 			if(!hasRolled){
+				for(BoardPanel.Rectangle2DCoord rect: possibleMoves){
+					rect.setColor(Color.WHITE);
+				}
+				possibleMoves.clear();
 				rollDieActionPerformed(ev);
 			}else{
 				showMessage("Please select a highlighted tile to move to");
@@ -187,7 +192,8 @@ public class GamePage extends JFrame {
 		for(Tile t : tiles){
 			BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 			if(rect != null){
-				rect.setColor(Color.YELLOW);
+				possibleMoves.add(rect);
+				rect.setColor(Color.pink);
 			}
 		}
 		board.setMode(BoardPanel.Mode.MOVE_PLAYER);

@@ -210,8 +210,8 @@ public class PlayModeController {
 		List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
-		if (players.get(index + 1) == null) {
-			index = 0;
+		if(index==game.numberOfPlayers()){
+			index=1;
 		}
 		Player next = players.get(index);
 		game.setCurrentPlayer(next);
