@@ -18,24 +18,25 @@ class Game {
   Integer currentConnectionPieces;
   const Integer NumberOfActionCards = 32;
   
-  		public List<Tile> rollDie() {
+	public ArrayList<Tile> rollDie() {
 		// List of tiles to return that represents possible moves
-		List<Tile> tiles = new ArrayList<Tile>();
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
 		// 'this' is the game
 		Die die = this.getDie();
 
 		// roll the die
 		int dieValue = die.roll();
-
+		
 		// Get the current player
 		Player currentPlayer = this.getCurrentPlayer();
 
 		//TODO Check getPossibleMoves is implemented
 		// Tiles is a list of possible moves the current player can make based
 		// on their die role
-		tiles = currentPlayer.getPossibleMoves(dieValue);
+		tiles = currentPlayer.generateMoves(currentPlayer.getCurrentTile(), dieValue);
 
 		return tiles;
+	}
 	}
 
 	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
@@ -96,6 +97,38 @@ class Player {
   0..4 -> 0..1 Tile currentTile;
   unique Integer number;
   Integer turnsUntilActive = 0;
+  
+  	public ArrayList<Tile> generateMoves(Tile origin, int numberOfMoves){
+		Deque<Tile> toVisit = new ArrayDeque<>();
+		ArrayList<Tile> visited[] = new ArrayList[6];
+		visited[0] = new ArrayList<>();
+		visited[0].add(origin);
+		int layer = 0;
+		toVisit.add(origin);
+		while(!toVisit.isEmpty() && layer < 5){
+			Tile current = toVisit.poll();
+			layer++;
+			visited[layer] = new ArrayList<Tile>();
+			for(Tile t : getNeighbours(current)){
+				visited[layer].add(t);
+				toVisit.add(t);
+			}
+		}
+		return visited[numberOfMoves-1];
+	}
+	
+	public List<Tile> getNeighbours(Tile a){
+		List<Tile> neighbours = new ArrayList<>();
+
+		for(Connection c : a.getConnections()){
+			for(Tile t : c.getTiles()){
+				if(!(t.getX() == a.getX() && t.getY() == a.getY())){
+					neighbours.add(t);
+				}
+			}
+		}
+		return neighbours;
+	}
 }
 
 class Tile {
@@ -107,6 +140,8 @@ class Tile {
   Boolean hasBeenVisited = false;
   
   public abstract void land();
+  
+  
   
 }
 

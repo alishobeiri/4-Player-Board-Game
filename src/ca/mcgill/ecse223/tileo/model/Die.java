@@ -66,7 +66,7 @@ public class Die implements Serializable
 		// Get a random value between 1 and 6 inclusive
 		dieValue = rand.nextInt(6) + 1;
 		//
-		System.out.println(dieValue);
+		System.out.println("Roll value " + dieValue);
 		return dieValue;
 	}
 

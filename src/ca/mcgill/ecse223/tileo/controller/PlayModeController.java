@@ -172,7 +172,7 @@ public class PlayModeController {
 		
 		//TileOApplication.save();
 	}
-	public List<Tile> generateMoves(Tile origin, int numberOfMoves){
+/*	public List<Tile> generateMoves(Tile origin, int numberOfMoves){
 		Deque<Tile> toVisit = new ArrayDeque<>();
 		List<Tile> visited[] = new List[6];
 		visited[0] = new ArrayList<>();
@@ -189,7 +189,7 @@ public class PlayModeController {
 			}
 		}
 		return visited[numberOfMoves-1];
-	}
+	}*/
 
 	// Helper methods
 
@@ -204,7 +204,7 @@ public class PlayModeController {
 		Player next = players.get(index);
 		game.setCurrentPlayer(next);
 	}
-	public List<Tile> getNeighbours(Tile a){
+/*	public List<Tile> getNeighbours(Tile a){
 		List<Tile> neighbours = new ArrayList<>();
 
 		for(Connection c : a.getConnections()){
@@ -215,7 +215,7 @@ public class PlayModeController {
 			}
 		}
 		return neighbours;
-	}
+	}*/
 
 	// Checks if two tiles are adjacent (connected) to each other
 	public boolean areAdjacent(Tile tile1, Tile tile2) {
@@ -246,9 +246,9 @@ public class PlayModeController {
 	// Thomas
 	// Returns a list of possible moves the current player can make based on the
 	// number they roll
-	public List<Tile> rollDie() {
+	public ArrayList<Tile> rollDie() {
 		Game game = TileOApplication.getCurrentGame();
-		List<Tile> tiles = game.rollDie();
+		ArrayList<Tile> tiles = game.rollDie();
 		return tiles;
 	}
 

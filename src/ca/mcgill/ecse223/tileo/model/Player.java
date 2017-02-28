@@ -218,10 +218,35 @@ public class Player implements Serializable
      + outputString;
   }
 
-// Thomas made this but its someone elses
-// TODO Implement this
-public List<Tile> getPossibleMoves(int dieValue) {
-	// TODO Auto-generated method stub
-	return null;
-}
+	public ArrayList<Tile> generateMoves(Tile origin, int numberOfMoves){
+		Deque<Tile> toVisit = new ArrayDeque<>();
+		ArrayList<Tile> visited[] = new ArrayList[6];
+		visited[0] = new ArrayList<>();
+		visited[0].add(origin);
+		int layer = 0;
+		toVisit.add(origin);
+		while(!toVisit.isEmpty() && layer < 5){
+			Tile current = toVisit.poll();
+			layer++;
+			visited[layer] = new ArrayList<Tile>();
+			for(Tile t : getNeighbours(current)){
+				visited[layer].add(t);
+				toVisit.add(t);
+			}
+		}
+		return visited[numberOfMoves-1];
+	}
+	
+	public List<Tile> getNeighbours(Tile a){
+		List<Tile> neighbours = new ArrayList<>();
+
+		for(Connection c : a.getConnections()){
+			for(Tile t : c.getTiles()){
+				if(!(t.getX() == a.getX() && t.getY() == a.getY())){
+					neighbours.add(t);
+				}
+			}
+		}
+		return neighbours;
+	}
 }
