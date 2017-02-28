@@ -37,7 +37,7 @@ public class BoardPanel extends JPanel {
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
 	int playerNumber=1;
-	Rectangle2DCoord currentWinRectangle;
+	Rectangle2DCoord currentWinRectangle = null;
 	Rectangle2DCoord prev = null;
 	
 	TileO tileo = new TileO();
@@ -97,12 +97,6 @@ public class BoardPanel extends JPanel {
 		g2d.setColor(new Color(170, 170, 170));
 		g2d.draw(contour);
 		
-		//Reset board
-		/*for(Rectangle2DCoord rectangle: rectangles){
-			g2d.setColor(new Color(195, 195, 195));
-			g2d.fill(rectangle.coordRectangle);
-		}*/
-		
 		if(game.getMode() == Game.Mode.DESIGN){
 			for(Rectangle2DCoord rectangle: rectangles){
 				g2d.setColor(new Color(230, 230, 230));
@@ -117,8 +111,6 @@ public class BoardPanel extends JPanel {
 			g2d.setColor(Color.GRAY);
 			g2d.draw(rectangle.coordRectangle);
 		}
-
-		//Look
 		
 		for(Ellipse2DCoord circle: playerTiles.values()){
 			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
@@ -136,6 +128,13 @@ public class BoardPanel extends JPanel {
 			g2d.fill(prev.coordRectangle);
 			g2d.setColor(Color.GRAY);
 			g2d.draw(prev.coordRectangle);
+		}
+		
+		if(currentWinRectangle != null && game.getMode() == Game.Mode.DESIGN){
+			g2d.setColor(Color.DARK_GRAY);
+			g2d.fill(currentWinRectangle.coordRectangle);
+			g2d.setColor(Color.BLACK);
+			g2d.draw(currentWinRectangle.coordRectangle);
 		}
 
 

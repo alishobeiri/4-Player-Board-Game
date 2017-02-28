@@ -28,7 +28,7 @@ public class DesignModeController {
         }
 
         Player[] players = new Player[numberOfPlayers];
-        for(int i = 1; i <= numberOfPlayers; i++){
+        for(int i = 1; i < numberOfPlayers; i++){
             players[i] = game.addPlayer(i);
             switch(i){
             case 1:
@@ -205,9 +205,8 @@ public class DesignModeController {
 
 
 	}
-	public static void save(String filename, TileO tileO) {
-        PersistenceObjectStream.setFilename(filename);
-        PersistenceObjectStream.serialize(tileO);
+	public static void save() {
+		TileOApplication.save();
     }
 
     public static TileO load(String filename) {
@@ -219,6 +218,10 @@ public class DesignModeController {
         }
 
         return tileO;
+    }
+    
+    public void setTileOApplicationCurrentGame(Game g){
+    	TileOApplication.setCurrentGame(g);
     }
 	
 	

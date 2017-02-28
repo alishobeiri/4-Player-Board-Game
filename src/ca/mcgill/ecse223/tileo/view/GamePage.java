@@ -75,7 +75,6 @@ public class GamePage extends JFrame {
 						.addComponent(removeConnection, 220, 220, 220)
 						.addGap(220, 220, 220)
 						.addGroup(layout.createSequentialGroup()
-								//.addGap(70, 70, 70)
 								.addComponent(rollDie, 140, 140, 140)
 								.addComponent(dieResult, 70, 70, 70))
 						.addComponent(finishTurn, 220, 220, 220)
