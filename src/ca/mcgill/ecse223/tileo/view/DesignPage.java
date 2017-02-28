@@ -249,10 +249,6 @@ public class DesignPage extends JFrame {
 			board.Mode = Mode.REMOVE_CONNECTION;
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> 66461125cc754e33238086e0837296aa9945aaf7
 
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -261,12 +257,9 @@ public class DesignPage extends JFrame {
 	}
 	
 	class PlayerToAddListener implements ActionListener{
-<<<<<<< HEAD
+
 		public void actionPerformed(ActionEvent ev){
 			board.playerNumber=(int)playerToAdd.getSelectedItem();
 		}
-=======
-		
->>>>>>> 66461125cc754e33238086e0837296aa9945aaf7
 	}
-	}
+}
