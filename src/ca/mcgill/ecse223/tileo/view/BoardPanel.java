@@ -117,11 +117,26 @@ public class BoardPanel extends JPanel {
 		}
 		
 		//Paint currently existing tiles
-		for(Rectangle2DCoord rectangle: boardTiles.keySet()){		
-			g2d.setColor(rectangle.color);
-			g2d.fill(rectangle.coordRectangle);
-			g2d.setColor(Color.GRAY);
-			g2d.draw(rectangle.coordRectangle);
+		for(Rectangle2DCoord rectangle: boardTiles.keySet()){
+			
+			if(game.getMode()==Game.Mode.GAME){
+				if(TileOApplication.getDesignPanel().getHasRolled()){
+					g2d.setColor(rectangle.color);
+					g2d.fill(rectangle.coordRectangle);
+					g2d.setColor(Color.GRAY);
+					g2d.draw(rectangle.coordRectangle);
+				}else{
+					g2d.setColor(Color.WHITE);
+					g2d.fill(rectangle.coordRectangle);
+					g2d.setColor(Color.GRAY);
+					g2d.draw(rectangle.coordRectangle);
+				}
+			}else{
+				g2d.setColor(rectangle.color);
+				g2d.fill(rectangle.coordRectangle);
+				g2d.setColor(Color.GRAY);
+				g2d.draw(rectangle.coordRectangle);
+			}
 		}
 		
 		for(Connector2D connector: connectors){
