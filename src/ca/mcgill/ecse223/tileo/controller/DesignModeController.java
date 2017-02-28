@@ -198,12 +198,9 @@ public class DesignModeController {
 		int tileX = tile.getX();
 		int tileY = tile.getY();
 		tile.delete();
-<<<<<<< HEAD
 		WinTile hiddenTile = new WinTile(tileX, tileY,game);
-		game.setWinTile(hiddenTile);
-=======
-		WinTile hiddenTile = new WinTile(tileX, tileY, game);
->>>>>>> origin/master
+		game.setWinTile(hiddenTile);;
+
 	}
 	
 	

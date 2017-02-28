@@ -27,12 +27,12 @@ public class BoardPanel extends JPanel {
 	public Game.Mode m;
 	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
-<<<<<<< HEAD
+
 	public ArrayList<Ellipse2DCoord> playerTiles = new ArrayList<Ellipse2DCoord>();
-=======
+
 	public ArrayList<Rectangle2D> connectors = new ArrayList<Rectangle2D>();
 	public HashMap<Rectangle2D, Connection> boardConnections = new HashMap<Rectangle2D, Connection>();
->>>>>>> origin/master
+
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
@@ -118,7 +118,7 @@ public class BoardPanel extends JPanel {
 			g2d.draw(rectangle.coordRectangle);
 		}
 		
-<<<<<<< HEAD
+
 		//Look
 		
 		for(Ellipse2DCoord circle: playerTiles){
@@ -127,7 +127,7 @@ public class BoardPanel extends JPanel {
 			g2d.fill(player);
 		}
 		
-=======
+
 		Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
 		g2d.setColor(Color.RED);
 		g2d.fill(player);
@@ -144,7 +144,7 @@ public class BoardPanel extends JPanel {
 			g2d.draw(prev.coordRectangle);
 		}
 
->>>>>>> origin/master
+
 	}
 	
 	public Rectangle2D getHorizontalConnectionRect(Tile tile1, Tile tile2){

@@ -218,38 +218,38 @@ public class DesignPage extends JFrame {
 	class AddTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Add Tile");
-			board.mode = Mode.ADD_TILE;
+			board.Mode = Mode.ADD_TILE;
 		}
 	}
 	
 	class RemoveTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Tile");
-			board.mode = Mode.REMOVE_TILE;
+			board.Mode = Mode.REMOVE_TILE;
 		}
 	}
 	
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
-			board.mode = Mode.PLACE_PLAYER;
+			board.Mode = Mode.PLACE_PLAYER;
 		}
 	}
 	
 	class AddConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Add Connection");
-			board.mode = Mode.ADD_CONNECTION;
+			board.Mode = Mode.ADD_CONNECTION;
 		}
 	}
 	
 	class RemoveConnectionListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Remove Connection");
-			board.mode = Mode.REMOVE_CONNECTION;
+			board.Mode = Mode.REMOVE_CONNECTION;
 		}
 	}
-<<<<<<< Updated upstream
+
 
 	class InactiveTurnsListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
@@ -258,19 +258,6 @@ public class DesignPage extends JFrame {
 	}
 	
 	class PlayerToAddListener implements ActionListener{
-=======
-	
-	class InactiveTurnsListener implements ActionListener{
->>>>>>> Stashed changes
-		public void actionPerformed(ActionEvent ev){
-			board.playerNumber=(int)playerToAdd.getSelectedItem();
-		}
+		
 	}
-
-	class PlayGameListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
-			TileOApplication.changeGameMode();
-		}
 	}
-	
-}
