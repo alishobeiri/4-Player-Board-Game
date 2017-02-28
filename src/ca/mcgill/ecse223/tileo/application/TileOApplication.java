@@ -94,16 +94,16 @@ public class TileOApplication {
 		mainMenu=d;
 	}
 	
-	public static void deleteDesign(){
-		designPage.setVisible(false);
-		mainMenu.setVisible(false);
-		designPage.dispose();
-	}
 	
 	public static void createDesignGame(TileOPage menu){
 		designPage=new DesignPage(menu);
 		board=designPage.getBoard();
 		designPage.setVisible(true);
+	}
+	
+	public static void deleteGame(){
+		gamePage.setVisible(false);
+		gamePage.dispose();
 	}
 	
 	public static void addPrevDesignGame(DesignPage d){

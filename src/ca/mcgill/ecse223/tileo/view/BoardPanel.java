@@ -371,7 +371,7 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			player.setCurrentTile(boardTiles.get(rect));
 			try {
-				//pmc.land(t);
+				pmc.land(t);
 				pmc.setNextPlayer(game);
 				System.out.println("Homie we made it");
 				TileOApplication.getDesignPanel().setHasRolled(false);
