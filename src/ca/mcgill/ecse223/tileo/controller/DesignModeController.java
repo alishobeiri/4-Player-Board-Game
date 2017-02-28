@@ -110,9 +110,6 @@ public class DesignModeController {
 		Player player;
 		try{
 			player=game.getPlayer(playerNumber-1);
-			if(player.hasStartingTile()){
-				throw new InvalidInputException("The player has a starting tile");
-			}
 		}catch(Exception e){
 			player=new Player(playerNumber, game);
 		}
