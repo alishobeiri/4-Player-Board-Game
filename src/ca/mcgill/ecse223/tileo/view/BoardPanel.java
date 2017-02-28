@@ -256,24 +256,25 @@ public class BoardPanel extends JPanel {
 				try {
 					t=toc.addActionTile(rect.coordX, rect.coordY, inactiveTurns);
 					boardTiles.put(rect, t);
+					rect.setColor(Color.pink);
+					repaint();
+					System.out.println("Action Tile: " + inactiveTurns + " inactive turns.");
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Tile already here");
 				}
-				boardTiles.put(rect, t);
-				rect.setColor(Color.pink);
-				repaint();
-				System.out.println("Action Tile: " + inactiveTurns + " inactive turns.");
 			}
 			else if(tileType == TileType.WIN){
 				if(currentWinRectangle != null){
 					removeTile(currentWinRectangle);
 				}
-				WinTile t = new WinTile(rect.coordX, rect.coordY, game);
+				Tile t=null;
+				t = toc.chooseHiddenTile(rect.coordX, rect.coordY);
 				currentWinRectangle = rect;
 				boardTiles.put(rect, t);
 				repaint();
 				System.out.println("Win Tile");
+				
 			}
 		}
 	}

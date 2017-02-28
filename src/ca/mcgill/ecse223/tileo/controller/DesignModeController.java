@@ -190,23 +190,13 @@ public class DesignModeController {
 		return c;
 	}
 	
-	public void chooseHiddenTile(Tile tile)
+	public Tile chooseHiddenTile(int x, int y)
 	{
 		Game game = TileOApplication.getCurrentGame();
-		if(game.hasWinTile()){
-			game.getWinTile().delete();
-		}
-		int tileX = tile.getX();
-		int tileY = tile.getY();
-		tile.delete();
-
-		WinTile hiddenTile = new WinTile(tileX, tileY,game);
+		WinTile hiddenTile = new WinTile(x, y,game);
 
 		game.setWinTile(hiddenTile);
-		
-
-
-
+		return hiddenTile;
 	}
 	public static void save() {
 		TileOApplication.save();

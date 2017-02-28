@@ -286,6 +286,9 @@ public class PlayModeController {
 		if (!selectedGame.hasWinTile()) {
 			throw new InvalidInputException("The game does not have a Win Tile");
 		}
+		if(!selectedGame.hasPlayers()){
+			throw new InvalidInputException("The game does not have any added players");
+		}
 
 		/* ACTION */
 		// Shuffle the deck

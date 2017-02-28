@@ -5,6 +5,7 @@ import javax.swing.*;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
@@ -293,8 +294,15 @@ public class DesignPage extends JFrame {
 	
 	class PlayGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-
-		TileOApplication.changeGameMode(getBoard());
+		PlayModeController poc=new PlayModeController();
+		try {
+			poc.startGame(TileOApplication.getCurrentGame());
+			TileOApplication.changeGameMode(getBoard());
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "There is an error");
+		}
+		
 		}
 	}
 	
