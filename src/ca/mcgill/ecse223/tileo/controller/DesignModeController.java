@@ -200,8 +200,12 @@ public class DesignModeController {
 		tile.delete();
 
 		WinTile hiddenTile = new WinTile(tileX, tileY,game);
+
 		game.setWinTile(hiddenTile);
 		
+
+
+
 	}
 	
 	

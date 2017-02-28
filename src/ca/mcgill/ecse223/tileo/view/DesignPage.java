@@ -91,7 +91,8 @@ public class DesignPage extends JFrame {
 		
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
 
-		play.addActionListener(new PlayGameListener());
+		//play.addActionListener(new PlayGameListener());
+		play.addActionListener(new PlayerToAddListener());
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
 		setLayout(layout);
@@ -240,7 +241,7 @@ public class DesignPage extends JFrame {
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
-			board.mode = Mode.PLACE_PLAYER;
+			board.mode= Mode.PLACE_PLAYER;
 		}
 	}
 	
@@ -270,11 +271,4 @@ public class DesignPage extends JFrame {
 		}
 		
 	}
-
-	class PlayGameListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
-			TileOApplication.changeGameMode();
-		}
-	}
-	
 }
