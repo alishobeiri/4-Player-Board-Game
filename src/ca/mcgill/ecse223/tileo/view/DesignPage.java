@@ -47,6 +47,7 @@ public class DesignPage extends JFrame {
 	JButton addConnection = new JButton("Add Connection");
 	JButton removeConnection = new JButton("Remove Connection");
 	JButton play = new JButton("Play Game");
+	JButton save = new JButton("Save");
 	
 	//Constructor
 	public DesignPage(String title, int aPlayers){
@@ -89,6 +90,8 @@ public class DesignPage extends JFrame {
 		setDeck.addActionListener(new SetDeckListener());
 		
 		inactiveTurns.addActionListener(new InactiveTurnsListener());
+		
+		play.addActionListener(new PlayGameListener());
 
 		//play.addActionListener(new PlayGameListener());
 		play.addActionListener(new PlayerToAddListener());
@@ -102,14 +105,17 @@ public class DesignPage extends JFrame {
 		JSeparator line1 = new JSeparator();
 		JSeparator line2 = new JSeparator();
 		JSeparator line3 = new JSeparator();
+		JSeparator line4 = new JSeparator();
 		
-		//Test
+		//Initialize JComboBox
 		Integer[] playerNums = new Integer[players];
 		for(int i = 0; i < players; i++){
 			playerNums[i] = i + 1;
 		}
 		
 		playerToAdd = new JComboBox(playerNums);
+		playerToAdd.addActionListener(new PlayerToAddListener());
+		
 		playerToAdd.addActionListener(new PlayerToAddListener());
 		
 		//Component placement
@@ -138,6 +144,8 @@ public class DesignPage extends JFrame {
 						.addComponent(removeConnection, 220, 220, 220)
 						.addComponent(line3, 220, 220, 220)
 						.addComponent(setDeck, 220, 220, 220)
+						.addComponent(line4, 220, 220, 220)
+						.addComponent(save, 220, 220, 220)
 						.addComponent(play, 220, 220, 220)
 						)
 		);
@@ -165,7 +173,9 @@ public class DesignPage extends JFrame {
 						.addComponent(removeConnection)
 						.addComponent(line3, 10, 10, 10)
 						.addComponent(setDeck)
-						.addGap(62, 62, 62)
+						.addComponent(line4, 10, 10, 10)
+						.addComponent(save)
+						.addGap(153, 153, 153)
 						.addComponent(play)
 						)
 		);	
@@ -259,7 +269,13 @@ public class DesignPage extends JFrame {
 	
 	class PlayerToAddListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			board.playerNumber=(int)playerToAdd.getSelectedItem();
+			board.playerNumber = (int) playerToAdd.getSelectedItem();
+		}
+		
+	}
+	class PlayGameListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+		TileOApplication.changeGameMode();
 		}
 	}
 }

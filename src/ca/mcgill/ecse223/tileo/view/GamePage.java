@@ -16,10 +16,10 @@ public class GamePage extends JFrame {
 	private Game game;
 
 	// TESTING
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		GamePage view = new GamePage();
 		view.setVisible(true);
-	}
+	}*/
 
 	// Components
 	JPanel rightPanel = new JPanel();
@@ -33,6 +33,7 @@ public class GamePage extends JFrame {
 	JTextField dieResult = new JTextField(20);
 	JLabel status = new JLabel("Current Player:");
 	JLabel currentPlayer = new JLabel("Player 1");
+	JButton save = new JButton("Save");
 
 	public GamePage() {
 		game=TileOApplication.getCurrentGame();
@@ -78,9 +79,13 @@ public class GamePage extends JFrame {
 						.addComponent(removeConnection, 220, 220, 220)
 						.addGap(220, 220, 220)
 						.addGroup(layout.createSequentialGroup()
-								.addGap(70, 70, 70)
-								.addComponent(dieResult, 80, 80, 80))
-						.addComponent(rollDie, 220, 220, 220).addComponent(finishTurn, 220, 220, 220)));
+								//.addGap(70, 70, 70)
+								.addComponent(rollDie, 140, 140, 140)
+								.addComponent(dieResult, 70, 70, 70))
+						.addComponent(finishTurn, 220, 220, 220)
+						.addComponent(save, 220, 220, 220)
+				)
+		);
 		layout.setVerticalGroup(layout.createParallelGroup()
 				.addComponent(board, 647, 647, 647)
 				.addGroup(layout.createSequentialGroup()
@@ -90,9 +95,13 @@ public class GamePage extends JFrame {
 						.addComponent(getCard)
 						.addComponent(addConnection)
 						.addComponent(removeConnection)
-						.addComponent(dieResult, 80, 80, 80)
-						.addComponent(rollDie)
-						.addComponent(finishTurn)));
+						.addGroup(layout.createParallelGroup()
+								.addComponent(dieResult, 70, 70, 70)
+								.addGroup(layout.createSequentialGroup()
+										.addGap(20, 20, 20)
+										.addComponent(rollDie)))
+						.addComponent(finishTurn)
+						.addComponent(save)));
 	}
 
 	class getCardListener implements ActionListener {
