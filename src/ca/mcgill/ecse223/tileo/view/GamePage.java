@@ -14,7 +14,8 @@ import ca.mcgill.ecse223.tileo.model.*;
 public class GamePage extends JFrame {
 
 	private Game game;
-
+	
+	Boolean hasRolled=false;
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board;
@@ -33,6 +34,7 @@ public class GamePage extends JFrame {
 		game=TileOApplication.getCurrentGame();
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
+		board.setMode(BoardPanel.Mode.GAME);
 		board.setVisible(true);
 		initComponents();
 	}
@@ -98,6 +100,10 @@ public class GamePage extends JFrame {
 						.addComponent(finishTurn)
 						.addComponent(save)));
 	}
+	
+	public void setHasRolled(Boolean flag){
+		hasRolled=flag;
+	}
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
@@ -108,30 +114,57 @@ public class GamePage extends JFrame {
 	class rollDieListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
-			rollDieActionPerformed(ev);
+			if(!hasRolled){
+				rollDieActionPerformed(ev);
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
 	class finishTurnListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
+			if(!hasRolled){
+				
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
 	class addConnectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
+			if(!hasRolled){
+				
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
 	class removeConnectionListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
+			if(!hasRolled){
+				
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 		}
 	}
 
+<<<<<<< HEAD
 	// Thomass
 	public void rollDieActionPerformed(ActionEvent ev) {
+=======
+
+	public void rollDieActionPerformed(ActionEvent ev) {
+		// clear error message
+		error = null;
+		hasRolled=true;
+>>>>>>> 993ddae91674ea68b90d2021a9824360884d0edc
 		// Call the controller
 		PlayModeController toc = new PlayModeController();
 		Game game = TileOApplication.getCurrentGame();
@@ -142,13 +175,17 @@ public class GamePage extends JFrame {
 		// need to update the visual with the number of the die roll but only
 		// the list of tiles is returned
 		ArrayList<Tile> tiles = toc.rollDie();
-		try{
+		if(tiles == null || tiles.size() == 0){
+			showMessage("No possible moves! Sucks to be you!");
+			return;
+		}
 		for(Tile t : tiles){
 			BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 			if(rect != null){
 				rect.setColor(Color.YELLOW);
 			}
 		}
+<<<<<<< HEAD
 		}catch(NullPointerException e){
 			showMessage("No possible moves for current player");
 		}
@@ -158,6 +195,11 @@ public class GamePage extends JFrame {
 
 	private void refresh() {
 				
+=======
+		board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+		board.refreshBoard();
+		// update die visual
+>>>>>>> 993ddae91674ea68b90d2021a9824360884d0edc
 	}
 
 	// Thomas

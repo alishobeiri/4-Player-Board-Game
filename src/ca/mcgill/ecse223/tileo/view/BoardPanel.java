@@ -73,6 +73,9 @@ public class BoardPanel extends JPanel {
 		return null;
 	}
 	
+	public void setMode(Mode m){
+		this.mode=m;
+	}
 	// Constructor
 	public BoardPanel(Game.Mode m){
 		//TESTING TODO: REMOVE
@@ -333,11 +336,25 @@ public class BoardPanel extends JPanel {
 			}
 	}
 
+	public void movePlayer(Rectangle2DCoord rect){
+		if(rect.color.equals(Color.YELLOW)){
+			System.out.println("Homie we made it");
+		}else{
+			showMessage("Please select a valid tile");
+		}
+		
+	}
+	
+	public void showMessage(String s){
+		JOptionPane.showMessageDialog(this, s);
+	}
 	public ArrayList<Rectangle2DCoord> getRectangles(){
 		return rectangles;
 	}
 	
-
+	public void refreshBoard(){
+		repaint();
+	}
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){
@@ -422,6 +439,8 @@ public class BoardPanel extends JPanel {
 							removeConnection(prev, rect);
 							prev = null;
 						}
+					}else if(mode == Mode.MOVE_PLAYER){
+						movePlayer(rect);
 					}
 				}
 			}
@@ -503,7 +522,7 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER
 	}
 	
 	public enum TileType{
