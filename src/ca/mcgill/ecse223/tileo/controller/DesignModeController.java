@@ -149,23 +149,12 @@ public class DesignModeController {
 		}
 	}
 	
-	public void addConnection(Tile tileOne, Tile tileTwo) throws InvalidInputException
+	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
 	{
 		Game game = TileOApplication.getCurrentGame();
-		if(!(game.getTiles().contains(tileOne)) || !(game.getTiles().contains(tileTwo)))
-		{
-			throw new InvalidInputException("There is no tile in that space.");
-		}
-		else if(checkAdjacentTiles(tileOne, tileTwo) == false)
-		{
-			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
-		}
+		Connection c = game.connectTiles(tileOne, tileTwo);
 		
-		Connection connector = new Connection(game);
-		connector.addTile(tileOne);
-		connector.addTile(tileTwo);
-		
-		return;
+		return c;
 	}
 	
 	public boolean checkAdjacentTiles(Tile tile1, Tile tile2)
@@ -193,9 +182,11 @@ public class DesignModeController {
 	}
 
 	
-	public void removeConnection(Connection connector)
-	{
-		connector.delete();
+	public Connection deleteConnection(Connection connector)
+	{	
+		Game game = TileOApplication.getCurrentGame();
+		Connection c = game.deleteConnection(connector);
+		return c;
 	}
 	
 	public void chooseHiddenTile(Tile tile)
@@ -207,8 +198,12 @@ public class DesignModeController {
 		int tileX = tile.getX();
 		int tileY = tile.getY();
 		tile.delete();
+<<<<<<< HEAD
 		WinTile hiddenTile = new WinTile(tileX, tileY,game);
 		game.setWinTile(hiddenTile);
+=======
+		WinTile hiddenTile = new WinTile(tileX, tileY, game);
+>>>>>>> origin/master
 	}
 	
 	

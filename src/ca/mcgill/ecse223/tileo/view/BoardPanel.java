@@ -19,17 +19,26 @@ public class BoardPanel extends JPanel {
 	public static final int GAP = 15;
 	public static final int HORIZONTAL_RECTANGLES = 14;
 	public static final int VERTICAL_RECTANGLES = 14;
+	public static final int C_WIDTH = 10;
+	public static final int C_LENGTH = 15;
+	
 	
 	//Attributes
 	public Game.Mode m;
 	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
+<<<<<<< HEAD
 	public ArrayList<Ellipse2DCoord> playerTiles = new ArrayList<Ellipse2DCoord>();
+=======
+	public ArrayList<Rectangle2D> connectors = new ArrayList<Rectangle2D>();
+	public HashMap<Rectangle2D, Connection> boardConnections = new HashMap<Rectangle2D, Connection>();
+>>>>>>> origin/master
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
 	int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
+	Rectangle2DCoord prev = null;
 	
 	TileO tileo = new TileO();
 
@@ -41,7 +50,7 @@ public class BoardPanel extends JPanel {
 		for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
 			for(int j = 0; j < VERTICAL_RECTANGLES; j++){
 				Rectangle2D r2d = new Rectangle2D.Float(GAP*(j+1) + WIDTH*j, GAP*(i+1) + HEIGHT*i, WIDTH, HEIGHT);
-				Rectangle2DCoord currentRect = new Rectangle2DCoord(r2d, i, j);
+				Rectangle2DCoord currentRect = new Rectangle2DCoord(r2d, j, i);
 				rectangles.add(currentRect);
 			}
 		}
@@ -89,10 +98,10 @@ public class BoardPanel extends JPanel {
 		g2d.draw(contour);
 		
 		//Reset board
-		for(Rectangle2DCoord rectangle: rectangles){
+		/*for(Rectangle2DCoord rectangle: rectangles){
 			g2d.setColor(new Color(195, 195, 195));
 			g2d.fill(rectangle.coordRectangle);
-		}
+		}*/
 		
 		if(game.getMode() == Game.Mode.DESIGN){
 			for(Rectangle2DCoord rectangle: rectangles){
@@ -109,6 +118,7 @@ public class BoardPanel extends JPanel {
 			g2d.draw(rectangle.coordRectangle);
 		}
 		
+<<<<<<< HEAD
 		//Look
 		
 		for(Ellipse2DCoord circle: playerTiles){
@@ -117,13 +127,127 @@ public class BoardPanel extends JPanel {
 			g2d.fill(player);
 		}
 		
+=======
+		Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
+		g2d.setColor(Color.RED);
+		g2d.fill(player);
+		
+		g2d.setColor(Color.DARK_GRAY);
+		for(Rectangle2D connector: connectors){
+			g2d.fill(connector);
+		}
+		
+		if(prev != null){
+			g2d.setColor(Color.BLUE);
+			g2d.fill(prev.coordRectangle);
+			g2d.setColor(Color.GRAY);
+			g2d.draw(prev.coordRectangle);
+		}
+
+>>>>>>> origin/master
 	}
+	
+	public Rectangle2D getHorizontalConnectionRect(Tile tile1, Tile tile2){
+		Tile tile;
+		if(tile1.getX() < tile2.getX()){
+			tile = tile1;
+		}
+		else{
+			tile = tile2;
+		}
+		Rectangle2D rect = new Rectangle2D.Float((tile.getX()+1)*WIDTH + (tile.getX()+1)*GAP, (tile.getY())*HEIGHT + (tile.getY()+1)*GAP + 10, C_LENGTH, C_WIDTH);
+		return rect;
+	}
+	
+	public Rectangle2D getVerticalConnectionRect(Tile tile1, Tile tile2){
+		Tile tile;
+		if(tile1.getY() < tile2.getY()){
+			tile = tile1;
+		}
+		else{
+			tile = tile2;
+		}
+		Rectangle2D rect = new Rectangle2D.Float((tile.getX())*WIDTH + (tile.getX()+1)*GAP + 10, (tile.getY()+1)*HEIGHT + (tile.getY()+1)*GAP ,C_WIDTH ,C_LENGTH);
+		return rect;
+	}
+	
+	public void addConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
+		Tile tile1 = boardTiles.get(rect1);
+		Tile tile2 = boardTiles.get(rect2);
+		Connection c = null;
+		boolean enter = true;
+		
+		DesignModeController dmc = new DesignModeController();
+		
+		try{
+		c = dmc.connectTiles(tile1, tile2);
+		}
+		catch(InvalidInputException e){
+			enter = false;
+			prev = null;
+			repaint();
+			System.out.println("Tiles must be adjacent.");
+		}
+		
+		if(enter){
+			
+			Rectangle2D connector = null;
+			if(tile1.getX() == tile2.getX()){
+				connector = getVerticalConnectionRect(tile1, tile2);
+			}
+			else if(tile1.getY() == tile2.getY()){
+				connector = getHorizontalConnectionRect(tile1, tile2);
+			}
+			if(connector != null){
+				connectors.add(connector);
+				boardConnections.put(connector, c);
+				System.out.println("Connections added");
+				System.out.print(boardConnections);
+			}
+			repaint();
+		}
+	}
+	
+	public void removeConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
+		/*Tile tile1 = boardTiles.get(rect1);
+		Tile tile2 = boardTiles.get(rect2);
+		Connection c = null;
+		boolean enter = true;
+		
+		DesignModeController dmc = new DesignModeController();
+		
+		try{
+		c = dmc.deleteConnection(tile1, tile2);
+		}
+		catch(InvalidInputException e){
+			enter = false;
+			prev = null;
+			repaint();
+			System.out.println("Tiles must be adjacent.");
+		}
+		
+		if(enter){
+			
+			Rectangle2D connector = null;
+			if(tile1.getX() == tile2.getX()){
+				connector = getVerticalConnectionRect(tile1, tile2);
+			}
+			else if(tile1.getY() == tile2.getY()){
+				connector = getHorizontalConnectionRect(tile1, tile2);
+			}
+			if(connector != null){
+				connectors.add(connector);
+				boardConnections.put(connector, c);
+				System.out.println("Connections added");
+				System.out.print(boardConnections);
+			}
+			repaint();*/
+	}
+	
 	
 	public void addTile(Rectangle2DCoord rect){
 		DesignModeController toc=new DesignModeController();
 		if(!(boardTiles.keySet().contains(rect))){
-			
-			//TODO: Insert real addTile method from the controller
 			
 			if(tileType == TileType.NORMAL){
 				try {
@@ -166,8 +290,6 @@ public class BoardPanel extends JPanel {
 	public void removeTile(Rectangle2DCoord rect){
 		DesignModeController toc=new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
-			
-			//TODO: Insert real removeTile method from the controller
 			try{
 				toc.removeTile(rect.coordX, rect.coordY);
 				for(Player player: game.getPlayers()){
@@ -238,17 +360,29 @@ public class BoardPanel extends JPanel {
 			int y = ev.getY();
 			for(Rectangle2DCoord rect : getRectangles()){
 				if(rect.coordRectangle.contains(x, y)){
-					System.out.println("Found me!");
 					if(mode == Mode.ADD_TILE){
+						prev = null;
 						addTile(rect);
 					}
 					else if(mode == Mode.REMOVE_TILE){
+						prev = null;
 						removeTile(rect);
 					}
 					else if(mode == Mode.PLACE_PLAYER){
+						prev = null;
 						addPlayer(rect);
 					}else if(mode == Mode.ADD_CONNECTION){
 						//addConnection()
+					}
+					else if(mode == Mode.ADD_CONNECTION){
+						if(prev == null){
+							prev = rect;
+							repaint();
+						}
+						else{
+							addConnection(prev, rect);
+							prev = null;
+						}
 					}
 				}
 			}

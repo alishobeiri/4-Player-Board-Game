@@ -47,7 +47,7 @@ public class RemoveConnectionActionCard extends ActionCard implements Serializab
 	  Game game = this.getDeck().getGame();
 	  
 	  //TODO Check this method works
-	  game.removeConnection(aConnection);
+	  game.deleteConnection(aConnection);
   }
 
 }

@@ -9,9 +9,6 @@ import java.util.*;
 public abstract class Tile implements Serializable
 {
 
-  /**
-	 * 
-	 */
 	private static final long serialVersionUID = 6268872893876940875L;
 //------------------------
   // MEMBER VARIABLES
