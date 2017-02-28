@@ -591,7 +591,6 @@ public class Game implements Serializable
      + outputString;
 	}
 
-	// Thomas
 	public List<Tile> rollDie() {
 		// List of tiles to return that represents possible moves
 		List<Tile> tiles = new ArrayList<Tile>();

@@ -20,7 +20,8 @@ public class DesignModeController {
      */
     public Game createGame(int numberOfPlayers) throws InvalidInputException{
         TileO app = TileOApplication.getTileO();
-        Game game = new Game(Game.SpareConnectionPieces, app);
+        Game game = null;
+        game = new Game(Game.SpareConnectionPieces, app);
         
         System.out.println(game.getPlayers());
         

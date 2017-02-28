@@ -246,11 +246,10 @@ public class PlayModeController {
 	// Thomas
 	// Returns a list of possible moves the current player can make based on the
 	// number they roll
-	public int rollDie() {
-		Die die = TileOApplication.getCurrentGame().getDie();
-		
-		// Returns a list of possible moves the current player can make
-		return die.roll();
+	public List<Tile> rollDie() {
+		Game game = TileOApplication.getCurrentGame();
+		List<Tile> tiles = game.rollDie();
+		return tiles;
 	}
 
 	// Thomas

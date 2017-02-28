@@ -81,11 +81,11 @@ public class CreateGamePage extends JFrame {
 	class CreateListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			DesignModeController dmc = new DesignModeController();
-			int players = 2;
-			players = (int) numberOfPlayers.getSelectedItem();
+			int players = (int) numberOfPlayers.getSelectedItem();
 			try{
 				dmc.createGame(players);
 				TileO tileO = TileOApplication.getTileO();
+				
 				System.out.println(tileO.getGames().size());
 			}
 			catch(InvalidInputException e){
@@ -93,7 +93,7 @@ public class CreateGamePage extends JFrame {
 			}
 			DesignPage designPage=new DesignPage(mainMenu);
 			designPage.setVisible(true);
-			TileOApplication.setDesignGame(designPage);
+			//TileOApplication.setDesignGame(designPage);
 			dispose();
 		}
 	}

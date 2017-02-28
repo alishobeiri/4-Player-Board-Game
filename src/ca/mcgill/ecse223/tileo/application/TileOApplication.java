@@ -22,12 +22,13 @@ public class TileOApplication {
 		
 
 
-		Game game=new Game(0, tileO);
-		TileOApplication.setCurrentGame(game);
-		//designPage = new DesignPage(4);
-		game.addPlayer(new Player(0, game));
+		//Game game=new Game(0, tileO);
+		//TileOApplication.setCurrentGame(game);
+		TileOPage menu = new TileOPage(tileO);
+		designPage = new DesignPage(menu);
+		//game.addPlayer(new Player(0, game));
 
-		TileOApplication.setCurrentGame(game);
+		//TileOApplication.setCurrentGame(game);
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
