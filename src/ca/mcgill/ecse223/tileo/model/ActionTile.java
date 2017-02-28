@@ -84,9 +84,7 @@ public class ActionTile extends Tile implements Serializable {
 		
 		Deck deck = currentGame.getDeck();
 		ActionCard currentCard = deck.getCurrentCard();
-		//TODO check that this method works
-		Mode mode = currentCard.getActionCardGameMode();
-
-		currentGame.setMode(mode);
+		
+		currentCard.changeGameModeToActionCard();
 	}
 }

@@ -100,8 +100,5 @@ public abstract class ActionCard implements Serializable
      + outputString;
   }
 
-public Mode getActionCardGameMode() {
-	// TODO Auto-generated method stub
-	return null;
-}
+public abstract void changeGameModeToActionCard();
 }
