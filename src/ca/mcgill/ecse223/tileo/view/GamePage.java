@@ -146,9 +146,7 @@ public class GamePage extends JFrame {
 		// pass the returned list of tiles somewhere
 		// need to update the visual with the number of the die roll but only
 		// the list of tiles is returned
-		int number = toc.rollDie();
-		refresh(number);
-		java.util.List<Tile> tiles = toc.generateMoves(currentTile, number);
+		ArrayList<Tile> tiles = toc.rollDie();
 		for(Tile t : tiles){
 			BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 			if(rect != null){
