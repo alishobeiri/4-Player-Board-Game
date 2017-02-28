@@ -104,6 +104,10 @@ public class GamePage extends JFrame {
 	public void setHasRolled(Boolean flag){
 		hasRolled=flag;
 	}
+	
+	public boolean getHasRolled(){
+		return hasRolled;
+	}
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
