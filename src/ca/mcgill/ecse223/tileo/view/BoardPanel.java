@@ -30,8 +30,8 @@ public class BoardPanel extends JPanel {
 
 	public HashMap<Integer, Ellipse2DCoord> playerTiles = new HashMap<Integer, Ellipse2DCoord>();
 
-	public ArrayList<Rectangle2D> connectors = new ArrayList<Rectangle2D>();
-	public HashMap<Rectangle2D, Connection> boardConnections = new HashMap<Rectangle2D, Connection>();
+	public ArrayList<Connector2D> connectors = new ArrayList<Connector2D>();
+	public HashMap<Connector2D, Connection> boardConnections = new HashMap<Connector2D, Connection>();
 
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
@@ -118,9 +118,10 @@ public class BoardPanel extends JPanel {
 			g2d.fill(player);
 		}
 		
-		g2d.setColor(Color.DARK_GRAY);
-		for(Rectangle2D connector: connectors){
-			g2d.fill(connector);
+		
+		for(Connector2D connector: connectors){
+			g2d.setColor(Color.DARK_GRAY);
+			g2d.fill(connector.c);
 		}
 		
 		if(prev != null){
@@ -164,6 +165,16 @@ public class BoardPanel extends JPanel {
 		return rect;
 	}
 	
+	public ArrayList<Connector2D> getConnector(Tile tile1, Tile tile2){
+		ArrayList<Connector2D> list=new ArrayList<Connector2D>();
+		for(Connector2D connect: connectors){
+			if((tile1.getX()==connect.tileOne.getX() && tile1.getY()==connect.tileOne.getY() && tile2.getX()==connect.tileTwo.getX() && tile2.getY()==connect.tileTwo.getY()) || (tile1.getY()==connect.tileTwo.getY() && tile1.getX()==connect.tileTwo.getX() && tile2.getY()==connect.tileOne.getY() && tile2.getX()==connect.tileOne.getX())){
+				list.add(connect);
+			}
+		}
+		return list;
+	}
+	
 	public void addConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
 		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
 			Tile tile1 = boardTiles.get(rect1);
@@ -174,6 +185,9 @@ public class BoardPanel extends JPanel {
 			DesignModeController dmc = new DesignModeController();
 			
 			try{
+				if(tile1.equals(tile2)){
+					throw new InvalidInputException("They are the same tile");
+				}
 			c = dmc.connectTiles(tile1, tile2);
 			}
 			catch(InvalidInputException e){
@@ -182,17 +196,19 @@ public class BoardPanel extends JPanel {
 				repaint();
 				System.out.println("Tiles must be adjacent.");
 			}
-			
 			if(enter){
-				
-				Rectangle2D connector = null;
+				Connector2D connector;
+				Rectangle2D connect=null;
 				if(tile1.getX() == tile2.getX()){
-					connector = getVerticalConnectionRect(tile1, tile2);
+					connect = getVerticalConnectionRect(tile1, tile2);
 				}
 				else if(tile1.getY() == tile2.getY()){
-					connector = getHorizontalConnectionRect(tile1, tile2);
+					connect = getHorizontalConnectionRect(tile1, tile2);
 				}
-				if(connector != null){
+				System.out.println("if entered");
+				if(connect != null){
+					System.out.println("2nd if entered");
+					connector=new Connector2D(tile1, tile2, connect, c);
 					connectors.add(connector);
 					boardConnections.put(connector, c);
 				}
@@ -205,26 +221,15 @@ public class BoardPanel extends JPanel {
 		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
 			Tile tile1 = boardTiles.get(rect1);
 			Tile tile2 = boardTiles.get(rect2);
-			Connection c = null;
-			boolean enter = true;
 			
 			DesignModeController dmc = new DesignModeController();
 			
-			Rectangle2D connector = null;
-			if(tile1.getX() == tile2.getX()){
-				connector = getVerticalConnectionRect(tile1, tile2);
-			}
-			else if(tile1.getY() == tile2.getY()){
-				connector = getHorizontalConnectionRect(tile1, tile2);
-			}
+			ArrayList<Connector2D> connector=getConnector(tile1, tile2);
 			
-			c = boardConnections.get(connector);
-			
-			if(c != null){
-				dmc.deleteConnection(c);
-				connectors.remove(connector);
+			for(Connector2D connect: connector){
+				dmc.deleteConnection(connect.connect);
+				connectors.remove(connect);
 			}
-			
 			repaint();
 		}
 	}
@@ -250,6 +255,7 @@ public class BoardPanel extends JPanel {
 				ActionTile t = null;
 				try {
 					t=toc.addActionTile(rect.coordX, rect.coordY, inactiveTurns);
+					boardTiles.put(rect, t);
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Tile already here");
@@ -276,19 +282,32 @@ public class BoardPanel extends JPanel {
 		DesignModeController toc=new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			try{
-				toc.removeTile(rect.coordX, rect.coordY);
 				for(Player player: game.getPlayers()){
 					if(player.getStartingTile().getX()==rect.coordX && player.getStartingTile().getY()==rect.coordY){
 						System.out.println("Player exists on tile");
 						player.setStartingTile(null);
 					}
 				}
+				System.out.println(connectors.size());
+				ArrayList<Connector2D> temp=new ArrayList<Connector2D>();
+				for(Connector2D connect: connectors){
+					System.out.println("Inside Loop");
+					if((connect.tileOne.getX()==rect.coordX && connect.tileOne.getY()==rect.coordY) || (connect.tileTwo.getX()==rect.coordX && connect.tileTwo.getY()==rect.coordY)){
+						temp.add(connect);
+					}
+				}
+				for(Connector2D connect: temp){
+					connectors.remove(connect);
+					boardConnections.remove(connect.connect);
+					toc.deleteConnection(connect.connect);
+				}
 				for(Ellipse2DCoord circle: playerTiles.values()){
 					if(circle.coordX==rect.coordX&&circle.coordY==rect.coordY){
 						playerTiles.remove(circle);
 					}
 				}
-			}catch (Exception e){
+				toc.removeTile(rect.coordX, rect.coordY);
+			}catch (InvalidInputException e){
 				System.out.println("Tile does not exist within game");
 			}
 			rect.setColor(Color.WHITE);
@@ -377,6 +396,7 @@ public class BoardPanel extends JPanel {
 					else if(mode == Mode.REMOVE_CONNECTION){
 						if(prev == null){
 							if(boardTiles.containsKey(rect)){
+								System.out.println(rect.coordX + " " + rect.coordY);
 								prev = rect;
 								repaint();
 							}
@@ -449,6 +469,21 @@ public class BoardPanel extends JPanel {
 		public void setColor(Color c){
 			color=c;
 		}
+	}
+	
+	class Connector2D{
+		Tile tileOne;
+		Tile tileTwo;
+		Rectangle2D c;
+		Connection connect;
+		
+		public Connector2D(Tile first, Tile second,Rectangle2D rect,Connection d){
+			tileOne=first;
+			tileTwo=second;
+			c=rect;
+			connect=d;
+		}
+		
 	}
 	
 	public enum Mode{

@@ -224,5 +224,15 @@ public class DesignModeController {
     	TileOApplication.setCurrentGame(g);
     }
 	
+	public Tile getTile(int x, int y) throws InvalidInputException{
+		Game game = TileOApplication.getCurrentGame();
+		for(Tile tile:game.getTiles()){
+			if(tile.getX()==x && tile.getY()==y){
+				return tile;
+			}
+		}
+		throw new InvalidInputException("No tile exists");
+	}
+	
 	
 }
