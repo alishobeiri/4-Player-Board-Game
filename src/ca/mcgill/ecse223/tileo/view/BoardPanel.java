@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.view;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 
 import javax.swing.*;
@@ -39,7 +40,7 @@ public class BoardPanel extends JPanel {
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 1;
-	int playerNumber=1;
+	int playerNumber = 1;
 	Rectangle2DCoord currentWinRectangle = null;
 	Rectangle2DCoord prev = null;
 	
@@ -129,12 +130,24 @@ public class BoardPanel extends JPanel {
 		return null;
 	}
 	
+	public void setMode(Mode m){
+		this.mode=m;
+	}
 	// Constructor
 	public BoardPanel(Game.Mode m){
 		//TESTING TODO: REMOVE
 		game.setMode(m);
 		initComponents();
 		addMouseListener(new MouseSelectionListener());
+	}
+	
+	public BoardPanel(BoardPanel oldBoard){
+		this.boardConnections=oldBoard.boardConnections;
+		this.boardTiles=oldBoard.boardTiles;
+		this.connectors=oldBoard.connectors;
+		this.rectangles=oldBoard.rectangles;
+		this.playerTiles=oldBoard.playerTiles;
+		this.mode=BoardPanel.Mode.GAME;
 	}
 
 	public void paintComponent(Graphics g){
@@ -161,11 +174,26 @@ public class BoardPanel extends JPanel {
 		}
 		
 		//Paint currently existing tiles
-		for(Rectangle2DCoord rectangle: boardTiles.keySet()){		
-			g2d.setColor(rectangle.color);
-			g2d.fill(rectangle.coordRectangle);
-			g2d.setColor(Color.GRAY);
-			g2d.draw(rectangle.coordRectangle);
+		for(Rectangle2DCoord rectangle: boardTiles.keySet()){
+			
+			if(game.getMode()==Game.Mode.GAME){
+				if(TileOApplication.getDesignPanel().getHasRolled()){
+					g2d.setColor(rectangle.color);
+					g2d.fill(rectangle.coordRectangle);
+					g2d.setColor(Color.GRAY);
+					g2d.draw(rectangle.coordRectangle);
+				}else{
+					g2d.setColor(Color.WHITE);
+					g2d.fill(rectangle.coordRectangle);
+					g2d.setColor(Color.GRAY);
+					g2d.draw(rectangle.coordRectangle);
+				}
+			}else{
+				g2d.setColor(rectangle.color);
+				g2d.fill(rectangle.coordRectangle);
+				g2d.setColor(Color.GRAY);
+				g2d.draw(rectangle.coordRectangle);
+			}
 		}
 		
 		for(Connector2D connector: connectors){
@@ -192,8 +220,12 @@ public class BoardPanel extends JPanel {
 			g2d.setColor(circle.color);
 			g2d.fill(player);
 		}
-
-
+		
+		for(Ellipse2DCoord circle: playerTiles.values()){
+			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
+			g2d.setColor(circle.color);
+			g2d.fill(player);
+		}
 	}
 	
 	public Rectangle2D getHorizontalConnectionRect(Tile tile1, Tile tile2){
@@ -294,8 +326,7 @@ public class BoardPanel extends JPanel {
 	
 	public void addTile(Rectangle2DCoord rect){
 		DesignModeController toc=new DesignModeController();
-		if(!(boardTiles.keySet().contains(rect))){
-			
+		if(!(boardTiles.keySet().contains(rect))){	
 			if(tileType == TileType.NORMAL){
 				try {
 					NormalTile t = toc.addNormalTile(rect.coordX, rect.coordY);
@@ -381,10 +412,55 @@ public class BoardPanel extends JPanel {
 			}
 	}
 
+	public void movePlayer(Rectangle2DCoord rect){
+		int playerNumber;
+		PlayModeController pmc = new PlayModeController();
+		Player player=game.getCurrentPlayer();
+		if(rect.color.equals(Color.pink)){
+			playerNumber=game.getCurrentPlayer().getNumber();
+			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
+			switch(player.getColorFullName()){
+				case "RED":
+					circle.setColor(Color.RED);
+					break;
+				case "YELLOW":
+					circle.setColor(Color.YELLOW);
+					break;
+				case "BLUE":
+					circle.setColor(Color.BLUE);
+					break;
+				case "GREEN":
+					circle.setColor(Color.GREEN);
+					break;
+			}
+			playerTiles.put(playerNumber, circle);
+			Tile t=boardTiles.get(rect);
+			player.setCurrentTile(boardTiles.get(rect));
+			try {
+				pmc.land(t);
+				pmc.setNextPlayer(game);
+				System.out.println("Homie we made it");
+				TileOApplication.getDesignPanel().setHasRolled(false);
+				TileOApplication.getDesignPanel().refresh();
+				repaint();
+			} catch (InvalidInputException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			showMessage("Please select a valid tile");
+		}
+		
+	}
+	
+	public void showMessage(String s){
+		JOptionPane.showMessageDialog(this, s);
+	}
 	public ArrayList<Rectangle2DCoord> getRectangles(){
 		return rectangles;
 	}
 	
+
 	public void initPlayers(ArrayList<Player> players){
 		System.out.println(players);
 		int i = 1;
@@ -401,12 +477,6 @@ public class BoardPanel extends JPanel {
 				int c2 = (gameIndex*4)+2;
 				int c3 = (gameIndex*4)+3;
 				int c4 = (gameIndex*4)+4;
-				
-				System.out.println(c1);
-				System.out.println(c2);
-				System.out.println(c3);
-				System.out.println(c4);
-				System.out.println("Player number: "+playerNumber);
 				
 				if(playerNumber == c1){
 					System.out.println("color match: RED");
@@ -427,7 +497,10 @@ public class BoardPanel extends JPanel {
 			}
 			i++;
 		}
+	}
 
+	public void refreshBoard(){
+		repaint();
 	}
 	
 	//Work in progress on this one
@@ -442,6 +515,7 @@ public class BoardPanel extends JPanel {
 				
 				Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
 				playerTiles.put(playerNumber, circle);
+
 				TileO tileO = TileOApplication.getTileO();
 				int gameIndex = tileO.indexOfGame(game);
 				int c1 = (gameIndex*4)+1;
@@ -461,6 +535,7 @@ public class BoardPanel extends JPanel {
 					circle.setColor(Color.RED);
 					playerIndex = 1;
 				}
+
 				else if(playerNumber == c2){
 					circle.setColor(Color.BLUE);
 					playerIndex = 2;
@@ -532,6 +607,9 @@ public class BoardPanel extends JPanel {
 							removeConnection(prev, rect);
 							prev = null;
 						}
+					}else if(mode == Mode.MOVE_PLAYER && TileOApplication.getDesignPanel().getHasRolled()){
+						movePlayer(rect);
+						repaint();
 					}
 				}
 			}
@@ -586,6 +664,7 @@ public class BoardPanel extends JPanel {
 		int coordX;
 		int coordY;
 		Color color;
+		Player player;
 		
 		public Ellipse2DCoord(int x, int y){
 			coordX = x;
@@ -613,7 +692,7 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER
 	}
 	
 	public enum TileType{

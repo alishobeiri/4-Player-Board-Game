@@ -15,23 +15,35 @@ public class PlayModeController {
 
 	// Action Card Methods
 	
-	public ActionCard pickActionCard(){
-		Game game = TileOApplication.getCurrentGame();
+	public static ActionCard pickActionCard(Game game){
+		game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		ActionCard newCard;
-		if(deck.indexOfCard(deck.getCurrentCard()) == deck.maximumNumberOfCards()){
+		if(deck.indexOfCard(deck.getCurrentCard()) == Deck.maximumNumberOfCards()){
 			deck.shuffle();
+			newCard = deck.getCurrentCard();
 		}
 		else{
 			newCard = deck.getCurrentCard();
 		}
+		if (newCard instanceof RollDieActionCard) {
+            game.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
+        } else if (newCard instanceof ConnectTilesActionCard) {
+            game.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
+        } else if (newCard instanceof RemoveConnectionActionCard) {
+            game.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+        } else if (newCard instanceof TeleportActionCard) {
+            game.setMode(Game.Mode.GAME_TELEPORTACTIONCARD);
+        } else if (newCard instanceof LoseTurnActionCard) {
+            game.setMode(Game.Mode.GAME_LOSETURNACTIONCARD);
+        }
 			
 		newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
 		deck.setCurrentCard(newCard);
 		return newCard;
 	}
 	
-	public void action(){
+	/*public void action(){
 		Game game = TileOApplication.getCurrentGame();
 		Game.Mode mode = game.getMode();
 		
@@ -53,7 +65,7 @@ public class PlayModeController {
 		else if(mode == Mode.GAME_TELEPORTACTIONCARD){
 			
 		}
-	}
+	}*/
 
 	public List<Tile> playRollDieActionCard() throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
@@ -198,8 +210,8 @@ public class PlayModeController {
 		List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
-		if (players.get(index + 1) == null) {
-			index = 0;
+		if(index==game.numberOfPlayers()){
+			index=1;
 		}
 		Player next = players.get(index);
 		game.setCurrentPlayer(next);
@@ -253,7 +265,6 @@ public class PlayModeController {
 	}
 
 	// Thomas
-	// TODO Implement validation and fix errors
 	public void startGame(Game selectedGame) throws InvalidInputException {
 
 		/* VARIABLES */
@@ -322,8 +333,7 @@ public class PlayModeController {
 	}
 
 	// Thomas
-	// TODO
-	public void land(Tile tile) throws InvalidInputException {
+	/*public void land(Tile tile) throws InvalidInputException {
 		// Validation check: Make sure tile exists as one of the game tiles
 		Game game = tile.getGame();
 		List<Tile> tiles = game.getTiles();
@@ -334,5 +344,22 @@ public class PlayModeController {
 		}else{
 			throw new InvalidInputException("Tile is not part of the game");
 		}
-	}
+	}*/
+	
+	public static ActionCard tileLanding(Game game) {
+		game = TileOApplication.getCurrentGame();
+        Player player = game.getCurrentPlayer();
+        Tile currentTile = player.getCurrentTile();
+        setCurrentPlayer(game.getCurrentPlayer().indexOfPlayer(currentPlayer+1)))
+        currentTile.setHasBeenVisited(true);
+
+        if (currentTile instanceof ActionTile) {
+            return pickActionCard(game);
+            }
+        else if (currentTile instanceof WinTile) {
+            game.setMode(Game.Mode.GAME_WON);
+            return null;
+        }
+        return null;
+    }
 }

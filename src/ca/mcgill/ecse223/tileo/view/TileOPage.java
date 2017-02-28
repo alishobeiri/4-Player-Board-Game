@@ -37,6 +37,7 @@ public class TileOPage extends JFrame {
 		tileOGames = tileO.getGames();
 		model = new DefaultListModel();
 		games = new JList(model);
+		TileOApplication.setMainMenu(this);
 		initComponents();
 	}
 	
@@ -137,9 +138,14 @@ public class TileOPage extends JFrame {
 					new DesignPage(getPage()).setVisible(true);
 				}
 			}
+
 			else{
 				System.out.println("You must select or create a game");
 			}
+
+			DesignPage designPage=new DesignPage(getPage());
+			TileOApplication.addPrevDesignGame(designPage);
+			designPage.setVisible(true);
 		}
 	}
 	
