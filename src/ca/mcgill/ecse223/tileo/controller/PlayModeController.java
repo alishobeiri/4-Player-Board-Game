@@ -253,7 +253,6 @@ public class PlayModeController {
 	}
 
 	// Thomas
-	// TODO Implement validation and fix errors
 	public void startGame(Game selectedGame) throws InvalidInputException {
 
 		/* VARIABLES */
@@ -322,7 +321,6 @@ public class PlayModeController {
 	}
 
 	// Thomas
-	// TODO
 	public void land(Tile tile) throws InvalidInputException {
 		// Validation check: Make sure tile exists as one of the game tiles
 		Game game = tile.getGame();

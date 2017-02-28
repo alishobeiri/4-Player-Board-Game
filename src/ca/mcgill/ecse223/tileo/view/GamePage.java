@@ -13,8 +13,6 @@ import ca.mcgill.ecse223.tileo.model.*;
 
 public class GamePage extends JFrame {
 
-	// data elements
-	private String error = null;
 	private Game game;
 
 	// Components
@@ -46,7 +44,7 @@ public class GamePage extends JFrame {
 
 		// Settings for text field
 		dieResult.setFont(new Font("Futura", Font.BOLD, 56));
-		dieResult.setEditable(true);
+		dieResult.setEditable(false);
 
 		// Change fonts
 		status.setFont(new Font("Futura", Font.PLAIN, 26));
@@ -132,12 +130,8 @@ public class GamePage extends JFrame {
 		}
 	}
 
-	// Thomas
-	// TODO Implement this
+	// Thomass
 	public void rollDieActionPerformed(ActionEvent ev) {
-		// clear error message
-		error = null;
-  
 		// Call the controller
 		PlayModeController toc = new PlayModeController();
 		Game game = TileOApplication.getCurrentGame();
@@ -158,11 +152,15 @@ public class GamePage extends JFrame {
 		}catch(NullPointerException e){
 			showMessage("No possible moves for current player");
 		}
-		// update die visual
+		// die visual is updated in the rollDie method in the Game class
+		refresh();
+	}
+
+	private void refresh() {
+				
 	}
 
 	// Thomas
-	// TODO Fully implement
 	public void refreshDie(int number) {
 		dieResult.setText(Integer.toString(number));
 	}
