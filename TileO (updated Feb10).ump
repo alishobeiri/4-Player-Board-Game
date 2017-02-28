@@ -246,6 +246,7 @@ class Deck {
 }
 
 class ActionCard {
+public abstract void changeGameModeToActionCard();
   abstract;
 
   immutable String instructions;
