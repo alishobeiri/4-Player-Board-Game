@@ -160,6 +160,7 @@ public class GamePage extends JFrame {
 			}
 		}
 		
+		board.refreshBoard();
 		// update die visual
 	}
 

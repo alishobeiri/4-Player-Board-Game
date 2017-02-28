@@ -427,6 +427,8 @@ public class BoardPanel extends JPanel {
 							removeConnection(prev, rect);
 							prev = null;
 						}
+					}else if(mode == Mode.MOVE_PLAYER){
+						
 					}
 				}
 			}
@@ -508,7 +510,7 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER
 	}
 	
 	public enum TileType{
