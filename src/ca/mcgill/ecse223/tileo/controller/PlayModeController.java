@@ -183,12 +183,12 @@ public class PlayModeController {
 			Tile current = toVisit.poll();
 			layer++;
 			visited[layer] = new ArrayList<Tile>();
-			for(Tile t : current.getNeighbours()){
+			for(Tile t : getNeighbours(current)){
 				visited[layer].add(t);
 				toVisit.add(t);
 			}
 		}
-		return layer[numberOfMoves-1];
+		return visited[numberOfMoves-1];
 	}
 
 	// Helper methods
