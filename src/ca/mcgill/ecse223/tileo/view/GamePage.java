@@ -19,7 +19,7 @@ public class GamePage extends JFrame {
 
 	// Components
 	JPanel rightPanel = new JPanel();
-	BoardPanel board = new BoardPanel(Game.Mode.DESIGN);
+	BoardPanel board;
 	DeckPanel deck = new DeckPanel();
 	JButton getCard = new JButton("Get Action Card");
 	JButton rollDie = new JButton("Roll Die");
@@ -31,9 +31,10 @@ public class GamePage extends JFrame {
 	JLabel currentPlayer = new JLabel("Player 1");
 	JButton save = new JButton("Save");
 
-	public GamePage() {
+	public GamePage(BoardPanel oldBoard) {
 		game=TileOApplication.getCurrentGame();
 		game.setMode(Game.Mode.GAME);
+		board=oldBoard;
 		initComponents();
 	}
 

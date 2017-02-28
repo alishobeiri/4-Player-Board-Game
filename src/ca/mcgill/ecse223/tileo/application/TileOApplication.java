@@ -65,8 +65,8 @@ public class TileOApplication {
 		return wasSet;
 	}
 
-	public static void changeGameMode(){
-		gamePage = new GamePage();
+	public static void changeGameMode(BoardPanel board){
+		gamePage = new GamePage(board);
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	

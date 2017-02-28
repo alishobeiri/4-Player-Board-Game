@@ -200,6 +200,10 @@ public class DesignPage extends JFrame {
 
 	}
 	
+	public BoardPanel getBoard(){
+		return board;
+	}
+	
 	class NormalTileListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			board.tileType = TileType.NORMAL;
@@ -275,7 +279,7 @@ public class DesignPage extends JFrame {
 	}
 	class PlayGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-		TileOApplication.changeGameMode();
+		TileOApplication.changeGameMode(getBoard());
 		}
 	}
 }

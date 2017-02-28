@@ -35,7 +35,7 @@ public class BoardPanel extends JPanel {
 
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
-	int inactiveTurns = 0;
+	int inactiveTurns = 1;
 	int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	Rectangle2DCoord prev = null;
