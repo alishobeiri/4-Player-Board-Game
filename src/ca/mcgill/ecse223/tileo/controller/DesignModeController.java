@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.controller;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -204,6 +205,21 @@ public class DesignModeController {
 
 
 	}
+	public static void save(String filename, TileO tileO) {
+        PersistenceObjectStream.setFilename(filename);
+        PersistenceObjectStream.serialize(tileO);
+    }
+
+    public static TileO load(String filename) {
+
+    	PersistenceObjectStream.setFilename(filename);
+    	TileO tileO = (TileO) PersistenceObjectStream.deserialize();
+    	if(tileO == null) {
+    	    tileO = new TileO();
+        }
+
+        return tileO;
+    }
 	
 	
 }
