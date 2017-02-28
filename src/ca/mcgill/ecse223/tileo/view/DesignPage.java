@@ -294,6 +294,7 @@ public class DesignPage extends JFrame {
 	
 	class PlayGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+
 		PlayModeController poc=new PlayModeController();
 		try {
 			poc.startGame(TileOApplication.getCurrentGame());
@@ -303,6 +304,8 @@ public class DesignPage extends JFrame {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		
+		TileOApplication.changeGameMode(getBoard());
+
 		}
 	}
 	
