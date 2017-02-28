@@ -27,10 +27,23 @@ public class DesignModeController {
         }
 
         Player[] players = new Player[numberOfPlayers];
-        for(int i = 0; i < numberOfPlayers; i++){
+        for(int i = 1; i <= numberOfPlayers; i++){
             players[i] = game.addPlayer(i);
+            switch(i){
+            case 1:
+            	players[i].setColor(Player.Color.RED);
+            	break;
+            case 2:
+            	players[i].setColor(Player.Color.BLUE);
+            	break;
+            case 3:
+            	players[i].setColor(Player.Color.GREEN);
+            	break;
+            case 4:
+            	players[i].setColor(Player.Color.YELLOW);
+            	break;
+            }
         }
-        
         app.setCurrentGame(game);
         
         return game;
@@ -87,7 +100,6 @@ public class DesignModeController {
 			throw new InvalidInputException("Tile already exists at that location");
 		}
 		ActionTile t = new ActionTile(x, y, game, numTurns);
-		TileOApplication.save();
 		game.setMode(Mode.DESIGN);
 		return t;
 	}
@@ -98,6 +110,9 @@ public class DesignModeController {
 		Player player;
 		try{
 			player=game.getPlayer(playerNumber-1);
+			if(player.hasStartingTile()){
+				throw new InvalidInputException("The player has a starting tile");
+			}
 		}catch(Exception e){
 			player=new Player(playerNumber, game);
 		}

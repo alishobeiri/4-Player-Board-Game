@@ -18,8 +18,8 @@ public class TileOApplication {
 		// Thomas - not actually sure this is the right way to do this
 		// start UI
 		TileO tileO=TileOApplication.getTileO();
-		//Game game=new Game(0, tileO);
-		//TileOApplication.setCurrentGame(game);
+		Game game=new Game(0, tileO);
+		TileOApplication.setCurrentGame(game);
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	

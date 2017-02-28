@@ -38,7 +38,7 @@ public class DesignPage extends JFrame {
 	JRadioButton normalTile = new JRadioButton("Normal Tile");
 	JRadioButton actionTile = new JRadioButton("Action Tile");
 	JRadioButton hiddenTile = new JRadioButton("Hidden Tile");
-	Integer[] nums = {0, 1, 2, 3, 4, 5, 6};
+	Integer[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 	JComboBox inactiveTurns = new JComboBox(nums);
 	ButtonGroup ratioButtons = new ButtonGroup();
 	JComboBox playerToAdd;

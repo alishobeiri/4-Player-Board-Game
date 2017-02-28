@@ -24,10 +24,11 @@ public class BoardPanel extends JPanel {
 	public Game.Mode m;
 	public ArrayList<Rectangle2DCoord> rectangles = new ArrayList<Rectangle2DCoord>();
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
+	public ArrayList<Ellipse2DCoord> playerTiles = new ArrayList<Ellipse2DCoord>();
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
 	int inactiveTurns = 0;
-	public int playerNumber=1;
+	int playerNumber=1;
 	Rectangle2DCoord currentWinRectangle;
 	
 	TileO tileo = new TileO();
@@ -102,16 +103,20 @@ public class BoardPanel extends JPanel {
 		
 		//Paint currently existing tiles
 		for(Rectangle2DCoord rectangle: boardTiles.keySet()){		
-			g2d.setColor(Color.WHITE);
+			g2d.setColor(rectangle.color);
 			g2d.fill(rectangle.coordRectangle);
 			g2d.setColor(Color.GRAY);
 			g2d.draw(rectangle.coordRectangle);
 		}
 		
-		Ellipse2D player = new Ellipse2D.Float(GAP*5 + WIDTH*4, GAP*7 + HEIGHT*6, WIDTH, HEIGHT);
-		g2d.setColor(Color.RED);
-		g2d.fill(player);
-
+		//Look
+		
+		for(Ellipse2DCoord circle: playerTiles){
+			Ellipse2D player = new Ellipse2D.Float(GAP*circle.coordX + WIDTH*circle.coordX, GAP*circle.coordY+HEIGHT*circle.coordY, WIDTH, HEIGHT);
+			g2d.setColor(circle.color);
+			g2d.fill(player);
+		}
+		
 	}
 	
 	public void addTile(Rectangle2DCoord rect){
@@ -141,6 +146,7 @@ public class BoardPanel extends JPanel {
 					System.out.println("Tile already here");
 				}
 				boardTiles.put(rect, t);
+				rect.setColor(Color.pink);
 				repaint();
 				System.out.println("Action Tile: " + inactiveTurns + " inactive turns.");
 			}
@@ -170,10 +176,17 @@ public class BoardPanel extends JPanel {
 						player.setStartingTile(null);
 					}
 				}
+				for(Ellipse2DCoord circle: playerTiles){
+					if(circle.coordX==rect.coordX&&circle.coordY==rect.coordY){
+						playerTiles.remove(circle);
+					}
+				}
 			}catch (Exception e){
 				System.out.println("Tile does not exist within game");
 			}
+			rect.setColor(Color.WHITE);
 			boardTiles.remove(rect);
+			
 			repaint();
 			}
 	}
@@ -182,15 +195,31 @@ public class BoardPanel extends JPanel {
 		return rectangles;
 	}
 	
+
 	
 	//Work in progress on this one
 	public void addPlayer(Rectangle2DCoord rect){
-		System.out.println("Hello");
 		DesignModeController toc = new DesignModeController();
 		if(boardTiles.keySet().contains(rect)){
 			try {
 				System.out.println(playerNumber);
-				Tile t = toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
+				Tile t=toc.assignStartingTile(rect.coordX, rect.coordY, playerNumber);
+				Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
+				playerTiles.add(circle);
+				switch(playerNumber){
+				case 1:
+					circle.setColor(Color.RED);
+					break;
+				case 2:
+					circle.setColor(Color.BLUE);
+					break;
+				case 3:
+					circle.setColor(Color.YELLOW);
+					break;
+				case 4:
+					circle.setColor(Color.BLUE);
+					break;
+				}
 				System.out.println("Added player");
 				repaint();
 			} catch (Exception e) {
@@ -255,11 +284,33 @@ public class BoardPanel extends JPanel {
 		Rectangle2D coordRectangle;
 		int coordX;
 		int coordY;
+		Color color;
 		
 		public Rectangle2DCoord(Rectangle2D aRectangle, int x, int y){
 			coordRectangle = aRectangle;
 			coordX = x;
 			coordY = y;
+			color=Color.WHITE;
+		}
+		
+		public void setColor(Color c){
+			color=c;
+		}
+	}
+	
+	class Ellipse2DCoord{
+		Ellipse2D circle;
+		int coordX;
+		int coordY;
+		Color color;
+		
+		public Ellipse2DCoord(int x, int y){
+			coordX = x;
+			coordY = y;
+		} 
+		
+		public void setColor(Color c){
+			color=c;
 		}
 	}
 	
