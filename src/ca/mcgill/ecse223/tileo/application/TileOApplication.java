@@ -82,6 +82,9 @@ public class TileOApplication {
         });
 	}
 	
+	public static void setDesignGame(DesignPage d){
+		designPage=d;
+	}
 	public static void save() {
 		// Thomas - not sure this is right, copied from btms, also copied persistence java file
 		PersistenceObjectStream.serialize(tileO);

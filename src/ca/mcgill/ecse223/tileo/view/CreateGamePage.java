@@ -90,7 +90,9 @@ public class CreateGamePage extends JFrame {
 			catch(InvalidInputException e){
 				System.out.println(e.getMessage());
 			}
-			new DesignPage((int) numberOfPlayers.getSelectedItem(), mainMenu).setVisible(true);
+			DesignPage designPage=new DesignPage((int) numberOfPlayers.getSelectedItem(), mainMenu);
+			designPage.setVisible(true);
+			TileOApplication.setDesignGame(designPage);
 			dispose();
 		}
 	}
