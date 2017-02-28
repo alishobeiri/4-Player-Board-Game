@@ -233,7 +233,7 @@ public class DesignPage extends JFrame {
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
-			board.mode= Mode.REMOVE_TILE;
+			board.mode= Mode.PLACE_PLAYER;
 		}
 	}
 	

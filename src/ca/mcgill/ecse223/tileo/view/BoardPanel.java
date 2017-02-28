@@ -339,7 +339,7 @@ public class BoardPanel extends JPanel {
 					circle.setColor(Color.YELLOW);
 					break;
 				case 4:
-					circle.setColor(Color.BLUE);
+					circle.setColor(Color.GREEN);
 					break;
 				}
 				System.out.println("Added player");
