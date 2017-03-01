@@ -114,6 +114,14 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
+	public void paintAllPink(){
+		if(game.getMode() != Game.Mode.DESIGN){
+			for(Rectangle2DCoord rect: boardTiles.keySet()){
+				rect.setColor(Color.pink);
+			}
+		}
+	}
+	
 	public void initConnections(ArrayList<Connection> gameConnections){
 		for(Connection c: gameConnections){
 			Tile tile1 = c.getTile(0);
@@ -663,6 +671,7 @@ public class BoardPanel extends JPanel {
 			}
 			playerTiles.put(playerNumber, circle);
 			Tile t=boardTiles.get(rect);
+			TileOApplication.getDesignPanel().setHasRolled(false);
 			try{
 				pmc.playTeleportActionCard(t);
 				TileOApplication.getDesignPanel().refresh();
@@ -723,17 +732,13 @@ public class BoardPanel extends JPanel {
 						}
 					}else if(mode == Mode.MOVE_PLAYER && TileOApplication.getDesignPanel().getHasRolled()){
 						movePlayer(rect);
-						for(Rectangle2DCoord rectangle: TileOApplication.getDesignPanel().possibleMoves){
-							rectangle.setColor(Color.WHITE);
-						}
-						TileOApplication.getDesignPanel().possibleMoves.clear();
+						resetTileColor();
 						repaint();
 					}
 					else if(mode == Mode.TELEPORT){
+						repaint();
 						teleportPlayer(rect);
-						for(Rectangle2DCoord tile : boardTiles.keySet()){
-							tile.setColor(Color.WHITE);
-						}
+						resetTileColor();
 						repaint();
 					}
 					else if(mode == Mode.ADD_CONNECTION_ACTION_CARD){
@@ -776,10 +781,7 @@ public class BoardPanel extends JPanel {
 					else if(mode == Mode.ROLL_DIE){
 						mode=Mode.MOVE_PLAYER;
 						movePlayer(rect);
-						for(Rectangle2DCoord rectangle: TileOApplication.getDesignPanel().possibleMoves){
-							rectangle.setColor(Color.WHITE);
-						}
-						TileOApplication.getDesignPanel().possibleMoves.clear();
+						resetTileColor();
 						TileOApplication.getDesignPanel().flag=false;
 						repaint();
 					}

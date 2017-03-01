@@ -40,6 +40,7 @@ public class GamePage extends JFrame {
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
+		board.resetTileColor();
 		board.setVisible(true);
 		mainMenu = TileOApplication.getMainMenu();
 		initComponents();
@@ -49,6 +50,7 @@ public class GamePage extends JFrame {
 		mainMenu = aMainMenu;
 		game = TileOApplication.getCurrentGame();
 		board = new BoardPanel(game.getMode());
+		board.resetTileColor();
 		initComponents();
 	}
 
@@ -176,8 +178,6 @@ public class GamePage extends JFrame {
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
-
-						possibleMoves.add(rect);
 
 						rect.setColor(Color.pink);
 					}
@@ -354,14 +354,11 @@ public class GamePage extends JFrame {
 	public void teleportCard(){
 		Game.Mode mode = game.getMode();
 		PlayModeController pmc = new PlayModeController();
-		if(mode == Game.Mode.GAME_TELEPORTACTIONCARD){
-			for(BoardPanel.Rectangle2DCoord rect : board.boardTiles.keySet()){
-				rect.setColor(Color.pink);
-			}
+			hasRolled=true;
+			board.paintAllPink();
 			board.mode=BoardPanel.Mode.TELEPORT;
 			board.refreshBoard();
 
-		}
 	}
 
 
@@ -384,7 +381,6 @@ public class GamePage extends JFrame {
 			BoardPanel.Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
 			rect.setColor(Color.pink);
 			System.out.println("sup homie");
-			possibleMoves.add(rect);
 		}
 		flag=true;
 		board.mode = BoardPanel.Mode.ROLL_DIE;
