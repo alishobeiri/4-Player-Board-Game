@@ -334,5 +334,16 @@ public class GamePage extends JFrame {
 			refresh();
 		}
 	}
+	private void rollDieAgain(){
+		Game.Mode mode = game.getMode();
+		PlayModeController pmc = new PlayModeController();
+		try{
+			if(mode == Game.Mode.GAME_ROLLDIEACTIONCARD){
+				pmc.playRollDieActionCard();
+				}
+		}
+			catch(Exception e){
+			}
+	}
 	
 }
