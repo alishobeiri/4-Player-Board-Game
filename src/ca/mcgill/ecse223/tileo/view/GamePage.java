@@ -56,6 +56,8 @@ public class GamePage extends JFrame {
 		setSize(885, 682);
 		setResizable(false);
 		addWindowListener(new CloseListener());
+		
+		board.resetTileColor();
 
 		// Settings for text field
 		dieResult.setFont(new Font("Futura", Font.BOLD, 56));
@@ -249,8 +251,6 @@ public class GamePage extends JFrame {
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
 				if(board.currentConnection != null){
 					System.out.println("if 3");
-					Tile tile1 = board.boardTiles.get(board.prev);
-					Tile tile2 = board.boardTiles.get(board.curr);
 					try{
 						gmc.playRemoveConnectionActionCard(board.currentConnection);
 					}

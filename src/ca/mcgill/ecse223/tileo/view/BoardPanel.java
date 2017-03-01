@@ -75,10 +75,11 @@ public class BoardPanel extends JPanel {
 		}
 		
 		
-		//Why is this here, I removed it as it was causing problems with the generated moves
-		for(Rectangle2DCoord rect: boardTiles.keySet()){
-			if(boardTiles.get(rect) instanceof ActionTile){
-				rect.setColor(Color.WHITE);
+		if(game.getMode() == Game.Mode.DESIGN){
+			for(Rectangle2DCoord rect: boardTiles.keySet()){
+				if(boardTiles.get(rect) instanceof ActionTile){
+					rect.setColor(Color.pink);
+				}
 			}
 		}
 		
@@ -102,6 +103,14 @@ public class BoardPanel extends JPanel {
 			}
 			
 			initPlayers(gamePlayers);
+		}
+	}
+	
+	public void resetTileColor(){
+		if(game.getMode() != Game.Mode.DESIGN){
+			for(Rectangle2DCoord rect: boardTiles.keySet()){
+				rect.setColor(Color.WHITE);
+			}
 		}
 	}
 	
@@ -355,9 +364,13 @@ public class BoardPanel extends JPanel {
 			
 			for(Connector2D connect: connector){
 				connectors.remove(connect);
+				if(boardConnections.get(connector) != null){
+					currentConnection = boardConnections.get(connect);
+				}
 			}
 			
-			currentConnection = boardConnections.get(connector);
+			System.out.println("Setting conntetion");
+			System.out.println(currentConnection);
 			
 			new DesignModeController().save();
 			repaint();
@@ -748,7 +761,10 @@ public class BoardPanel extends JPanel {
 						else{
 							curr = rect;
 							GamePage gamePage = TileOApplication.getGamePage();
+							System.out.println("first call");
 							gamePage.refresh();
+							System.out.println("second call");
+							System.out.println(currentConnection);
 							gamePage.refresh();
 							mode = mode.GAME;
 							currentConnection = null;
