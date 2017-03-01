@@ -231,6 +231,7 @@ public class GamePage extends JFrame {
 					Tile tile2 = board.boardTiles.get(board.curr);
 					try{
 						gmc.playConnectTilesActionCard(tile1, tile2);
+						board.mode=BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD;
 					}
 					catch(InvalidInputException e){
 						System.out.println("Connect Tiles Error");
@@ -256,8 +257,7 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Teleport Action Card";
 				actionCardDescription = "You can move to any tile on the board.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-
-				showMessage("You have received a teleport card, please choose any tile to move to");
+				//showMessage("You have received a teleport card, please choose any tile to move to");
 				teleportCard();
 
 /*				try{
@@ -342,6 +342,7 @@ public class GamePage extends JFrame {
 			for(BoardPanel.Rectangle2DCoord rect : board.boardTiles.keySet()){
 				rect.setColor(Color.pink);
 			}
+			board.mode=BoardPanel.Mode.TELEPORT;
 			board.refreshBoard();
 
 		}

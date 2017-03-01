@@ -621,7 +621,6 @@ public class BoardPanel extends JPanel {
 		PlayModeController pmc = new PlayModeController();
 		Player player=game.getCurrentPlayer();
 		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
-		int counter=1;
 		if(rect.color.equals(Color.pink)){
 			playerNumber=(gameIndex*4)+(game.getCurrentPlayer().getNumber()%4);
 			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
