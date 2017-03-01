@@ -168,8 +168,12 @@ public class GamePage extends JFrame {
 					TileOApplication.getDesignPanel().refresh();
 					return;
 				}
+				try{
 				for(BoardPanel.Rectangle2DCoord rect : TileOApplication.getBoard().boardTiles.keySet()){
 					rect.setColor(Color.WHITE);
+				}
+				}catch(Exception e){
+					
 				}
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());

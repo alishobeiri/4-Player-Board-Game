@@ -146,6 +146,7 @@ public class BoardPanel extends JPanel {
 		//TESTING TODO: REMOVE
 		game.setMode(m);
 		initComponents();
+		this.mode=BoardPanel.Mode.GAME;
 		addMouseListener(new MouseSelectionListener());
 	}
 	
@@ -483,8 +484,10 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			player.setCurrentTile(boardTiles.get(rect));
 			try {
-				pmc.land(t);
-				pmc.setNextPlayer(game);
+				if(this.mode==BoardPanel.Mode.MOVE_PLAYER){
+					pmc.land(t);
+					pmc.setNextPlayer(game);
+				}
 				System.out.println("Homie we made it");
 				TileOApplication.getDesignPanel().setHasRolled(false);
 				TileOApplication.getDesignPanel().refresh();
@@ -643,6 +646,10 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			try{
 				pmc.playTeleportActionCard(t);
+				pmc.setNextPlayer(game);
+				TileOApplication.getDesignPanel().refresh();
+				repaint();
+				pmc.save();
 			}catch(Exception e){
 				e.printStackTrace();
 			}
