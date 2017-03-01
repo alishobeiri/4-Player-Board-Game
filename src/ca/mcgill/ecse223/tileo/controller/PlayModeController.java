@@ -91,7 +91,7 @@ public class PlayModeController {
 		return tiles;
 	}
 
-	public void connectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException {
+	public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
 
 		// Valid input checks
@@ -361,5 +361,9 @@ public class PlayModeController {
             return null;
         }
         return null;
+    }
+	
+	public static void save() {
+		TileOApplication.save();
     }
 }
