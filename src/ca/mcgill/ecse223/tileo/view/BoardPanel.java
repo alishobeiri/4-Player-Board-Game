@@ -572,6 +572,44 @@ public class BoardPanel extends JPanel {
 			System.out.println("Please choose a valid tile");
 		}
 	}
+	public void teleportPlayer(Rectangle2DCoord rect){
+		int playerNumber;
+		PlayModeController pmc = new PlayModeController();
+		Player player=game.getCurrentPlayer();
+		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
+		int counter=1;
+		if(rect.color.equals(Color.pink)){
+			playerNumber=(gameIndex*4)+(game.getCurrentPlayer().getNumber()%4);
+			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
+			switch(player.getColorFullName()){
+				case "RED":
+					circle.setColor(Color.RED);
+					break;
+				case "YELLOW":
+					circle.setColor(Color.YELLOW);
+					break;
+				case "BLUE":
+					circle.setColor(Color.BLUE);
+					break;
+				case "GREEN":
+					circle.setColor(Color.GREEN);
+					break;
+			}
+			if(playerNumber%4!=0){
+				playerNumber=playerNumber-4;
+			}
+			playerTiles.put(playerNumber, circle);
+			Tile t=boardTiles.get(rect);
+			try{
+				pmc.playTeleportActionCard(t);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}else{
+			showMessage("Please select a valid tile");
+		}
+	}
 	
 	class MouseSelectionListener implements MouseListener{
 		public void mouseClicked(MouseEvent ev){
@@ -623,6 +661,13 @@ public class BoardPanel extends JPanel {
 							rectangle.setColor(Color.WHITE);
 						}
 						TileOApplication.getDesignPanel().possibleMoves.clear();
+						repaint();
+					}
+					else if(mode == Mode.TELEPORT){
+						teleportPlayer(rect);
+						for(Rectangle2DCoord tile : boardTiles.keySet()){
+							tile.setColor(Color.WHITE);
+						}
 						repaint();
 					}
 				}
@@ -706,7 +751,7 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT
 	}
 	
 	public enum TileType{

@@ -258,6 +258,8 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Teleport Action Card";
 				actionCardDescription = "You can move to any tile on the board.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				showMessage("You have received a teleport card, please choose any tile to move to");
+				teleportCard();
 /*				try{
 					//gmc.playTeleportActionCard();
 				}
@@ -333,6 +335,18 @@ public class GamePage extends JFrame {
 			pmc.setNextPlayer(TileOApplication.getCurrentGame());
 			refresh();
 		}
+	}
+	public void teleportCard(){
+		Game.Mode mode = game.getMode();
+		PlayModeController pmc = new PlayModeController();
+		if(mode == Game.Mode.GAME_TELEPORTACTIONCARD){
+			for(BoardPanel.Rectangle2DCoord rect : board.boardTiles.keySet()){
+				rect.setColor(Color.pink);
+			}
+			board.refreshBoard();
+
+		}
+
 	}
 	
 }
