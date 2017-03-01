@@ -181,7 +181,16 @@ public class GamePage extends JFrame {
 				// the list of tiles is returned
 				java.util.List<Tile> tiles = toc.rollDie();
 				if(tiles == null || tiles.size() == 0){
-					showMessage("No possible moves! Sucks to be you!");
+					showMessage("No possible moves!");
+					try {
+						toc.land(currentPlayer.getCurrentTile());
+					} catch (InvalidInputException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					toc.setNextPlayer(game);
+					TileOApplication.getDesignPanel().setHasRolled(false);
+					TileOApplication.getDesignPanel().refresh();
 					return;
 				}
 				for(BoardPanel.Rectangle2DCoord rect : TileOApplication.getBoard().boardTiles.keySet()){
