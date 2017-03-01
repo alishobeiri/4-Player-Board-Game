@@ -5,6 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 50 "../../../../../TileO (updated Feb10).ump"
@@ -55,6 +56,11 @@ public class WinTile extends Tile implements Serializable {
 		currentGame.setCurrentPlayer(nextPlayer);
 
 		this.setHasBeenVisited(true);
+		
+		TileOApplication.getDesignPanel().refresh();
+		TileOApplication.getDesignPanel().showMessage("You have found the hidden tile and won the game, good job big boy!");
+		TileOApplication.getCurrentGame().setMode(Game.Mode.GAME_WON);
+		TileOApplication.deleteGame();
 
 		currentGame.setMode(Mode.GAME_WON);
 	}

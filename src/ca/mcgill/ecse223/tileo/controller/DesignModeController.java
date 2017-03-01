@@ -4,6 +4,7 @@ import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.tileo.view.TileOPage;
 
 import java.security.InvalidParameterException;
 import java.util.List;
@@ -20,6 +21,7 @@ public class DesignModeController {
      */
     public Game createGame(int numberOfPlayers) throws InvalidInputException{
         TileO app = TileOApplication.getTileO();
+        int numberOfGames = app.getGames().size();
         Game game = null;
         game = new Game(Game.SpareConnectionPieces, app);
         
@@ -30,9 +32,10 @@ public class DesignModeController {
             throw new InvalidInputException("Invalid Number of Players");
         }
 
+        int j = (4*numberOfGames)+1;
         Player[] players = new Player[numberOfPlayers+1];
         for(int i = 1; i <= numberOfPlayers; i++){
-            players[i] = game.addPlayer(i);
+            players[i] = game.addPlayer(j);
             System.out.println("set" + i);
             switch(i){
             case 1:
@@ -41,13 +44,14 @@ public class DesignModeController {
             case 2:
             	players[i].setColor(Player.Color.BLUE);
             	break;
-            case 3:
+            case 4:
             	players[i].setColor(Player.Color.GREEN);
             	break;
-            case 4:
+            case 3:
             	players[i].setColor(Player.Color.YELLOW);
             	break;
             }
+            j++;
         }
         app.setCurrentGame(game);
         
@@ -112,10 +116,11 @@ public class DesignModeController {
 
 	public Tile assignStartingTile(int x, int y, int playerNumber) throws InvalidInputException {
 		Game game=TileOApplication.getCurrentGame();
-		Player player;
+		Player player=null;
 		try{
-			player=game.getPlayer(playerNumber-1);
+			player=game.getPlayer(playerNumber - 1);
 		}catch(Exception e){
+			System.out.println("assignstartingtile -- player not found");
 			player=new Player(playerNumber, game);
 		}
 		for(Tile tile : game.getTiles()){

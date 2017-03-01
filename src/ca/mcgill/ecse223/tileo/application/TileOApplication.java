@@ -22,16 +22,18 @@ public class TileOApplication {
 	public static void main(String args[]){
 
 		TileO tileO=TileOApplication.getTileO();
-		
-
 
 		//Game game=new Game(0, tileO);
 		//TileOApplication.setCurrentGame(game);
+
+		//TileOPage menu = new TileOPage(tileO);
+		//designPage = new DesignPage(menu);
+
 		//game.addPlayer(new Player(0, game));
 
 		//TileOApplication.setCurrentGame(game);
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
+		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
             	
             	//Check the setMode here
@@ -94,16 +96,16 @@ public class TileOApplication {
 		mainMenu=d;
 	}
 	
-	public static void deleteDesign(){
-		designPage.setVisible(false);
-		mainMenu.setVisible(false);
-		designPage.dispose();
-	}
 	
 	public static void createDesignGame(TileOPage menu){
 		designPage=new DesignPage(menu);
 		board=designPage.getBoard();
 		designPage.setVisible(true);
+	}
+	
+	public static void deleteGame(){
+		gamePage.setVisible(false);
+		gamePage.dispose();
 	}
 	
 	public static void addPrevDesignGame(DesignPage d){

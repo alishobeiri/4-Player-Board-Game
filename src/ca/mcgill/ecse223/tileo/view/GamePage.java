@@ -16,6 +16,7 @@ public class GamePage extends JFrame {
 	private Game game;
 	
 	Boolean hasRolled=false;
+	ArrayList<BoardPanel.Rectangle2DCoord> possibleMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board;
@@ -27,11 +28,12 @@ public class GamePage extends JFrame {
 	JButton removeConnection = new JButton("Remove Connection");
 	JTextField dieResult = new JTextField(20);
 	JLabel status = new JLabel("Current Player:");
-	JLabel currentPlayer = new JLabel("Player 1");
+	JLabel currentPlayer = new JLabel("Player ");
 	JButton save = new JButton("Save");
 
 	public GamePage(BoardPanel oldBoard) {
 		game=TileOApplication.getCurrentGame();
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
@@ -111,6 +113,11 @@ public class GamePage extends JFrame {
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
+			if(!hasRolled){
+				rollDieActionPerformed(ev);
+			}else{
+				showMessage("Please select a highlighted tile to move to");
+			}
 			// TODO Add button functionality.
 		}
 	}
@@ -119,6 +126,10 @@ public class GamePage extends JFrame {
 		public void actionPerformed(ActionEvent ev) {
 			// TODO Add button functionality.
 			if(!hasRolled){
+				for(BoardPanel.Rectangle2DCoord rect: possibleMoves){
+					rect.setColor(Color.WHITE);
+				}
+				possibleMoves.clear();
 				rollDieActionPerformed(ev);
 			}else{
 				showMessage("Please select a highlighted tile to move to");
@@ -159,9 +170,11 @@ public class GamePage extends JFrame {
 		}
 	}
 
+
 	// Thomass
 	public void rollDieActionPerformed(ActionEvent ev) {
 		// clear error message
+
 				hasRolled=true;
 				// Call the controller
 				PlayModeController toc = new PlayModeController();
@@ -186,6 +199,13 @@ public class GamePage extends JFrame {
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
 				board.refreshBoard();
 				// update die visual
+
+	}	
+
+	public void refresh() {
+		board.refreshBoard();
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+		// update die visual
 	}
 
 	// Thomas

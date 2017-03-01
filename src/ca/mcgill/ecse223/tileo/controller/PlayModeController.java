@@ -15,11 +15,11 @@ public class PlayModeController {
 
 	// Action Card Methods
 	
-	public ActionCard pickActionCard(){
-		Game game = TileOApplication.getCurrentGame();
+	public static ActionCard pickActionCard(Game game){
+		game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		ActionCard newCard;
-		if(deck.indexOfCard(deck.getCurrentCard()) == deck.maximumNumberOfCards()){
+		if(deck.indexOfCard(deck.getCurrentCard()) == Deck.maximumNumberOfCards()){
 			deck.shuffle();
 			newCard = deck.getCurrentCard();
 		}
@@ -210,8 +210,8 @@ public class PlayModeController {
 		List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
-		if (players.get(index + 1) == null) {
-			index = 0;
+		if(index==game.numberOfPlayers()){
+			index=1;
 		}
 		Player next = players.get(index);
 		game.setCurrentPlayer(next);
@@ -345,4 +345,21 @@ public class PlayModeController {
 			throw new InvalidInputException("Tile is not part of the game");
 		}
 	}
+	
+	public static ActionCard tileLanding(Game game) {
+		game = TileOApplication.getCurrentGame();
+        Player player = game.getCurrentPlayer();
+        Tile currentTile = player.getCurrentTile();
+        //game.setCurrentPlayer(game.getCurrentPlayer().indexOfPlayer(player+1)));
+        currentTile.setHasBeenVisited(true);
+
+        if (currentTile instanceof ActionTile) {
+            return pickActionCard(game);
+            }
+        else if (currentTile instanceof WinTile) {
+            game.setMode(Game.Mode.GAME_WON);
+            return null;
+        }
+        return null;
+    }
 }
