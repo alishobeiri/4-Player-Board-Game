@@ -704,14 +704,13 @@ public class BoardPanel extends JPanel {
 						TileOApplication.getDesignPanel().possibleMoves.clear();
 						repaint();
 					}
-<<<<<<< HEAD
 					else if(mode == Mode.TELEPORT){
 						teleportPlayer(rect);
 						for(Rectangle2DCoord tile : boardTiles.keySet()){
 							tile.setColor(Color.WHITE);
 						}
 						repaint();
-=======
+					}
 					else if(mode == Mode.ADD_CONNECTION_ACTION_CARD){
 						if(prev == null){
 							if(boardTiles.containsKey(rect)){
@@ -726,11 +725,11 @@ public class BoardPanel extends JPanel {
 							prev = null;
 							curr = null;
 						}
->>>>>>> 695518d46910b1c2adc84829e9f5d7f5ab838f95
 					}
 				}
 			}
 		}
+
 
 		
 		@Override

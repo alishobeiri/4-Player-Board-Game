@@ -193,7 +193,6 @@ public class GamePage extends JFrame {
 			player=4;
 		}
 		currentPlayer.setText("Player " + player + "'s turn");
-		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
 
 		String actionCardTitle;
 		String actionCardDescription;
@@ -253,13 +252,10 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Teleport Action Card";
 				actionCardDescription = "You can move to any tile on the board.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-<<<<<<< HEAD
-				JOptionPane.showMessageDialog(null, "You have received a teleport card, please choose any tile to move to");
-				
-=======
+
 				showMessage("You have received a teleport card, please choose any tile to move to");
 				teleportCard();
->>>>>>> origin/master
+
 /*				try{
 					//gmc.playTeleportActionCard();
 				}
@@ -345,6 +341,7 @@ public class GamePage extends JFrame {
 			board.refreshBoard();
 
 		}
+	}
 
 
 	private void rollDieAgain(){
