@@ -47,6 +47,8 @@ public class ConnectTilesActionCard extends ActionCard implements Serializable
 	  Game game = this.getDeck().getGame();
 
 	  game.connectTiles(tile1, tile2);
+	  game.setMode(Mode.GAME);
+	  System.out.println("Mode changed");
   }
 
 }
