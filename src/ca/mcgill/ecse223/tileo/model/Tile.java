@@ -214,29 +214,48 @@ public abstract class Tile implements Serializable
     }
     return wasAdded;
   }
-  public List<Tile> getNeighbours(int number){
-    if(number == 1){
-      return this.getNeighbourTiles();
-    }else{
-      List<Tile> neighbours = new ArrayList<>();
-      for(Tile t : this.getNeighbourTiles()){
-          neighbours.addAll(t.getNeighbours(number-1));
-          neighbours.remove(this);
-      }
+  public List<Tile> getNeighbours(Tile prev, int number){
+    List<Tile> neighbours = new ArrayList<>();
+    List<Connection> connections = new ArrayList<>();
+    if(number == 0){
+      neighbours.add(this);
       return neighbours;
     }
+    for(Connection c : this.getConnections()){
+      if(!c.getTiles().contains(prev)){
+        connections.add(c);
+      }
+    }
+    for(Connection c: connections){
+      List<Tile> ts = c.getTiles();
+      int ind = ts.indexOf(this)==0 ? 1:0;
+      Tile t = ts.get(ind);
+      List<Tile> ns = t.getNeighbours(this, number-1);
+      neighbours.addAll(ns);
+    }
+    return neighbours;
+
 
   }
-  private List<Tile> getNeighbourTiles(){
-      List<Tile> temp = new ArrayList<>();
-      for(Connection c : this.getConnections()){
-        for(Tile t : c.getTiles()){
-            if(!t.equals(this)){
-              temp.add(t);
-            }
-        }
+  private static void debug(List<Tile> tiles){
+      System.out.print("[");
+      for (Tile t : tiles){
+        System.out.print("(");
+        System.out.print(Integer.toString(t.getX()));
+        System.out.print(",");
+        System.out.print(Integer.toString(t.getY()));
+        System.out.print(") ");
       }
-      return temp;
+      System.out.println("]");
+      System.out.println();
+  }
+  private static void debug2(Tile tile){
+    System.out.print("(");
+    System.out.print(Integer.toString(tile.getX()));
+    System.out.print(",");
+    System.out.print(Integer.toString(tile.getY()));
+    System.out.println(")");
+
   }
   public boolean setGame(Game aGame)
   {
@@ -277,6 +296,9 @@ public abstract class Tile implements Serializable
   }
     @Override
   public boolean equals(Object other){
+    if(other == null){
+      return false;
+    }
     if(((Tile)other).x==this.x && ((Tile)other).y==this.y){
       return true;
     }else{
