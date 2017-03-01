@@ -39,6 +39,7 @@ public class GamePage extends JFrame {
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
 		board.setVisible(true);
+		mainMenu = TileOApplication.getMainMenu();
 		initComponents();
 	}
 	
@@ -46,12 +47,13 @@ public class GamePage extends JFrame {
 		mainMenu = aMainMenu;
 		game = TileOApplication.getCurrentGame();
 		board = new BoardPanel(game.getMode());
+		initComponents();
 	}
 
 	public void initComponents() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(885, 682);
 		setResizable(false);
+		addWindowListener(new CloseListener());
 
 		// Settings for text field
 		dieResult.setFont(new Font("Futura", Font.BOLD, 56));
@@ -112,6 +114,10 @@ public class GamePage extends JFrame {
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
+
+			game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+
+
 			if(!hasRolled){
 				rollDieActionPerformed(ev);
 			}else{
@@ -134,38 +140,7 @@ public class GamePage extends JFrame {
 		}
 	}
 
-	class finishTurnListener implements ActionListener {
-		public void actionPerformed(ActionEvent ev) {
-			if(!hasRolled){
-				
-			}else{
-				showMessage("Please select a highlighted tile to move to");
-			}
-		}
-	}
 
-	class addConnectionListener implements ActionListener {
-		public void actionPerformed(ActionEvent ev) {
-			if(!hasRolled){
-				
-			}else{
-				showMessage("Please select a highlighted tile to move to");
-			}
-		}
-	}
-
-	class removeConnectionListener implements ActionListener {
-		public void actionPerformed(ActionEvent ev) {
-			if(!hasRolled){
-				
-			}else{
-				showMessage("Please select a highlighted tile to move to");
-			}
-		}
-	}
-
-
-	// Thomass
 	public void rollDieActionPerformed(ActionEvent ev) {
 		// clear error message
 
@@ -190,16 +165,16 @@ public class GamePage extends JFrame {
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
+
 						possibleMoves.add(rect);
+
 						rect.setColor(Color.pink);
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
-
 				refresh();
 				board.refreshBoard();
 				// update die visual
-
 	}	
 
 	public void refresh() {
@@ -209,6 +184,8 @@ public class GamePage extends JFrame {
 			player=4;
 		}
 		currentPlayer.setText("Player " + player + "'s turn");
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+
 		String actionCardTitle;
 		String actionCardDescription;
 		PlayModeController gmc = new PlayModeController();
@@ -225,7 +202,7 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Roll Die Action Card";
 				actionCardDescription = "You can roll the die again.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-/*				try{
+				/*try{
 					//gmc.playRollDieActionCard();
 				}
 				catch(InvalidInputException e){
@@ -237,12 +214,18 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Connect Tiles Action Card";
 				actionCardDescription = "You can create a new connection by selecting two adjacent tiles.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-/*				try{
-					//gmc.playConnectTilesActionCard(tile1, tile2);
+				if(board.prev != null && board.curr != null){
+					Tile tile1 = board.boardTiles.get(board.prev);
+					Tile tile2 = board.boardTiles.get(board.curr);
+					try{
+						gmc.playConnectTilesActionCard(tile1, tile2);
+					}
+					catch(InvalidInputException e){
+						System.out.println("Connect Tiles Error");
+					}
+					board.addConnection(board.prev, board.curr, true);
 				}
-				catch(InvalidInputException e){
-					System.out.println("Connect Tiles Error");
-				}*/
+
 				break;
 				
 			case GAME_REMOVECONNECTIONACTIONCARD:
@@ -291,7 +274,6 @@ public class GamePage extends JFrame {
 
 		@Override
 		public void windowOpened(WindowEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -306,13 +288,11 @@ public class GamePage extends JFrame {
 
 		@Override
 		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
 		public void windowDeiconified(WindowEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 

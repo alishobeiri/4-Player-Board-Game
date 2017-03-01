@@ -10,9 +10,6 @@ import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 public class PlayModeController {
 
-	// Add controller methods that you need to the file
-
-
 	// Action Card Methods
 	
 	public ActionCard pickActionCard(Game game){
