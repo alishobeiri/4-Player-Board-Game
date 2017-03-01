@@ -30,7 +30,11 @@ public class GamePage extends JFrame {
 
 	public GamePage(BoardPanel oldBoard) {
 		game=TileOApplication.getCurrentGame();
-		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+		int player=game.getCurrentPlayer().getNumber();
+		if(player%4==0){
+			player=4;
+		}
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber()%4 + "'s turn");
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
@@ -197,7 +201,11 @@ public class GamePage extends JFrame {
 
 	public void refresh() {
 		board.refreshBoard();
-		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+		int player=game.getCurrentPlayer().getNumber()%4;
+		if(player%4==0){
+			player=4;
+		}
+		currentPlayer.setText("Player " + player + "'s turn");
 		String actionCardTitle;
 		String actionCardDescription;
 		PlayModeController gmc = new PlayModeController();
@@ -214,49 +222,49 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Roll Die Action Card";
 				actionCardDescription = "You can roll the die again.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				/*try{
+/*				try{
 					//gmc.playRollDieActionCard();
 				}
 				catch(InvalidInputException e){
 					System.out.println("Roll Die Error");
-				}
-				break;*/
+				}*/
+				break;
 			
 			case GAME_CONNECTTILESACTIONCARD:
 				actionCardTitle = "Connect Tiles Action Card";
 				actionCardDescription = "You can create a new connection by selecting two adjacent tiles.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				/*try{
+/*				try{
 					//gmc.playConnectTilesActionCard(tile1, tile2);
 				}
 				catch(InvalidInputException e){
 					System.out.println("Connect Tiles Error");
-				}
-				break;*/
+				}*/
+				break;
 				
 			case GAME_REMOVECONNECTIONACTIONCARD:
 				actionCardTitle = "Remove Connection Action Card";
 				actionCardDescription = "You can remove a connection by selecting two connected tiles.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				/*try{
+/*				try{
 					//gmc.playRemoveConnectionActionCard();
 				}
 				catch(InvalidInputException e){
 					System.out.println("Remove Connection Error");
-				}
-				break;*/
+				}*/
+				break;
 				
 			case GAME_TELEPORTACTIONCARD:
 				actionCardTitle = "Teleport Action Card";
 				actionCardDescription = "You can move to any tile on the board.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				/*try{
+/*				try{
 					//gmc.playTeleportActionCard();
 				}
 				catch(InvalidInputException e){
 					System.out.println("Teleport Error");
-				}
-				break;*/
+				}*/
+				break;
 				
 			case GAME_LOSETURNACTIONCARD:
 				actionCardTitle = "Lose Turn Action Card";

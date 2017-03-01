@@ -220,7 +220,7 @@ public class Player implements Serializable
 
 	public List<Tile> generateMoves(int number){
         Tile origin = this.getCurrentTile();
-        List<Tile> neighbours = origin.getNeighbours(number);
+        List<Tile> neighbours = origin.getNeighbours(null, number);
         return neighbours;
     }
 }
