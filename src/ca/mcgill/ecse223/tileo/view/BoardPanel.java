@@ -411,12 +411,14 @@ public class BoardPanel extends JPanel {
 			}
 	}
 
+
 	public void movePlayer(Rectangle2DCoord rect){
 		int playerNumber;
 		PlayModeController pmc = new PlayModeController();
 		Player player=game.getCurrentPlayer();
+		int gameIndex=TileOApplication.getTileO().indexOfGame(game);
 		if(rect.color.equals(Color.pink)){
-			playerNumber=game.getCurrentPlayer().getNumber();
+			playerNumber=(gameIndex*4)+game.getCurrentPlayer().getNumber();
 			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
 			switch(player.getColorFullName()){
 				case "RED":
@@ -432,6 +434,7 @@ public class BoardPanel extends JPanel {
 					circle.setColor(Color.GREEN);
 					break;
 			}
+			
 			playerTiles.put(playerNumber, circle);
 			Tile t=boardTiles.get(rect);
 			player.setCurrentTile(boardTiles.get(rect));
@@ -472,6 +475,7 @@ public class BoardPanel extends JPanel {
 				int y = current.getStartingTile().getY();
 				Ellipse2DCoord circle=new Ellipse2DCoord(x, y);
 				playerTiles.put(playerNumber, circle);
+			
 				int c1 = (gameIndex*4)+1;
 				int c2 = (gameIndex*4)+2;
 				int c3 = (gameIndex*4)+3;

@@ -114,7 +114,7 @@ public class GamePage extends JFrame {
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
-			game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+			//game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
 			if(!hasRolled){
 				rollDieActionPerformed(ev);
 			}else{
@@ -200,8 +200,8 @@ public class GamePage extends JFrame {
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
-				board.refreshBoard();
 				refresh();
+				board.refreshBoard();
 				// update die visual
 
 	}	
@@ -212,7 +212,7 @@ public class GamePage extends JFrame {
 
 		
 		// update die visual
-
+/*
 		String actionCardTitle;
 		String actionCardDescription;
 		switch(game.getMode()){
@@ -253,7 +253,7 @@ public class GamePage extends JFrame {
 				actionCardDescription = "You lost a turn.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
 				break;
-		}
+		}*/
 	}
 
 	// Thomas
