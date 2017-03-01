@@ -36,6 +36,8 @@ public class BoardPanel extends JPanel {
 	public ArrayList<Connection> gameConnections = new ArrayList<Connection>();
 	public ArrayList<Connector2D> connectors = new ArrayList<Connector2D>();
 	public HashMap<Connector2D, Connection> boardConnections = new HashMap<Connector2D, Connection>();
+	
+	public ArrayList<Rectangle2DCoord> visitedTiles = new ArrayList<Rectangle2DCoord>();
 
 	Mode mode;
 	TileType tileType = TileType.NORMAL;
@@ -72,8 +74,7 @@ public class BoardPanel extends JPanel {
 		
 		for(Rectangle2DCoord rect: boardTiles.keySet()){
 			rect.setColor(Color.WHITE);
-		}
-		
+		}	
 		
 		if(game.getMode() == Game.Mode.DESIGN){
 			for(Rectangle2DCoord rect: boardTiles.keySet()){
@@ -103,6 +104,12 @@ public class BoardPanel extends JPanel {
 			}
 			
 			initPlayers(gamePlayers);
+			
+			for(Rectangle2DCoord r: boardTiles.keySet()){
+				if(boardTiles.get(r).getHasBeenVisited()){
+					visitedTiles.add(r);
+				}
+			}
 		}
 	}
 	
@@ -213,6 +220,11 @@ public class BoardPanel extends JPanel {
 			g2d.fill(connector.c);
 		}
 		
+		for(Rectangle2DCoord rect: visitedTiles){
+			g2d.setColor(Color.GRAY);
+			g2d.fill(rect.coordRectangle);
+		}
+		
 		if(currentWinRectangle != null && game.getMode() == Game.Mode.DESIGN){
 			g2d.setColor(Color.DARK_GRAY);
 			g2d.fill(currentWinRectangle.coordRectangle);
@@ -232,12 +244,7 @@ public class BoardPanel extends JPanel {
 			g2d.setColor(circle.color);
 			g2d.fill(player);
 		}
-
-		for(Ellipse2DCoord circle: playerTiles.values()){
-			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
-			g2d.setColor(circle.color);
-			g2d.fill(player);
-		}		
+		
 		
 	}
 	
@@ -515,6 +522,9 @@ public class BoardPanel extends JPanel {
 					pmc.setNextPlayer(game);
 				}
 				System.out.println("Homie we made it");
+				if(!visitedTiles.contains(rect)){
+					visitedTiles.add(rect);
+				}
 				TileOApplication.getDesignPanel().setHasRolled(false);
 				TileOApplication.getDesignPanel().refresh();
 				pmc.save();
