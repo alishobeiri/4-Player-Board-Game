@@ -107,6 +107,7 @@ public class TileOPage extends JFrame {
 	public void refresh(){
 		tileO = TileOApplication.getTileO();
 		tileOGames = tileO.getGames();
+		System.out.println(tileOGames);
 		model = new DefaultListModel();
 		for(int i = 0; i < tileOGames.size(); i++){
 			Game current = tileOGames.get(i);
@@ -138,11 +139,15 @@ public class TileOPage extends JFrame {
 				if(g != null){
 					if(g.getMode() == Mode.DESIGN){
 						dmc.setTileOApplicationCurrentGame(g);
-						//new DesignPage(getPage()).setVisible(true);
+						DesignPage designPage = new DesignPage(getPage());
+						designPage.setVisible(true);
+						TileOApplication.addPrevDesignGame(designPage);
 					}
 					else{
 						dmc.setTileOApplicationCurrentGame(g);
-						//new GamePage(getPage()).setVisible(true);
+						GamePage gamePage = new GamePage(getPage());
+						gamePage.setVisible(true);
+						TileOApplication.addPrevGamePage(gamePage);
 					}
 				}
 			}
@@ -150,10 +155,7 @@ public class TileOPage extends JFrame {
 			else{
 				System.out.println("You must select or create a game");
 			}
-			
-			DesignPage designPage=new DesignPage(getPage());
-			TileOApplication.addPrevDesignGame(designPage);
-			designPage.setVisible(true);
+
 		}
 	}
 	

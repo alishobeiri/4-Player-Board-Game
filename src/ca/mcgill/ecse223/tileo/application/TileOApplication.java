@@ -44,7 +44,8 @@ public class TileOApplication {
                 //TODO remove following line after testing
                 //new GamePage().setVisible(true);
             	
-            	new TileOPage(tileO).setVisible(true);
+            	mainMenu = new TileOPage(tileO);
+            	mainMenu.setVisible(true);
             }
         });
 	}
@@ -61,7 +62,6 @@ public class TileOApplication {
 		return tileO.getCurrentGame();
 	}
 	
-	//Thomas generated - on advice of Berk in tutorial
 	public static boolean setCurrentGame(Game aNewCurrentGame){
 		boolean wasSet = false;
 		tileO.setCurrentGame(aNewCurrentGame);
@@ -96,11 +96,18 @@ public class TileOApplication {
 		mainMenu=d;
 	}
 	
+	public static TileOPage getMainMenu(){
+		return mainMenu;
+	}
 	
 	public static void createDesignGame(TileOPage menu){
 		designPage=new DesignPage(menu);
 		board=designPage.getBoard();
 		designPage.setVisible(true);
+	}
+	
+	public static BoardPanel getBoard(){
+		return board;
 	}
 	
 	public static void deleteGame(){
@@ -116,11 +123,14 @@ public class TileOApplication {
 		gamePage = g;
 	}
 	
+	public static GamePage getGamePage(){
+		return gamePage;
+	}
+	
 	public static void refreshDie(int number){
 		gamePage.refreshDie(number);
 	}
 	public static void save() {
-		// Thomas - not sure this is right, copied from btms, also copied persistence java file
 		PersistenceObjectStream.serialize(tileO);
 	}
 	
