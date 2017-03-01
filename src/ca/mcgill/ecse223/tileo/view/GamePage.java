@@ -261,6 +261,8 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Teleport Action Card";
 				actionCardDescription = "You can move to any tile on the board.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				JOptionPane.showMessageDialog(null, "You have received a teleport card, please choose any tile to move to");
+				
 /*				try{
 					//gmc.playTeleportActionCard();
 				}

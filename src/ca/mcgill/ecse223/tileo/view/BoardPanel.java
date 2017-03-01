@@ -71,11 +71,11 @@ public class BoardPanel extends JPanel {
 		
 		
 		//Why is this here, I removed it as it was causing problems with the generated moves
-	/*  for(Rectangle2DCoord rect: boardTiles.keySet()){
+		for(Rectangle2DCoord rect: boardTiles.keySet()){
 			if(boardTiles.get(rect) instanceof ActionTile){
 				rect.setColor(Color.pink);
 			}
-		}*/
+		}
 		
 		for(Rectangle2DCoord rect: boardTiles.keySet()){
 			if(boardTiles.get(rect) instanceof WinTile){
