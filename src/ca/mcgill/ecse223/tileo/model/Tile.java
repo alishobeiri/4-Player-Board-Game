@@ -214,7 +214,29 @@ public abstract class Tile implements Serializable
     }
     return wasAdded;
   }
+  public List<Tile> getNeighbours(int number){
+    if(number == 1){
+      return this.getNeighbourTiles();
+    }else{
+      List<Tile> neighbours = new ArrayList<>();
+      for(Tile t : this.getNeighbourTiles()){
+          neighbours.addAll(t.getNeighbours(number-1));
+      }
+      return neighbours;
+    }
 
+  }
+  private List<Tile> getNeighbourTiles(){
+      List<Tile> temp = new ArrayList<>();
+      for(Connection c : this.getConnections()){
+        for(Tile t : c.getTiles()){
+            if(!t.equals(this)){
+              temp.add(t);
+            }
+        }
+      }
+      return temp;
+  }
   public boolean setGame(Game aGame)
   {
     boolean wasSet = false;
@@ -251,6 +273,14 @@ public abstract class Tile implements Serializable
     Game placeholderGame = game;
     this.game = null;
     placeholderGame.removeTile(this);
+  }
+    @Override
+  public boolean equals(Object other){
+    if(((Tile)other).x==this.x && ((Tile)other).y==this.y){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   public String toString()

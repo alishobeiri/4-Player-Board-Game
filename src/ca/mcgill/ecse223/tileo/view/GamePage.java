@@ -172,7 +172,7 @@ public class GamePage extends JFrame {
 				// pass the returned list of tiles somewhere
 				// need to update the visual with the number of the die roll but only
 				// the list of tiles is returned
-				ArrayList<Tile> tiles = toc.rollDie();
+				java.util.List<Tile> tiles = toc.rollDie();
 				if(tiles == null || tiles.size() == 0){
 					showMessage("No possible moves! Sucks to be you!");
 					return;
