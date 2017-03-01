@@ -31,7 +31,6 @@ public class BoardPanel extends JPanel {
 	public HashMap<Rectangle2DCoord, Tile> boardTiles = new HashMap<Rectangle2DCoord, Tile>();
 
 	public HashMap<Integer, Ellipse2DCoord> playerTiles = new HashMap<Integer, Ellipse2DCoord>();
-	public HashMap<Integer, Ellipse2DCoord> playerTilesTwo = new HashMap<Integer, Ellipse2DCoord>();
 	
 	public ArrayList<Player> gamePlayers = new ArrayList<Player>();
 	public ArrayList<Connection> gameConnections = new ArrayList<Connection>();
@@ -44,7 +43,6 @@ public class BoardPanel extends JPanel {
 	int playerNumber = 1;
 	Rectangle2DCoord currentWinRectangle = null;
 	Rectangle2DCoord prev = null;
-	boolean enter=true;
 	TileO tileo = new TileO();
 
 	Game game=TileOApplication.getCurrentGame();
@@ -215,22 +213,12 @@ public class BoardPanel extends JPanel {
 			g2d.draw(prev.coordRectangle);
 		}
 		
-		
-		if(enter){
-			for(Ellipse2DCoord circle: playerTiles.values()){
-				Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
-				g2d.setColor(circle.color);
-				g2d.fill(player);
-			}
-			enter=false;
-		}else{
-			for(Ellipse2DCoord circle: playerTilesTwo.values()){
-				Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
-				g2d.setColor(circle.color);
-				g2d.fill(player);
-			}
+		for(Ellipse2DCoord circle: playerTiles.values()){
+			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
+			g2d.setColor(circle.color);
+			g2d.fill(player);
 		}
-		
+
 		for(Ellipse2DCoord circle: playerTiles.values()){
 			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
 			g2d.setColor(circle.color);
@@ -430,6 +418,7 @@ public class BoardPanel extends JPanel {
 		PlayModeController pmc = new PlayModeController();
 		Player player=game.getCurrentPlayer();
 		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
+		int counter=1;
 		if(rect.color.equals(Color.pink)){
 			playerNumber=(gameIndex*4)+(game.getCurrentPlayer().getNumber()%4);
 			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
@@ -447,9 +436,15 @@ public class BoardPanel extends JPanel {
 					circle.setColor(Color.GREEN);
 					break;
 			}
-			playerTilesTwo.put(playerNumber, circle);
+			System.out.println("Original player number");
+			if(playerNumber%4!=0){
+				playerNumber=playerNumber-4;
+			}
+			System.out.println("The player number is " + playerNumber);
+			System.out.println("The hashmap after put is " + playerTiles.keySet());
+			playerTiles.put(playerNumber, circle);
+			System.out.println("The hashmap after put is " + playerTiles.keySet());
 			Tile t=boardTiles.get(rect);
-			
 			player.setCurrentTile(boardTiles.get(rect));
 			try {
 				pmc.land(t);
