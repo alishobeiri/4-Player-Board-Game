@@ -328,8 +328,9 @@ public class GamePage extends JFrame {
 	
 	private void loseTurn(){
 		Game.Mode mode = game.getMode();
+		PlayModeController pmc = new PlayModeController();
 		if(mode == Game.Mode.GAME_LOSETURNACTIONCARD){
-			PlayModeController.setNextPlayer(game);
+			pmc.setNextPlayer(TileOApplication.getCurrentGame());
 			refresh();
 		}
 	}

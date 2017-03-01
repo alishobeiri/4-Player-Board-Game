@@ -15,7 +15,7 @@ public class PlayModeController {
 
 	// Action Card Methods
 	
-	public static ActionCard pickActionCard(Game game){
+	public ActionCard pickActionCard(Game game){
 		game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		ActionCard newCard;
@@ -206,7 +206,7 @@ public class PlayModeController {
 	// Helper methods
 
 	// Sets the current player to the next player
-	public static void setNextPlayer(Game game) {
+	public void setNextPlayer(Game game) {
 		List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
@@ -345,23 +345,6 @@ public class PlayModeController {
 			throw new InvalidInputException("Tile is not part of the game");
 		}
 	}
-	
-	public static ActionCard tileLanding(Game game) {
-		game = TileOApplication.getCurrentGame();
-        Player player = game.getCurrentPlayer();
-        Tile currentTile = player.getCurrentTile();
-        //game.setCurrentPlayer(game.getCurrentPlayer().indexOfPlayer(player+1)));
-        currentTile.setHasBeenVisited(true);
-
-        if (currentTile instanceof ActionTile) {
-            return pickActionCard(game);
-            }
-        else if (currentTile instanceof WinTile) {
-            game.setMode(Game.Mode.GAME_WON);
-            return null;
-        }
-        return null;
-    }
 	
 	public static void save() {
 		TileOApplication.save();
