@@ -193,11 +193,13 @@ public class GamePage extends JFrame {
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
-						rect.setColor(Color.YELLOW);
+						rect.setColor(Color.pink);
+						possibleMoves.add(rect);
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
 				board.refreshBoard();
+				refresh();
 				// update die visual
 
 	}	
@@ -205,6 +207,7 @@ public class GamePage extends JFrame {
 	public void refresh() {
 		board.refreshBoard();
 		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+		
 		// update die visual
 	}
 

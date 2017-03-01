@@ -221,6 +221,7 @@ public abstract class Tile implements Serializable
       List<Tile> neighbours = new ArrayList<>();
       for(Tile t : this.getNeighbourTiles()){
           neighbours.addAll(t.getNeighbours(number-1));
+          neighbours.remove(this);
       }
       return neighbours;
     }

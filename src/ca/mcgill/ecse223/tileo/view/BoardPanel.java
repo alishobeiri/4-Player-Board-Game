@@ -608,6 +608,10 @@ public class BoardPanel extends JPanel {
 						}
 					}else if(mode == Mode.MOVE_PLAYER && TileOApplication.getDesignPanel().getHasRolled()){
 						movePlayer(rect);
+						for(Rectangle2DCoord rectangle: TileOApplication.getDesignPanel().possibleMoves){
+							rectangle.setColor(Color.WHITE);
+						}
+						TileOApplication.getDesignPanel().possibleMoves.clear();
 						repaint();
 					}
 				}
