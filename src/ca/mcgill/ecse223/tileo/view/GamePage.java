@@ -187,6 +187,9 @@ public class GamePage extends JFrame {
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+
+				refresh();
+
 				board.refreshBoard();
 				// update die visual
 
@@ -211,49 +214,49 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Roll Die Action Card";
 				actionCardDescription = "You can roll the die again.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				try{
-					gmc.playRollDieActionCard();
+				/*try{
+					//gmc.playRollDieActionCard();
 				}
 				catch(InvalidInputException e){
 					System.out.println("Roll Die Error");
 				}
-				break;
+				break;*/
 			
 			case GAME_CONNECTTILESACTIONCARD:
 				actionCardTitle = "Connect Tiles Action Card";
 				actionCardDescription = "You can create a new connection by selecting two adjacent tiles.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				try{
-					gmc.playConnectTilesActionCard(tile1, tile2);
+				/*try{
+					//gmc.playConnectTilesActionCard(tile1, tile2);
 				}
 				catch(InvalidInputException e){
 					System.out.println("Connect Tiles Error");
 				}
-				break;
+				break;*/
 				
 			case GAME_REMOVECONNECTIONACTIONCARD:
 				actionCardTitle = "Remove Connection Action Card";
 				actionCardDescription = "You can remove a connection by selecting two connected tiles.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				try{
-					gmc.playRemoveConnectionActionCard();
+				/*try{
+					//gmc.playRemoveConnectionActionCard();
 				}
 				catch(InvalidInputException e){
 					System.out.println("Remove Connection Error");
 				}
-				break;
+				break;*/
 				
 			case GAME_TELEPORTACTIONCARD:
 				actionCardTitle = "Teleport Action Card";
 				actionCardDescription = "You can move to any tile on the board.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-				try{
-					gmc.playTeleportActionCard();
+				/*try{
+					//gmc.playTeleportActionCard();
 				}
 				catch(InvalidInputException e){
 					System.out.println("Teleport Error");
 				}
-				break;
+				break;*/
 				
 			case GAME_LOSETURNACTIONCARD:
 				actionCardTitle = "Lose Turn Action Card";
