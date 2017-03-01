@@ -9,6 +9,7 @@ import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 
 public class GamePage extends JFrame {
@@ -113,6 +114,7 @@ public class GamePage extends JFrame {
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
+			game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
 			if(!hasRolled){
 				rollDieActionPerformed(ev);
 			}else{
@@ -203,7 +205,47 @@ public class GamePage extends JFrame {
 	public void refresh() {
 		board.refreshBoard();
 		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
-		// update die visual
+		String actionCardTitle;
+		String actionCardDescription;
+		switch(game.getMode()){
+			case GAME:
+				deck.setToDefault();
+				break;
+				
+			case GAME_WON:
+
+				break;
+				
+			case GAME_ROLLDIEACTIONCARD:
+				actionCardTitle = "Roll Die Action Card";
+				actionCardDescription = "You can roll the die again.";
+				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				break;
+			
+			case GAME_CONNECTTILESACTIONCARD:
+				actionCardTitle = "Connect Tiles Action Card";
+				actionCardDescription = "You can create a new connection by selecting two adjacent tiles.";
+				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				break;
+				
+			case GAME_REMOVECONNECTIONACTIONCARD:
+				actionCardTitle = "Remove Connection Action Card";
+				actionCardDescription = "You can remove a connection by selecting two connected tiles.";
+				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				break;
+				
+			case GAME_TELEPORTACTIONCARD:
+				actionCardTitle = "Teleport Action Card";
+				actionCardDescription = "You can move to any tile on the board.";
+				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				break;
+				
+			case GAME_LOSETURNACTIONCARD:
+				actionCardTitle = "Lose Turn Action Card";
+				actionCardDescription = "You lost a turn.";
+				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				break;
+		}
 	}
 
 	// Thomas
@@ -214,4 +256,5 @@ public class GamePage extends JFrame {
 	public void showMessage(String s){
 		JOptionPane.showMessageDialog(null, s);
 	}
+	
 }
