@@ -30,7 +30,11 @@ public class GamePage extends JFrame {
 
 	public GamePage(BoardPanel oldBoard) {
 		game=TileOApplication.getCurrentGame();
-		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+		int player=game.getCurrentPlayer().getNumber();
+		if(player%4==0){
+			player=4;
+		}
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber()%4 + "'s turn");
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
@@ -197,7 +201,11 @@ public class GamePage extends JFrame {
 
 	public void refresh() {
 		board.refreshBoard();
-		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber() + "'s turn");
+		int player=game.getCurrentPlayer().getNumber()%4;
+		if(player%4==0){
+			player=4;
+		}
+		currentPlayer.setText("Player " + player + "'s turn");
 		String actionCardTitle;
 		String actionCardDescription;
 		PlayModeController gmc = new PlayModeController();
