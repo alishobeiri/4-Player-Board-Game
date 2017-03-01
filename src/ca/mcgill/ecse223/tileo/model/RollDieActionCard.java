@@ -47,6 +47,7 @@ public class RollDieActionCard extends ActionCard implements Serializable
   public List<Tile> play(){
 	  List<Tile> tiles = new ArrayList<Tile>();
 	  Game game = this.getDeck().getGame();
+	  game.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
 	  
 	  //TODO Check this method works
 	  tiles = game.rollDie();

@@ -77,7 +77,7 @@ public class BoardPanel extends JPanel {
 		//Why is this here, I removed it as it was causing problems with the generated moves
 		for(Rectangle2DCoord rect: boardTiles.keySet()){
 			if(boardTiles.get(rect) instanceof ActionTile){
-				rect.setColor(Color.pink);
+				rect.setColor(Color.WHITE);
 			}
 		}
 		
@@ -184,25 +184,10 @@ public class BoardPanel extends JPanel {
 		
 		//Paint currently existing tiles
 		for(Rectangle2DCoord rectangle: boardTiles.keySet()){
-			
-			if(game.getMode()==Game.Mode.GAME){
-				if(TileOApplication.getDesignPanel().getHasRolled()){
-					g2d.setColor(rectangle.color);
-					g2d.fill(rectangle.coordRectangle);
-					g2d.setColor(Color.GRAY);
-					g2d.draw(rectangle.coordRectangle);
-				}else{
-					g2d.setColor(Color.WHITE);
-					g2d.fill(rectangle.coordRectangle);
-					g2d.setColor(Color.GRAY);
-					g2d.draw(rectangle.coordRectangle);
-				}
-			}else{
 				g2d.setColor(rectangle.color);
 				g2d.fill(rectangle.coordRectangle);
 				g2d.setColor(Color.GRAY);
 				g2d.draw(rectangle.coordRectangle);
-			}
 		}
 		
 		for(Connector2D connector: connectors){
@@ -234,8 +219,7 @@ public class BoardPanel extends JPanel {
 			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
 			g2d.setColor(circle.color);
 			g2d.fill(player);
-		}
-		
+		}		
 		
 	}
 	
@@ -484,8 +468,9 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			player.setCurrentTile(boardTiles.get(rect));
 			try {
-				if(this.mode==BoardPanel.Mode.MOVE_PLAYER){
-					pmc.land(t);
+				
+				pmc.land(t);
+				if(game.getMode()==Game.Mode.GAME){
 					pmc.setNextPlayer(game);
 				}
 				System.out.println("Homie we made it");
@@ -498,7 +483,11 @@ public class BoardPanel extends JPanel {
 				e.printStackTrace();
 			}
 		}else{
-			showMessage("Please select a valid tile");
+			if(TileOApplication.getDesignPanel().flag){
+				showMessage("Please roll die again");
+			}else{
+				showMessage("Please select a valid tile");
+			}
 		}
 		
 	}
@@ -645,7 +634,6 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			try{
 				pmc.playTeleportActionCard(t);
-				pmc.setNextPlayer(game);
 				TileOApplication.getDesignPanel().refresh();
 				repaint();
 				pmc.save();
@@ -732,6 +720,16 @@ public class BoardPanel extends JPanel {
 							curr = null;
 						}
 					}
+					else if(mode == Mode.ROLL_DIE){
+						mode=Mode.MOVE_PLAYER;
+						movePlayer(rect);
+						for(Rectangle2DCoord rectangle: TileOApplication.getDesignPanel().possibleMoves){
+							rectangle.setColor(Color.WHITE);
+						}
+						TileOApplication.getDesignPanel().possibleMoves.clear();
+						TileOApplication.getDesignPanel().flag=false;
+						repaint();
+					}
 				}
 			}
 		}
@@ -815,7 +813,7 @@ public class BoardPanel extends JPanel {
 	
 	public enum Mode{
 
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD, ROLL_DIE
 
 	}
 	

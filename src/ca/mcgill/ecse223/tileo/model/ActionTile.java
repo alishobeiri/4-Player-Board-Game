@@ -72,13 +72,13 @@ public class ActionTile extends Tile implements Serializable {
 		currentPlayer.setCurrentTile(this);
 
 		// Get increase the index of the current player by one
-		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+/*		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
 		// Loop back if it is the last player
 		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
 		// Get the next player
 		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
 		// Set the next player as the current player
-		currentGame.setCurrentPlayer(nextPlayer);
+		currentGame.setCurrentPlayer(nextPlayer);*/
 
 		this.setHasBeenVisited(true);
 		

@@ -18,6 +18,7 @@ public class GamePage extends JFrame {
 	
 	Boolean hasRolled=false;
 	ArrayList<BoardPanel.Rectangle2DCoord> possibleMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
+	ArrayList<BoardPanel.Rectangle2DCoord> secondMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board;
@@ -27,6 +28,7 @@ public class GamePage extends JFrame {
 	JLabel status = new JLabel("Current Player:");
 	JLabel currentPlayer = new JLabel("Player ");
 	TileOPage mainMenu;
+	boolean flag=false;
 
 	public GamePage(BoardPanel oldBoard) {
 		game=TileOApplication.getCurrentGame();
@@ -168,13 +170,6 @@ public class GamePage extends JFrame {
 					TileOApplication.getDesignPanel().refresh();
 					return;
 				}
-				try{
-				for(BoardPanel.Rectangle2DCoord rect : TileOApplication.getBoard().boardTiles.keySet()){
-					rect.setColor(Color.WHITE);
-				}
-				}catch(Exception e){
-					
-				}
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
@@ -192,6 +187,8 @@ public class GamePage extends JFrame {
 
 	public void refresh() {
 		board.refreshBoard();
+		PlayModeController gmc = new PlayModeController();
+		
 		int player=game.getCurrentPlayer().getNumber()%4;
 		if(player%4==0){
 			player=4;
@@ -200,7 +197,7 @@ public class GamePage extends JFrame {
 
 		String actionCardTitle;
 		String actionCardDescription;
-		PlayModeController gmc = new PlayModeController();
+		
 		switch(game.getMode()){
 			case GAME:
 				deck.setToDefault();
@@ -214,6 +211,7 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Roll Die Action Card";
 				actionCardDescription = "You can roll the die again.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				rollDieAgain();
 				/*try{
 					//gmc.playRollDieActionCard();
 				}
@@ -231,14 +229,16 @@ public class GamePage extends JFrame {
 					Tile tile2 = board.boardTiles.get(board.curr);
 					try{
 						gmc.playConnectTilesActionCard(tile1, tile2);
-						board.mode=BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD;
+						
 					}
 					catch(InvalidInputException e){
 						System.out.println("Connect Tiles Error");
 					}
+				}else{
+					board.mode=BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD;
 					board.addConnection(board.prev, board.curr, true);
 				}
-
+				board.refreshBoard();
 				break;
 				
 			case GAME_REMOVECONNECTIONACTIONCARD:
@@ -326,14 +326,14 @@ public class GamePage extends JFrame {
 		
 	}
 	
-	private void loseTurn(){
+/*	private void loseTurn(){
 		Game.Mode mode = game.getMode();
 		PlayModeController pmc = new PlayModeController();
 		if(mode == Game.Mode.GAME_LOSETURNACTIONCARD){
 			pmc.setNextPlayer(TileOApplication.getCurrentGame());
 			refresh();
 		}
-	}
+	}*/
 
 	public void teleportCard(){
 		Game.Mode mode = game.getMode();
@@ -350,15 +350,29 @@ public class GamePage extends JFrame {
 
 
 	private void rollDieAgain(){
-		Game.Mode mode = game.getMode();
 		PlayModeController pmc = new PlayModeController();
-		try{
-			if(mode == Game.Mode.GAME_ROLLDIEACTIONCARD){
-				pmc.playRollDieActionCard();
-				}
+		java.util.List<Tile> moves = null;
+		System.out.println("My fird");
+		try {
+			moves = pmc.playRollDieActionCard();
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-			catch(Exception e){
-			}
+		if(moves == null){
+			showMessage("No Possible Moves");
+			pmc.setNextPlayer(game);
+			refresh();
+		}
+		for(Tile t : moves){
+			BoardPanel.Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
+			rect.setColor(Color.pink);
+			System.out.println("sup homie");
+			possibleMoves.add(rect);
+		}
+		flag=true;
+		board.mode = BoardPanel.Mode.ROLL_DIE;
+		board.refreshBoard();
 	}
 	
 }
