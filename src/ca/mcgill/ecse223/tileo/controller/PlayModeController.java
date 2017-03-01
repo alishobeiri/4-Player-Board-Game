@@ -206,7 +206,7 @@ public class PlayModeController {
 	// Helper methods
 
 	// Sets the current player to the next player
-	public void setNextPlayer(Game game) {
+	public static void setNextPlayer(Game game) {
 		List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
