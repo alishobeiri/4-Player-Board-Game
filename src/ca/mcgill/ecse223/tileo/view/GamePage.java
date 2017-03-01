@@ -184,6 +184,9 @@ public class GamePage extends JFrame {
 					showMessage("No possible moves! Sucks to be you!");
 					return;
 				}
+				for(BoardPanel.Rectangle2DCoord rect : TileOApplication.getBoard().boardTiles.keySet()){
+					rect.setColor(Color.WHITE);
+				}
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
@@ -270,6 +273,7 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Lose Turn Action Card";
 				actionCardDescription = "You lost a turn.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
+				showMessage("You landed on a lose turn action card, you will have to skip your next turn");
 				break;
 		}
 	}

@@ -103,6 +103,10 @@ public class TileOApplication {
 		designPage.setVisible(true);
 	}
 	
+	public static BoardPanel getBoard(){
+		return board;
+	}
+	
 	public static void deleteGame(){
 		gamePage.setVisible(false);
 		gamePage.dispose();

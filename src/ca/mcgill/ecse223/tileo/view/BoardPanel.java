@@ -65,6 +65,10 @@ public class BoardPanel extends JPanel {
 			boardTiles.put(r, t);
 		}
 		
+		for(Rectangle2DCoord rect: boardTiles.keySet()){
+			rect.setColor(Color.WHITE);
+		}
+		
 		
 		//Why is this here, I removed it as it was causing problems with the generated moves
 	/*  for(Rectangle2DCoord rect: boardTiles.keySet()){
