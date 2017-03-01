@@ -74,8 +74,7 @@ public class BoardPanel extends JPanel {
 		
 		for(Rectangle2DCoord rect: boardTiles.keySet()){
 			rect.setColor(Color.WHITE);
-		}
-		
+		}	
 		
 		if(game.getMode() == Game.Mode.DESIGN){
 			for(Rectangle2DCoord rect: boardTiles.keySet()){
@@ -105,6 +104,12 @@ public class BoardPanel extends JPanel {
 			}
 			
 			initPlayers(gamePlayers);
+			
+			for(Rectangle2DCoord r: boardTiles.keySet()){
+				if(boardTiles.get(r).getHasBeenVisited()){
+					visitedTiles.add(r);
+				}
+			}
 		}
 	}
 	
