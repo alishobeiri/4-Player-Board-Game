@@ -444,6 +444,7 @@ public class BoardPanel extends JPanel {
 				System.out.println("Homie we made it");
 				TileOApplication.getDesignPanel().setHasRolled(false);
 				TileOApplication.getDesignPanel().refresh();
+				//pmc.save();
 				repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -482,19 +483,15 @@ public class BoardPanel extends JPanel {
 				int c4 = (gameIndex*4)+4;
 				
 				if(playerNumber == c1){
-					System.out.println("color match: RED");
 					circle.setColor(Color.RED);
 				}
 				else if(playerNumber == c2){
-					System.out.println("color match : BLUE");
 					circle.setColor(Color.BLUE);
 				}
 				else if(playerNumber == c3){
-					System.out.println("color match : YELLOW");
 					circle.setColor(Color.YELLOW);
 				}
 				else if(playerNumber == c4){
-					System.out.println("color match : GREEN");
 					circle.setColor(Color.GREEN);
 				}
 			}

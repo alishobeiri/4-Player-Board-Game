@@ -109,7 +109,11 @@ public class TileOApplication {
 	}
 	
 	public static void addPrevDesignGame(DesignPage d){
-		designPage=d;
+		designPage = d;
+	}
+	
+	public static void addPrevGamePage(GamePage g){
+		gamePage = g;
 	}
 	
 	public static void refreshDie(int number){
@@ -124,7 +128,6 @@ public class TileOApplication {
 		return gamePage;
 	}
 	
-	// TODO basically copy the code from BTMS
 	public static TileO load() {
 		PersistenceObjectStream.setFilename(filename);
 		tileO = (TileO) PersistenceObjectStream.deserialize();

@@ -5,6 +5,8 @@ import java.awt.Font;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
 import ca.mcgill.ecse223.tileo.model.*;
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
+
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -134,15 +136,21 @@ public class TileOPage extends JFrame {
 				String gameName = (String) games.getSelectedValue();
 				g = existingGames.get(gameName);
 				if(g != null){
-					dmc.setTileOApplicationCurrentGame(g);
-					new DesignPage(getPage()).setVisible(true);
+					if(g.getMode() == Mode.DESIGN){
+						dmc.setTileOApplicationCurrentGame(g);
+						new DesignPage(getPage()).setVisible(true);
+					}
+					else{
+						dmc.setTileOApplicationCurrentGame(g);
+						new GamePage(getPage()).setVisible(true);
+					}
 				}
 			}
 
 			else{
 				System.out.println("You must select or create a game");
 			}
-
+			
 			DesignPage designPage=new DesignPage(getPage());
 			TileOApplication.addPrevDesignGame(designPage);
 			designPage.setVisible(true);
