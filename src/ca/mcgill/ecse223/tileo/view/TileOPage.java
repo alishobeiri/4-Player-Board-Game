@@ -138,11 +138,11 @@ public class TileOPage extends JFrame {
 				if(g != null){
 					if(g.getMode() == Mode.DESIGN){
 						dmc.setTileOApplicationCurrentGame(g);
-						new DesignPage(getPage()).setVisible(true);
+						//new DesignPage(getPage()).setVisible(true);
 					}
 					else{
 						dmc.setTileOApplicationCurrentGame(g);
-						new GamePage(getPage()).setVisible(true);
+						//new GamePage(getPage()).setVisible(true);
 					}
 				}
 			}

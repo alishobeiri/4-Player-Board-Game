@@ -183,13 +183,13 @@ public class GamePage extends JFrame {
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
-						rect.setColor(Color.YELLOW);
+						possibleMoves.add(rect);
+						rect.setColor(Color.pink);
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
 
 				refresh();
-
 				board.refreshBoard();
 				// update die visual
 
