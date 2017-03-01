@@ -258,9 +258,9 @@ public class PlayModeController {
 	// Thomas
 	// Returns a list of possible moves the current player can make based on the
 	// number they roll
-	public ArrayList<Tile> rollDie() {
+	public List<Tile> rollDie() {
 		Game game = TileOApplication.getCurrentGame();
-		ArrayList<Tile> tiles = game.rollDie();
+		List<Tile> tiles = game.rollDie();
 		return tiles;
 	}
 

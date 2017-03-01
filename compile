@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+javac -d "compiled" -classpath src/ca/mcgill/ecse223/tileo/controller/*.java src/ca/mcgill/ecse223/tileo/model/*.java src/ca/mcgill/ecse223/tileo/persistence/*.java src/ca/mcgill/ecse223/tileo/view/*.java src/ca/mcgill/ecse223/tileo/application/TileOApplication.java
+
+java -classpath ./compiled ca.mcgill.ecse223.tileo.application.TileOApplication

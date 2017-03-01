@@ -207,7 +207,7 @@ public class Player implements Serializable
 
 
   public String toString()
-  {
+    {
     String outputString = "";
     return super.toString() + "["+
             "number" + ":" + getNumber()+ "," +
@@ -216,49 +216,11 @@ public class Player implements Serializable
             "  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
-  }
-
-	public ArrayList<Tile> generateMoves(Tile origin, int numberOfMoves){
-		Deque<Tile> toVisit[] = new ArrayDeque[7];
-        Set<Tile> history[] = new HashSet[7];
-		ArrayList<Tile> visited[] = new ArrayList[7];
-		visited[0] = new ArrayList<>();
-		visited[0].add(origin); 
-        toVisit[0] = new ArrayDeque<Tile>();
-        history[0] = new HashSet<Tile>();
-        history[0].add(origin);
-		int layer = 0;
-		toVisit[0].add(origin);
-        while(layer<6){
-            history[layer+1] = new HashSet<Tile>();
-            visited[layer+1] = new ArrayList<Tile>();
-            toVisit[layer+1] = new ArrayDeque<Tile>();
-    		while(!toVisit[layer].isEmpty()){
-        		Tile current = toVisit[layer].poll();
-        		for(Tile t : getNeighbours(current)){
-                    if(!history[layer].contains(t)){
-                        visited[layer+1].add(t);
-                        toVisit[layer+1].add(t);
-                        history[layer+1].add(t);
-                    }
-
-    	        }
-    	    }
-            layer++;
-        }
-    	return visited[numberOfMoves];
     }
-	
-	public List<Tile> getNeighbours(Tile a){
-		List<Tile> neighbours = new ArrayList<>();
 
-		for(Connection c : a.getConnections()){
-			for(Tile t : c.getTiles()){
-				if(!(t.getX() == a.getX() && t.getY() == a.getY())){
-					neighbours.add(t);
-				}
-			}
-		}
-		return neighbours;
-	}
+	public List<Tile> generateMoves(int number){
+        Tile origin = this.getCurrentTile();
+        List<Tile> neighbours = origin.getNeighbours(number);
+        return neighbours;
+    }
 }

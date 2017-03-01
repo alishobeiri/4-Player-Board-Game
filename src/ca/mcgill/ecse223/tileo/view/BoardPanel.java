@@ -123,7 +123,6 @@ public class BoardPanel extends JPanel {
 	public Rectangle2DCoord getRectangle(int x, int y){
 		for(Rectangle2DCoord rect: rectangles){
 			if(rect.coordX == x && rect.coordY == y){
-				System.out.println("found");
 				return rect;
 			}
 		}		

@@ -591,9 +591,9 @@ public class Game implements Serializable
      + outputString;
 	}
 
-	public ArrayList<Tile> rollDie() {
+	public List<Tile> rollDie() {
 		// List of tiles to return that represents possible moves
-		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		List<Tile> tiles = new ArrayList<Tile>();
 		// 'this' is the game
 		Die die = this.getDie();
 
@@ -606,7 +606,7 @@ public class Game implements Serializable
 		//TODO Check getPossibleMoves is implemented
 		// Tiles is a list of possible moves the current player can make based
 		// on their die role
-		tiles = currentPlayer.generateMoves(currentPlayer.getCurrentTile(), dieValue);
+		tiles = currentPlayer.generateMoves(dieValue);
 
 		return tiles;
 	}
