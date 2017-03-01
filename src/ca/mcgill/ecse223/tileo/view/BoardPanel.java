@@ -43,6 +43,10 @@ public class BoardPanel extends JPanel {
 	int playerNumber = 1;
 	Rectangle2DCoord currentWinRectangle = null;
 	Rectangle2DCoord prev = null;
+
+	Rectangle2DCoord curr = null;
+	boolean connectActionCardDone = false;
+
 	TileO tileo = new TileO();
 
 	Game game=TileOApplication.getCurrentGame();
@@ -311,6 +315,32 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
+	public void addConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2, boolean isAction){
+		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
+			Tile tile1 = boardTiles.get(rect1);
+			Tile tile2 = boardTiles.get(rect2);
+			Connection c = null;
+	
+			Connector2D connector;
+			Rectangle2D connect=null;
+			if(tile1.getX() == tile2.getX()){
+			connect = getVerticalConnectionRect(tile1, tile2);
+			}
+			else if(tile1.getY() == tile2.getY()){
+			connect = getHorizontalConnectionRect(tile1, tile2);
+			}
+			System.out.println("if entered");
+			if(connect != null){
+			System.out.println("2nd if entered");
+			connector=new Connector2D(tile1, tile2, connect, c);
+			connectors.add(connector);
+			boardConnections.put(connector, c);
+			}
+			new DesignModeController().save();
+			repaint();
+		}
+	}
+	
 	public void removeConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
 		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
 			Tile tile1 = boardTiles.get(rect1);
@@ -458,7 +488,7 @@ public class BoardPanel extends JPanel {
 				System.out.println("Homie we made it");
 				TileOApplication.getDesignPanel().setHasRolled(false);
 				TileOApplication.getDesignPanel().refresh();
-				//pmc.save();
+				pmc.save();
 				repaint();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -486,8 +516,15 @@ public class BoardPanel extends JPanel {
 			int gameIndex = tileO.indexOfGame(game);
 			playerNumber = (gameIndex*4)+i;
 			if(current.hasStartingTile()){
-				int x = current.getStartingTile().getX();
-				int y = current.getStartingTile().getY();
+				int x = 0;
+				int y = 0;
+				if(game.getMode() == Game.Mode.DESIGN){
+					x = current.getStartingTile().getX();
+					y = current.getStartingTile().getY();
+				}else{
+					x = current.getCurrentTile().getX();
+					y = current.getCurrentTile().getY();
+				}
 				Ellipse2DCoord circle=new Ellipse2DCoord(x, y);
 				playerTiles.put(playerNumber, circle);
 			
@@ -576,6 +613,44 @@ public class BoardPanel extends JPanel {
 			System.out.println("Please choose a valid tile");
 		}
 	}
+	public void teleportPlayer(Rectangle2DCoord rect){
+		int playerNumber;
+		PlayModeController pmc = new PlayModeController();
+		Player player=game.getCurrentPlayer();
+		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
+		int counter=1;
+		if(rect.color.equals(Color.pink)){
+			playerNumber=(gameIndex*4)+(game.getCurrentPlayer().getNumber()%4);
+			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
+			switch(player.getColorFullName()){
+				case "RED":
+					circle.setColor(Color.RED);
+					break;
+				case "YELLOW":
+					circle.setColor(Color.YELLOW);
+					break;
+				case "BLUE":
+					circle.setColor(Color.BLUE);
+					break;
+				case "GREEN":
+					circle.setColor(Color.GREEN);
+					break;
+			}
+			if(playerNumber%4!=0){
+				playerNumber=playerNumber-4;
+			}
+			playerTiles.put(playerNumber, circle);
+			Tile t=boardTiles.get(rect);
+			try{
+				pmc.playTeleportActionCard(t);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}else{
+			showMessage("Please select a valid tile");
+		}
+	}
 	
 	class MouseSelectionListener implements MouseListener{
 		public void mouseClicked(MouseEvent ev){
@@ -628,6 +703,30 @@ public class BoardPanel extends JPanel {
 						}
 						TileOApplication.getDesignPanel().possibleMoves.clear();
 						repaint();
+					}
+<<<<<<< HEAD
+					else if(mode == Mode.TELEPORT){
+						teleportPlayer(rect);
+						for(Rectangle2DCoord tile : boardTiles.keySet()){
+							tile.setColor(Color.WHITE);
+						}
+						repaint();
+=======
+					else if(mode == Mode.ADD_CONNECTION_ACTION_CARD){
+						if(prev == null){
+							if(boardTiles.containsKey(rect)){
+								prev = rect;
+								repaint();
+							}
+						}
+						else{
+							curr = rect;
+							GamePage gamePage = TileOApplication.getGamePage();
+							gamePage.refresh();
+							prev = null;
+							curr = null;
+						}
+>>>>>>> 695518d46910b1c2adc84829e9f5d7f5ab838f95
 					}
 				}
 			}
@@ -710,7 +809,9 @@ public class BoardPanel extends JPanel {
 	}
 	
 	public enum Mode{
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER
+
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD
+
 	}
 	
 	public enum TileType{

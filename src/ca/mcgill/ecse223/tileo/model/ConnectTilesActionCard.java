@@ -45,8 +45,7 @@ public class ConnectTilesActionCard extends ActionCard implements Serializable
   
   public void play(Tile tile1, Tile tile2) throws InvalidInputException{
 	  Game game = this.getDeck().getGame();
-	  
-	  //TODO Check this method works
+
 	  game.connectTiles(tile1, tile2);
   }
 
