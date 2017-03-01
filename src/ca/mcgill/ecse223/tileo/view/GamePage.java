@@ -16,7 +16,6 @@ public class GamePage extends JFrame {
 
 	private Game game;
 	
-	Boolean hasRolled=false;
 	ArrayList<BoardPanel.Rectangle2DCoord> possibleMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
 	ArrayList<BoardPanel.Rectangle2DCoord> secondMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
 	// Components
@@ -110,13 +109,7 @@ public class GamePage extends JFrame {
 						.addComponent(dieResult, 60, 60, 60)));
 	}
 	
-	public void setHasRolled(Boolean flag){
-		hasRolled=flag;
-	}
 	
-	public boolean getHasRolled(){
-		return hasRolled;
-	}
 
 	class getCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
@@ -124,26 +117,21 @@ public class GamePage extends JFrame {
 			game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
 
 
-			if(!hasRolled){
+
 				rollDieActionPerformed(ev);
-			}else{
-				showMessage("Please select a highlighted tile to move to");
-			}
+
 		}
 	}
 
 	class rollDieListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
-			if(!hasRolled){
 				for(BoardPanel.Rectangle2DCoord rect: possibleMoves){
 					rect.setColor(Color.WHITE);
 				}
 				possibleMoves.clear();
 				rollDieActionPerformed(ev);
 				
-			}else{
-				showMessage("Please select a highlighted tile to move to");
-			}
+	
 		}
 	}
 
@@ -151,7 +139,6 @@ public class GamePage extends JFrame {
 	public void rollDieActionPerformed(ActionEvent ev) {
 		// clear error message
 
-				hasRolled=true;
 				// Call the controller
 				PlayModeController toc = new PlayModeController();
 				Game game = TileOApplication.getCurrentGame();
@@ -161,20 +148,23 @@ public class GamePage extends JFrame {
 				// pass the returned list of tiles somewhere
 				// need to update the visual with the number of the die roll but only
 				// the list of tiles is returned
-				java.util.List<Tile> tiles = toc.rollDie();
-				if(tiles == null || tiles.size() == 0){
-					showMessage("No possible moves!");
-					try {
-						toc.land(currentPlayer.getCurrentTile());
-					} catch (InvalidInputException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				
+				java.util.List<Tile> tiles = new ArrayList<Tile>();
+					tiles = toc.rollDie();
+					
+					if(tiles == null || tiles.size() == 0){
+						showMessage("No possible moves!");
+						try {
+							toc.land(currentPlayer.getCurrentTile());
+						} catch (InvalidInputException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						toc.setNextPlayer(game);
+						TileOApplication.getDesignPanel().refresh();
+						return;
 					}
-					toc.setNextPlayer(game);
-					TileOApplication.getDesignPanel().setHasRolled(false);
-					TileOApplication.getDesignPanel().refresh();
-					return;
-				}
+				
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
@@ -183,6 +173,7 @@ public class GamePage extends JFrame {
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+				//game.setMode(Mode.GAME_TELEPORTACTIONCARD);
 				refresh();
 				board.refreshBoard();
 				// update die visual
@@ -232,7 +223,7 @@ public class GamePage extends JFrame {
 					Tile tile2 = board.boardTiles.get(board.curr);
 					try{
 						gmc.playConnectTilesActionCard(tile1, tile2);
-						
+						board.addConnection(board.getRectangle(tile1.getX(), tile1.getY()), board.getRectangle(tile2.getX(), tile2.getY()), true);
 					}
 					catch(InvalidInputException e){
 						System.out.println("Connect Tiles Error");
@@ -354,9 +345,9 @@ public class GamePage extends JFrame {
 	public void teleportCard(){
 		Game.Mode mode = game.getMode();
 		PlayModeController pmc = new PlayModeController();
-			hasRolled=true;
 			board.paintAllPink();
 			board.mode=BoardPanel.Mode.TELEPORT;
+			flag=true;
 			board.refreshBoard();
 
 	}

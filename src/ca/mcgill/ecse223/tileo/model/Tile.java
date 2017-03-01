@@ -228,7 +228,11 @@ public abstract class Tile implements Serializable
     }
     for(Connection c: connections){
       List<Tile> ts = c.getTiles();
-      int ind = ts.indexOf(this)==0 ? 1:0;
+      int ind = 0;
+      if(ts.size() != 1){
+    	  ind = ts.indexOf(this)==0 ? 1:0;
+      }
+
       Tile t = ts.get(ind);
       List<Tile> ns = t.getNeighbours(this, number-1);
       neighbours.addAll(ns);

@@ -220,10 +220,10 @@ public class BoardPanel extends JPanel {
 			g2d.fill(connector.c);
 		}
 		
-		for(Rectangle2DCoord rect: visitedTiles){
+/*		for(Rectangle2DCoord rect: visitedTiles){
 			g2d.setColor(Color.GRAY);
 			g2d.fill(rect.coordRectangle);
-		}
+		}*/
 		
 		if(currentWinRectangle != null && game.getMode() == Game.Mode.DESIGN){
 			g2d.setColor(Color.DARK_GRAY);
@@ -524,8 +524,7 @@ public class BoardPanel extends JPanel {
 				System.out.println("Homie we made it");
 				if(!visitedTiles.contains(rect)){
 					visitedTiles.add(rect);
-				}
-				TileOApplication.getDesignPanel().setHasRolled(false);
+				}		
 				TileOApplication.getDesignPanel().refresh();
 				pmc.save();
 				repaint();
@@ -681,7 +680,6 @@ public class BoardPanel extends JPanel {
 			}
 			playerTiles.put(playerNumber, circle);
 			Tile t=boardTiles.get(rect);
-			TileOApplication.getDesignPanel().setHasRolled(false);
 			try{
 				pmc.playTeleportActionCard(t);
 				TileOApplication.getDesignPanel().refresh();
@@ -692,7 +690,11 @@ public class BoardPanel extends JPanel {
 			}
 			
 		}else{
-			showMessage("Please select a valid tile");
+			if(TileOApplication.getDesignPanel().flag){
+				showMessage("Please roll die to teleport");
+			}else{
+				showMessage("Please select a valid tile");
+			}
 		}
 	}
 	
@@ -740,7 +742,7 @@ public class BoardPanel extends JPanel {
 							removeConnection(prev, rect);
 							prev = null;
 						}
-					}else if(mode == Mode.MOVE_PLAYER && TileOApplication.getDesignPanel().getHasRolled()){
+					}else if(mode == Mode.MOVE_PLAYER){
 						movePlayer(rect);
 						resetTileColor();
 						repaint();

@@ -7,6 +7,7 @@ import java.util.*;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import ca.mcgill.ecse223.tileo.view.BoardPanel;
 
 public class PlayModeController {
 
@@ -97,6 +98,7 @@ public class PlayModeController {
 		}
 
 		if (!areAdjacent(tile1, tile2)) {
+			System.out.println("Tile one and two : " +  tile1.getX() + " "+ tile1.getY() + " " + tile2.getX() + " " + tile2.getY());
 			throw new InvalidInputException("The tiles are not adjacent.");
 		}
 
@@ -115,16 +117,19 @@ public class PlayModeController {
 		ConnectTilesActionCard connectTilesCard = (ConnectTilesActionCard) card;
 
 		connectTilesCard.play(tile1, tile2);
-
+		
 		setNextPlayer(game);
 
 		advanceCurrentCard(deck);
 
 		game.setMode(Mode.GAME);
+
 		
 		//TileOApplication.save();
 
 	}
+	
+	
 
 	public void playRemoveConnectionActionCard(Connection aConnection) throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
@@ -227,16 +232,28 @@ public class PlayModeController {
 	}*/
 
 	// Checks if two tiles are adjacent (connected) to each other
-	public boolean areAdjacent(Tile tile1, Tile tile2) {
-		List<Connection> connections = tile1.getConnections();
-
-		for (Connection c : connections) {
-			if (c.getTiles().contains(tile1) && c.getTiles().contains(tile2)) {
-				return true;
-			}
+	public boolean areAdjacent(Tile tile1, Tile tile2)
+	{
+		int xOne = tile1.getX();
+		int xTwo = tile1.getX();
+		int yOne = tile1.getY();
+		int yTwo = tile1.getY();
+		boolean adjacent = true;
+		if(Math.abs(xOne - xTwo) > 1)
+		{
+			adjacent = false;
 		}
+		if(Math.abs(yOne - yTwo) > 1)
+		{
+			adjacent = false;
+		}
+		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
+		{
+			adjacent = false;
+		}
+		
 
-		return false;
+		return adjacent;
 	}
 
 	// Sets the current card on the deck to the next one
