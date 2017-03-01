@@ -45,7 +45,8 @@ public class BoardPanel extends JPanel {
 	Rectangle2DCoord prev = null;
 
 	Rectangle2DCoord curr = null;
-	boolean connectActionCardDone = false;
+	
+	Connection currentConnection = null;
 
 	TileO tileo = new TileO();
 
@@ -344,6 +345,25 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
+	public void removeConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2, boolean isAction){
+		System.out.println("In right method");
+		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
+			Tile tile1 = boardTiles.get(rect1);
+			Tile tile2 = boardTiles.get(rect2);
+			
+			ArrayList<Connector2D> connector=getConnector(tile1, tile2);
+			
+			for(Connector2D connect: connector){
+				connectors.remove(connect);
+			}
+			
+			currentConnection = boardConnections.get(connector);
+			
+			new DesignModeController().save();
+			repaint();
+		}
+	}
+	
 	
 	public void addTile(Rectangle2DCoord rect){
 		DesignModeController toc=new DesignModeController();
@@ -571,8 +591,6 @@ public class BoardPanel extends JPanel {
 				
 				int playerIndex = 0;
 				int totalPlayers = 0;
-
-				//System.out.println("total players: " + totalPlayers);
 				
 				if(playerNumber == c1){
 					circle.setColor(Color.RED);
@@ -718,6 +736,25 @@ public class BoardPanel extends JPanel {
 							gamePage.refresh();
 							prev = null;
 							curr = null;
+							mode = Mode.GAME;
+							gamePage.refresh();
+						}
+					}
+					else if(mode == Mode.REMOVE_CONNECTION_ACTION_CARD){
+						if(prev == null){
+							prev = rect;
+							repaint();
+						}
+						else{
+							curr = rect;
+							GamePage gamePage = TileOApplication.getGamePage();
+							gamePage.refresh();
+							gamePage.refresh();
+							mode = mode.GAME;
+							currentConnection = null;
+							prev = null;
+							curr = null;
+							repaint();	
 						}
 					}
 					else if(mode == Mode.ROLL_DIE){
@@ -813,7 +850,8 @@ public class BoardPanel extends JPanel {
 	
 	public enum Mode{
 
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD, ROLL_DIE
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD, REMOVE_CONNECTION_ACTION_CARD, ROLL_DIE
+
 
 	}
 	

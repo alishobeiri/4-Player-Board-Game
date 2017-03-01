@@ -107,7 +107,6 @@ public class TileOPage extends JFrame {
 	public void refresh(){
 		tileO = TileOApplication.getTileO();
 		tileOGames = tileO.getGames();
-		System.out.println(tileOGames);
 		model = new DefaultListModel();
 		for(int i = 0; i < tileOGames.size(); i++){
 			Game current = tileOGames.get(i);

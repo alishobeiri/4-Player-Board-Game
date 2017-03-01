@@ -45,9 +45,8 @@ public class RemoveConnectionActionCard extends ActionCard implements Serializab
   
   public void play(Connection aConnection) throws InvalidInputException{
 	  Game game = this.getDeck().getGame();
-	  
-	  //TODO Check this method works
 	  game.deleteConnection(aConnection);
+	  game.setMode(Mode.GAME);
   }
 
 }

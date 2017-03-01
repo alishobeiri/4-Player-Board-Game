@@ -136,6 +136,7 @@ public class GamePage extends JFrame {
 				}
 				possibleMoves.clear();
 				rollDieActionPerformed(ev);
+				
 			}else{
 				showMessage("Please select a highlighted tile to move to");
 			}
@@ -233,6 +234,7 @@ public class GamePage extends JFrame {
 					}
 					catch(InvalidInputException e){
 						System.out.println("Connect Tiles Error");
+						e.printStackTrace();
 					}
 				}else{
 					board.mode=BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD;
@@ -245,12 +247,26 @@ public class GamePage extends JFrame {
 				actionCardTitle = "Remove Connection Action Card";
 				actionCardDescription = "You can remove a connection by selecting two connected tiles.";
 				deck.setCardInfo(actionCardTitle, actionCardDescription);
-/*				try{
-					//gmc.playRemoveConnectionActionCard();
+				if(board.currentConnection != null){
+					System.out.println("if 3");
+					Tile tile1 = board.boardTiles.get(board.prev);
+					Tile tile2 = board.boardTiles.get(board.curr);
+					try{
+						gmc.playRemoveConnectionActionCard(board.currentConnection);
+					}
+					catch(InvalidInputException e){
+						System.out.println("Connect Tiles Error");
+						e.printStackTrace();
+					}
 				}
-				catch(InvalidInputException e){
-					System.out.println("Remove Connection Error");
-				}*/
+				else if(board.prev != null && board.curr != null){
+					System.out.println("if 2");
+					board.removeConnection(board.prev, board.curr, true);
+				}
+				else{
+					System.out.println("if 1");
+					board.mode = BoardPanel.Mode.REMOVE_CONNECTION_ACTION_CARD;
+				}
 				break;
 				
 			case GAME_TELEPORTACTIONCARD:
