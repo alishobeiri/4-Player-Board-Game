@@ -108,33 +108,6 @@ public class GamePage extends JFrame {
 						.addComponent(rollDie)
 						.addComponent(dieResult, 60, 60, 60)));
 	}
-	
-	
-
-	class getCardListener implements ActionListener {
-		public void actionPerformed(ActionEvent ev) {
-
-			game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
-
-
-
-				rollDieActionPerformed(ev);
-
-		}
-	}
-
-	class rollDieListener implements ActionListener {
-		public void actionPerformed(ActionEvent ev) {
-				for(BoardPanel.Rectangle2DCoord rect: possibleMoves){
-					rect.setColor(Color.WHITE);
-				}
-				possibleMoves.clear();
-				rollDieActionPerformed(ev);
-				
-	
-		}
-	}
-
 
 	public void rollDieActionPerformed(ActionEvent ev) {
 		// clear error message
@@ -157,7 +130,6 @@ public class GamePage extends JFrame {
 						try {
 							toc.land(currentPlayer.getCurrentTile());
 						} catch (InvalidInputException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						toc.setNextPlayer(game);
@@ -165,18 +137,18 @@ public class GamePage extends JFrame {
 						return;
 					}
 				
+				//This shows the possible moves in pink
 				for(Tile t : tiles){
 					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
 
 						rect.setColor(Color.pink);
+						
 					}
 				}
 				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
-				//game.setMode(Mode.GAME_TELEPORTACTIONCARD);
 				refresh();
 				board.refreshBoard();
-				// update die visual
 	}	
 
 	public void refresh() {
@@ -376,6 +348,22 @@ public class GamePage extends JFrame {
 		flag=true;
 		board.mode = BoardPanel.Mode.ROLL_DIE;
 		board.refreshBoard();
+	}
+	
+	public void enableRollDieButton(boolean enabled){
+		rollDie.setEnabled(enabled);
+	}
+	
+	class rollDieListener implements ActionListener {
+		public void actionPerformed(ActionEvent ev) {
+				for(BoardPanel.Rectangle2DCoord rect: possibleMoves){
+					rect.setColor(Color.WHITE);
+				}
+				possibleMoves.clear();
+				rollDieActionPerformed(ev);
+				
+	
+		}
 	}
 	
 }

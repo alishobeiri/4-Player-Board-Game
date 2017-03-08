@@ -314,14 +314,6 @@ public class DesignPage extends JFrame {
 		}
 	}
 	
-	class SaveListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
-			DesignModeController dmc = new DesignModeController();
-			dmc.save();
-			mainMenu.refresh();
-		}
-	}
-	
 	class CloseListener implements WindowListener{
 
 		@Override

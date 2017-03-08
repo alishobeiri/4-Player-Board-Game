@@ -401,11 +401,9 @@ public class BoardPanel extends JPanel {
 					NormalTile t = toc.addNormalTile(rect.coordX, rect.coordY);
 					boardTiles.put(rect, t);
 					repaint();
-					System.out.println("Normal Tile");
 					new DesignModeController().save();
 				} catch (InvalidInputException e) {
-					// TODO Auto-generated catch block
-					System.out.println("Tile exists at that location");
+					System.out.println("Tile exists at that location: Exception catched");
 				}
 
 			}
@@ -416,7 +414,6 @@ public class BoardPanel extends JPanel {
 					boardTiles.put(rect, t);
 					rect.setColor(Color.pink);
 					repaint();
-					System.out.println("Action Tile: " + inactiveTurns + " inactive turns.");
 				} catch (InvalidInputException e) {
 					// TODO Auto-generated catch block
 					System.out.println("Tile already here");
@@ -431,8 +428,6 @@ public class BoardPanel extends JPanel {
 				currentWinRectangle = rect;
 				boardTiles.put(rect, t);
 				repaint();
-				System.out.println("Win Tile");
-				
 			}
 		}
 	}
