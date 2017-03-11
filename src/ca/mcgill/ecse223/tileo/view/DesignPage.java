@@ -301,15 +301,10 @@ public class DesignPage extends JFrame {
 		public void actionPerformed(ActionEvent ev){
 		
 		PlayModeController poc=new PlayModeController();
-		try {
-			poc.startGame(TileOApplication.getCurrentGame());
+			poc.startGame();
 			TileOApplication.changeGameMode(getBoard());
 			poc.save();
 			mainMenu.refresh();
-		} catch (InvalidInputException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
 
 		}
 	}

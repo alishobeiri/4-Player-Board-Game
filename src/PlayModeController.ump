@@ -51,15 +51,15 @@ class PlayModeController{
     }
 
     Action{
-      getActionCard() [isCurrentCardRollDie()] / {displayCard()} -> RollDieAgain;
+      getActionCard() [isCurrentCardRollDie()] / {displayCard();} -> RollDieAgain;
 
-      getActionCard() [isCurrentCardAddConnection()] / {displayCard()} -> AddConnection;
+      getActionCard() [isCurrentCardAddConnection()] / {displayCard();} -> AddConnection;
 
-      getActionCard() [isCurrentCardRemoveConnection()] / {displayCard()} -> RemoveConnection;
+      getActionCard() [isCurrentCardRemoveConnection()] / {displayCard();} -> RemoveConnection;
 
-      getActionCard() [isCurrentCardTeleport()] / {displayCard()} -> Teleport;
+      getActionCard() [isCurrentCardTeleport()] / {displayCard();} -> Teleport;
 
-      getActionCard() [isCurrentCardLoseTurn()] / {displayCard()} -> LoseTurn;
+      getActionCard() [isCurrentCardLoseTurn()] / {displayCard();} -> LoseTurn;
     }
 
     RollDieAgain{

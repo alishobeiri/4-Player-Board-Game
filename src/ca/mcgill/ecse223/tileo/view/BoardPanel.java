@@ -514,7 +514,7 @@ public class BoardPanel extends JPanel {
 				
 				pmc.land(t);
 				if(game.getMode()==Game.Mode.GAME){
-					pmc.setNextPlayer(game);
+					pmc.setNextPlayer();
 				}
 				System.out.println("Homie we made it");
 				if(!visitedTiles.contains(rect)){

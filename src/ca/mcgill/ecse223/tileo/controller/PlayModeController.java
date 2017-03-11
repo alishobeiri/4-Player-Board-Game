@@ -4,6 +4,9 @@
 package ca.mcgill.ecse223.tileo.controller;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.util.*;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
@@ -13,7 +16,16 @@ import ca.mcgill.ecse223.tileo.view.BoardPanel;
 // line 3 "../../../../../PlayModeController.ump"
 public class PlayModeController
 {
-
+	
+	//Added variables
+	
+	Game game;
+	
+	//End of added variables
+	
+	
+	
+	
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -29,6 +41,7 @@ public class PlayModeController
   public PlayModeController()
   {
     setMode(Mode.Idle);
+    game=TileOApplication.getCurrentGame();
   }
 
   //------------------------
@@ -139,7 +152,7 @@ public class PlayModeController
         if (isCurrentCardRollDie())
         {
         // line 54 "../../../../../PlayModeController.ump"
-          displayCard()
+          displayCard();
           setMode(Mode.RollDieAgain);
           wasEventProcessed = true;
           break;
@@ -147,7 +160,7 @@ public class PlayModeController
         if (isCurrentCardAddConnection())
         {
         // line 56 "../../../../../PlayModeController.ump"
-          displayCard()
+          displayCard();
           setMode(Mode.AddConnection);
           wasEventProcessed = true;
           break;
@@ -155,7 +168,7 @@ public class PlayModeController
         if (isCurrentCardRemoveConnection())
         {
         // line 58 "../../../../../PlayModeController.ump"
-          displayCard()
+          displayCard();
           setMode(Mode.RemoveConnection);
           wasEventProcessed = true;
           break;
@@ -163,7 +176,7 @@ public class PlayModeController
         if (isCurrentCardTeleport())
         {
         // line 60 "../../../../../PlayModeController.ump"
-          displayCard()
+          displayCard();
           setMode(Mode.Teleport);
           wasEventProcessed = true;
           break;
@@ -171,7 +184,7 @@ public class PlayModeController
         if (isCurrentCardLoseTurn())
         {
         // line 62 "../../../../../PlayModeController.ump"
-          displayCard()
+          displayCard();
           setMode(Mode.LoseTurn);
           wasEventProcessed = true;
           break;
@@ -466,7 +479,7 @@ public class PlayModeController
 
 		advanceCurrentCard(deck);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 		
 		//TileOApplication.save();
 
@@ -503,11 +516,11 @@ public class PlayModeController
 
 		connectTilesCard.play(tile1, tile2);
 		
-		setNextPlayer(game);
+		setNextPlayer();
 
 		advanceCurrentCard(deck);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 
 		
 		//TileOApplication.save();
@@ -532,11 +545,11 @@ public class PlayModeController
 
 		removeConnectionCard.play(aConnection);
 
-		setNextPlayer(game);
+		setNextPlayer();
 
 		advanceCurrentCard(deck);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 		
 		//TileOApplication.save();
   }
@@ -565,7 +578,7 @@ public class PlayModeController
 
 		tile.setHasBeenVisited(true);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 		
 		//TileOApplication.save();
   }
@@ -594,7 +607,8 @@ public class PlayModeController
    * Sets the current player to the next player
    */
   // line 364 "../../../../../PlayModeController.ump"
-   public void setNextPlayer(Game game){
+   public void setNextPlayer(){
+	   game=TileOApplication.getCurrentGame();
     List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
@@ -662,14 +676,8 @@ public class PlayModeController
 			ActionCard nextCard = deck.getCard(index);
 			deck.setCurrentCard(nextCard);
 		}
-<<<<<<< HEAD
-		ActionCard nextCard = deck.getCard(index);
-		deck.setCurrentCard(nextCard);
   }
 
-=======
-	}
->>>>>>> refs/remotes/origin/master
 
   /**
    * Thomas
@@ -688,8 +696,9 @@ public class PlayModeController
    * Thomas
    */
   // line 436 "../../../../../PlayModeController.ump"
-   public void doStartGame(Game selectedGame) throws InvalidInputException{
+   public void doStartGame(){
     /* VARIABLES */
+	   	Game selectedGame=TileOApplication.getCurrentGame();
 		List<Tile> tiles;
 		List<Player> players;
 		Tile startingTile;
@@ -712,14 +721,14 @@ public class PlayModeController
 		/* VALIDATION */
 		// Check there are the right number of cards in the deck
 		if (deck.numberOfCards() != selectedGame.NumberOfActionCards) {
-			throw new InvalidInputException("The deck has the wrong number of Action Cards");
+			showMessage("The deck has the wrong number of Action Cards");
 		}
 		// Check the game has a specified Win Tile
 		if (!selectedGame.hasWinTile()) {
-			throw new InvalidInputException("The game does not have a Win Tile");
+			showMessage("The game does not have a Win Tile");
 		}
 		if(!selectedGame.hasPlayers()){
-			throw new InvalidInputException("The game does not have any added players");
+			showMessage("The game does not have any added players");
 		}
 
 		/* ACTION */
@@ -741,7 +750,7 @@ public class PlayModeController
 				startingTile.setHasBeenVisited(true);
 				TileOApplication.save();
 			} else {
-				throw new InvalidInputException("The starting position is not set for a player");
+				showMessage("The starting position is not set for a player");
 			}
 		}
 
@@ -751,7 +760,7 @@ public class PlayModeController
 		// Set the number of connection pieces to the default value
 		selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
 		// Set the game mode to GAME
-		selectedGame.setMode(Mode.GAME);
+		selectedGame.setMode(Game.Mode.GAME);
   }
 
 
@@ -759,7 +768,7 @@ public class PlayModeController
    * Thomas
    */
   // line 503 "../../../../../PlayModeController.ump"
-   public void doLand(Tile tile) throws InvalidInputException{
+   public void doLand(Tile tile) {
     // Validation check: Make sure tile exists as one of the game tiles
 		Game game = tile.getGame();
 		List<Tile> tiles = game.getTiles();
@@ -768,13 +777,48 @@ public class PlayModeController
 			tile.land();
 			//TileOApplication.save();
 		}else{
-			throw new InvalidInputException("Tile is not part of the game");
+			showMessage("Tile is not part of the game");
 		}
   }
+   
+  public void doAddConnection(Tile tile1, Tile tile2){
+	  
+  }
+  
+  public List<Tile> doDieRolled(){
+	  
+	  
+	  return new ArrayList<Tile>();
+  }
+  
+  public void displayCard(){
+	  
+  }
+  
+  public void doRemoveConnection(Tile tile1, Tile tile2){
+	  
+  }
+  
+  public void enableRollDieButton(boolean flag){
+	  
+  }
+  
+  public void endGame(){
+	  
+  }
+   
+  public void showMessage(String s){
+	  JOptionPane.showConfirmDialog(null, s);
+  }
+ 
 
   // line 516 "../../../../../PlayModeController.ump"
    public static  void save(){
     TileOApplication.save();
   }
+   
+  //NEW METHOD SIGNATURES: 
+   
+   
 
 }

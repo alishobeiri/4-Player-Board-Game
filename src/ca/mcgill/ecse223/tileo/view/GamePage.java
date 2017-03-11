@@ -123,16 +123,13 @@ public class GamePage extends JFrame {
 				// the list of tiles is returned
 				
 				java.util.List<Tile> tiles = new ArrayList<Tile>();
-					tiles = toc.rollDie();
+					tiles = toc.doDieRolled();
 					
 					if(tiles == null || tiles.size() == 0){
 						showMessage("No possible moves!");
-						try {
-							toc.land(currentPlayer.getCurrentTile());
-						} catch (InvalidInputException e) {
-							e.printStackTrace();
-						}
-						toc.setNextPlayer(game);
+						toc.land(currentPlayer.getCurrentTile());
+						//TODO Might need error check to see if land worked
+						toc.setNextPlayer();
 						TileOApplication.getDesignPanel().refresh();
 						return;
 					}
@@ -337,7 +334,7 @@ public class GamePage extends JFrame {
 		}
 		if(moves == null){
 			showMessage("No Possible Moves");
-			pmc.setNextPlayer(game);
+			pmc.setNextPlayer();
 			refresh();
 		}
 		for(Tile t : moves){
