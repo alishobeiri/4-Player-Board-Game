@@ -1,16 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
-package ca.mcgill.ecse223.tileo.controller;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.*;
-import ca.mcgill.ecse223.tileo.application.TileOApplication;
-import ca.mcgill.ecse223.tileo.model.*;
-import ca.mcgill.ecse223.tileo.model.Game.Mode;
-import ca.mcgill.ecse223.tileo.view.BoardPanel;
+package ca.mcgill.ecse223.tileo.controller1;
 
-// line 3 "../../../../../PlayModeController.ump"
+// line 3 "../../../../../PlayModeControllerModel.ump"
 public class PlayModeController
 {
 
@@ -19,8 +12,12 @@ public class PlayModeController
   //------------------------
 
   //PlayModeController State Machines
-  public enum Mode { Idle, RollDie, Move, GameOver, Action, RollDieAgain, Teleport, AddConnection, RemoveConnection, LoseTurn }
+  public enum Mode { Normal, RollDieAgain, Teleport, AddConnection, RemoveConnection, LoseTurn }
+  public enum ModeNormal { Null, RollDie, ChooseTile }
+  public enum ModeRollDieAgain { Null, RollDieAC, ChooseTileAC }
   private Mode mode;
+  private ModeNormal modeNormal;
+  private ModeRollDieAgain modeRollDieAgain;
 
   //------------------------
   // CONSTRUCTOR
@@ -28,7 +25,9 @@ public class PlayModeController
 
   public PlayModeController()
   {
-    setMode(Mode.Idle);
+    setModeNormal(ModeNormal.Null);
+    setModeRollDieAgain(ModeRollDieAgain.Null);
+    setMode(Mode.Normal);
   }
 
   //------------------------
@@ -38,6 +37,8 @@ public class PlayModeController
   public String getModeFullName()
   {
     String answer = mode.toString();
+    if (modeNormal != ModeNormal.Null) { answer += "." + modeNormal.toString(); }
+    if (modeRollDieAgain != ModeRollDieAgain.Null) { answer += "." + modeRollDieAgain.toString(); }
     return answer;
   }
 
@@ -46,17 +47,119 @@ public class PlayModeController
     return mode;
   }
 
-  public boolean startGame()
+  public ModeNormal getModeNormal()
+  {
+    return modeNormal;
+  }
+
+  public ModeRollDieAgain getModeRollDieAgain()
+  {
+    return modeRollDieAgain;
+  }
+
+  public boolean tileToTeleportChosen()
   {
     boolean wasEventProcessed = false;
     
     Mode aMode = mode;
     switch (aMode)
     {
-      case Idle:
-        // line 17 "../../../../../PlayModeController.ump"
-        doStartGame();
-        setMode(Mode.RollDie);
+      case Teleport:
+        setModeNormal(ModeNormal.RollDie);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean connectionAdded()
+  {
+    boolean wasEventProcessed = false;
+    
+    Mode aMode = mode;
+    switch (aMode)
+    {
+      case AddConnection:
+        setModeNormal(ModeNormal.RollDie);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean connectionRemoved()
+  {
+    boolean wasEventProcessed = false;
+    
+    Mode aMode = mode;
+    switch (aMode)
+    {
+      case RemoveConnection:
+        setModeNormal(ModeNormal.RollDie);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean playerStateChanged()
+  {
+    boolean wasEventProcessed = false;
+    
+    Mode aMode = mode;
+    switch (aMode)
+    {
+      case LoseTurn:
+        setModeNormal(ModeNormal.RollDie);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private boolean enterNormal()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
+    {
+      case Null:
+        setModeNormal(ModeNormal.RollDie);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private boolean exitNormal()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
+    {
+      case RollDie:
+        setModeNormal(ModeNormal.Null);
+        wasEventProcessed = true;
+        break;
+      case ChooseTile:
+        setModeNormal(ModeNormal.Null);
         wasEventProcessed = true;
         break;
       default:
@@ -70,14 +173,14 @@ public class PlayModeController
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
     {
       case RollDie:
-        exitMode();
-        // line 27 "../../../../../PlayModeController.ump"
+        exitModeNormal();
+        // line 10 "../../../../../PlayModeControllerModel.ump"
         doDieRolled();
-        setMode(Mode.Move);
+        setModeNormal(ModeNormal.ChooseTile);
         wasEventProcessed = true;
         break;
       default:
@@ -87,112 +190,15 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
-  public boolean land(Tile aTile)
+  public boolean moveChosen()
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
     {
-      case Move:
-        if (isNormalTile(aTile))
-        {
-        // line 34 "../../../../../PlayModeController.ump"
-          doLand(aTile);
-          setMode(Mode.RollDie);
-          wasEventProcessed = true;
-          break;
-        }
-        if (isActionTile(aTile))
-        {
-        // line 38 "../../../../../PlayModeController.ump"
-          // Here the player is not set to the next one
-          doLand(aTile);
-          setMode(Mode.Action);
-          wasEventProcessed = true;
-          break;
-        }
-        if (isWinTile(aTile))
-        {
-        // line 43 "../../../../../PlayModeController.ump"
-          doLand(aTile);
-          setMode(Mode.GameOver);
-          wasEventProcessed = true;
-          break;
-        }
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean getActionCard()
-  {
-    boolean wasEventProcessed = false;
-    
-    Mode aMode = mode;
-    switch (aMode)
-    {
-      case Action:
-        if (isCurrentCardRollDie())
-        {
-        // line 54 "../../../../../PlayModeController.ump"
-          displayCard()
-          setMode(Mode.RollDieAgain);
-          wasEventProcessed = true;
-          break;
-        }
-        if (isCurrentCardAddConnection())
-        {
-        // line 56 "../../../../../PlayModeController.ump"
-          displayCard()
-          setMode(Mode.AddConnection);
-          wasEventProcessed = true;
-          break;
-        }
-        if (isCurrentCardRemoveConnection())
-        {
-        // line 58 "../../../../../PlayModeController.ump"
-          displayCard()
-          setMode(Mode.RemoveConnection);
-          wasEventProcessed = true;
-          break;
-        }
-        if (isCurrentCardTeleport())
-        {
-        // line 60 "../../../../../PlayModeController.ump"
-          displayCard()
-          setMode(Mode.Teleport);
-          wasEventProcessed = true;
-          break;
-        }
-        if (isCurrentCardLoseTurn())
-        {
-        // line 62 "../../../../../PlayModeController.ump"
-          displayCard()
-          setMode(Mode.LoseTurn);
-          wasEventProcessed = true;
-          break;
-        }
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean dieRolledAgain()
-  {
-    boolean wasEventProcessed = false;
-    
-    Mode aMode = mode;
-    switch (aMode)
-    {
-      case RollDieAgain:
-        setMode(Mode.RollDie);
+      case ChooseTile:
+        setModeNormal(ModeNormal.RollDie);
         wasEventProcessed = true;
         break;
       default:
@@ -202,15 +208,16 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
-  public boolean teleport()
+  public boolean landedOnRollDieAgain()
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
     {
-      case Teleport:
-        setMode(Mode.Move);
+      case ChooseTile:
+        exitMode();
+        setModeRollDieAgain(ModeRollDieAgain.RollDieAC);
         wasEventProcessed = true;
         break;
       default:
@@ -220,17 +227,16 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
-  public boolean addConnection(Tile tile1,Tile tile2)
+  public boolean landedOnTeleport()
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
     {
-      case AddConnection:
-        // line 76 "../../../../../PlayModeController.ump"
-        doAddConnection(tile1, tile2);
-        setMode(Mode.RollDie);
+      case ChooseTile:
+        exitMode();
+        setMode(Mode.Teleport);
         wasEventProcessed = true;
         break;
       default:
@@ -240,17 +246,16 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
-  public boolean removeConnection(Tile tile1,Tile tile2)
+  public boolean landedOnAddConnection()
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
     {
-      case RemoveConnection:
-        // line 83 "../../../../../PlayModeController.ump"
-        doRemoveConnection(tile1, tile2);
-        setMode(Mode.RollDie);
+      case ChooseTile:
+        exitMode();
+        setMode(Mode.AddConnection);
         wasEventProcessed = true;
         break;
       default:
@@ -260,15 +265,112 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
-  public boolean changePlayerState()
+  public boolean landedOnRemoveConnection()
   {
     boolean wasEventProcessed = false;
     
-    Mode aMode = mode;
-    switch (aMode)
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
     {
-      case LoseTurn:
-        setMode(Mode.RollDie);
+      case ChooseTile:
+        exitMode();
+        setMode(Mode.RemoveConnection);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean landedOnLoseTurn()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeNormal aModeNormal = modeNormal;
+    switch (aModeNormal)
+    {
+      case ChooseTile:
+        exitMode();
+        setMode(Mode.LoseTurn);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private boolean enterRollDieAgain()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeRollDieAgain aModeRollDieAgain = modeRollDieAgain;
+    switch (aModeRollDieAgain)
+    {
+      case Null:
+        setModeRollDieAgain(ModeRollDieAgain.RollDieAC);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private boolean exitRollDieAgain()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeRollDieAgain aModeRollDieAgain = modeRollDieAgain;
+    switch (aModeRollDieAgain)
+    {
+      case RollDieAC:
+        setModeRollDieAgain(ModeRollDieAgain.Null);
+        wasEventProcessed = true;
+        break;
+      case ChooseTileAC:
+        setModeRollDieAgain(ModeRollDieAgain.Null);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean dieRolledAC()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeRollDieAgain aModeRollDieAgain = modeRollDieAgain;
+    switch (aModeRollDieAgain)
+    {
+      case RollDieAC:
+        setModeRollDieAgain(ModeRollDieAgain.ChooseTileAC);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean tileChosenAC()
+  {
+    boolean wasEventProcessed = false;
+    
+    ModeRollDieAgain aModeRollDieAgain = modeRollDieAgain;
+    switch (aModeRollDieAgain)
+    {
+      case ChooseTileAC:
+        exitMode();
+        setModeNormal(ModeNormal.RollDie);
         wasEventProcessed = true;
         break;
       default:
@@ -282,9 +384,11 @@ public class PlayModeController
   {
     switch(mode)
     {
-      case RollDie:
-        // line 26 "../../../../../PlayModeController.ump"
-        enableRollDieButton(false);
+      case Normal:
+        exitNormal();
+        break;
+      case RollDieAgain:
+        exitRollDieAgain();
         break;
     }
   }
@@ -296,15 +400,45 @@ public class PlayModeController
     // entry actions and do activities
     switch(mode)
     {
-      case RollDie:
-        // line 25 "../../../../../PlayModeController.ump"
-        enableRollDieButton(true);
+      case Normal:
+        if (modeNormal == ModeNormal.Null) { setModeNormal(ModeNormal.RollDie); }
         break;
-      case GameOver:
-        // line 50 "../../../../../PlayModeController.ump"
-        endGame();
+      case RollDieAgain:
+        if (modeRollDieAgain == ModeRollDieAgain.Null) { setModeRollDieAgain(ModeRollDieAgain.RollDieAC); }
         break;
     }
+  }
+
+  private void exitModeNormal()
+  {
+    switch(modeNormal)
+    {
+      case RollDie:
+        // line 11 "../../../../../PlayModeControllerModel.ump"
+        enableRollDieButton(false);
+        break;
+    }
+  }
+
+  private void setModeNormal(ModeNormal aModeNormal)
+  {
+    modeNormal = aModeNormal;
+    if (mode != Mode.Normal && aModeNormal != ModeNormal.Null) { setMode(Mode.Normal); }
+
+    // entry actions and do activities
+    switch(modeNormal)
+    {
+      case RollDie:
+        // line 9 "../../../../../PlayModeControllerModel.ump"
+        enableRollDieButton(true);
+        break;
+    }
+  }
+
+  private void setModeRollDieAgain(ModeRollDieAgain aModeRollDieAgain)
+  {
+    modeRollDieAgain = aModeRollDieAgain;
+    if (mode != Mode.RollDieAgain && aModeRollDieAgain != ModeRollDieAgain.Null) { setMode(Mode.RollDieAgain); }
   }
 
   public void delete()
@@ -312,88 +446,45 @@ public class PlayModeController
 
 
   /**
-   * ----------------------------------------------------*
-   * 
-   * Guard methods 				    *
-   * 
-   * ----------------------------------------------------
+   * dieRolled method implementation
    */
-  // line 102 "../../../../../PlayModeController.ump"
-   public boolean isNormalTile(Tile aTile){
-    if(aTile instanceof NormalTile){
-      return true;
-    }
+  // line 61 "../../../../../PlayModeControllerModel.ump"
+   public void doDieRolled(){
+    Game game = TileOApplication.getCurrentGame();
+				Player currentPlayer = game.getCurrentPlayer();
+				Tile currentTile = currentPlayer.getCurrentTile();
+				
+				java.util.List<Tile> tiles = new ArrayList<Tile>();
+					tiles = rollDie();
+					
+					if(tiles == null || tiles.size() == 0){
+						showMessage("No possible moves!");
+						try {
+							land(currentPlayer.getCurrentTile());
+						} catch (InvalidInputException e) {
+							e.printStackTrace();
+						}
+						setNextPlayer(game);
+						TileOApplication.getDesignPanel().refresh();
+						return;
+					}
+				
+				//This shows the possible moves in pink
+				for(Tile t : tiles){
+					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
+					if(rect != null){
 
-    return false;
+
+						rect.setColor(Color.pink);
+						
+					}
+				}
+				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+				refresh();
+				board.refreshBoard();
   }
 
-  // line 111 "../../../../../PlayModeController.ump"
-   public boolean isActionTile(Tile aTile){
-    if(aTile instanceof ActionTile){
-      return true;
-    }
-
-    return false;
-  }
-
-  // line 120 "../../../../../PlayModeController.ump"
-   public boolean isWinTile(Tile aTile){
-    if(aTile instanceof WinTile){
-      return true;
-    }
-
-    return false;
-  }
-
-  // line 128 "../../../../../PlayModeController.ump"
-  public boolean isCurrentCardRollDie(){
-    if(game.getDeck().getCurrentCard() instanceof RollDieActionCard){
-      return true;
-    }
-    return false;
-  }
-
-  // line 135 "../../../../../PlayModeController.ump"
-  public boolean isCurrentCardAddConnection(){
-    if(game.getDeck().getCurrentCard() instanceof ConnectTilesActionCard){
-      return true;
-    }
-    return false;
-  }
-
-  // line 142 "../../../../../PlayModeController.ump"
-  public boolean isCurrentCardRemoveConnection(){
-    if(game.getDeck().getCurrentCard() instanceof RemoveConnectionActionCard){
-      return true;
-    }
-    return false;
-  }
-
-  // line 149 "../../../../../PlayModeController.ump"
-  public boolean isCurrentCardTeleport(){
-    if(game.getDeck().getCurrentCard() instanceof TeleportActionCard){
-      return true;
-    }
-    return false;
-  }
-
-  // line 156 "../../../../../PlayModeController.ump"
-  public boolean isCurrentCardLoseTurn(){
-    if(game.getDeck().getCurrentCard() instanceof LoseTurnActionCard){
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * ----------------------------------------------------*
-   * 
-   * Added methods from previous verion of controller  *
-   * 
-   * ----------------------------------------------------
-   */
-  // line 169 "../../../../../PlayModeController.ump"
+  // line 96 "../../../../../PlayModeControllerModel.ump"
    public ActionCard pickActionCard(Game game){
     game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
@@ -448,7 +539,7 @@ public class PlayModeController
    * }
    * 
    */
-  // line 221 "../../../../../PlayModeController.ump"
+  // line 148 "../../../../../PlayModeControllerModel.ump"
    public List<Tile> playRollDieActionCard() throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
@@ -473,7 +564,7 @@ public class PlayModeController
 		return tiles;
   }
 
-  // line 245 "../../../../../PlayModeController.ump"
+  // line 172 "../../../../../PlayModeControllerModel.ump"
    public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 
@@ -513,7 +604,7 @@ public class PlayModeController
 		//TileOApplication.save();
   }
 
-  // line 287 "../../../../../PlayModeController.ump"
+  // line 214 "../../../../../PlayModeControllerModel.ump"
    public void playRemoveConnectionActionCard(Connection aConnection) throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 
@@ -541,7 +632,7 @@ public class PlayModeController
 		//TileOApplication.save();
   }
 
-  // line 315 "../../../../../PlayModeController.ump"
+  // line 242 "../../../../../PlayModeControllerModel.ump"
    public void playTeleportActionCard(Tile tile) throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 
@@ -593,7 +684,7 @@ public class PlayModeController
    * Helper methods
    * Sets the current player to the next player
    */
-  // line 364 "../../../../../PlayModeController.ump"
+  // line 291 "../../../../../PlayModeControllerModel.ump"
    public void setNextPlayer(Game game){
     List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
@@ -621,7 +712,7 @@ public class PlayModeController
    * 
    * Checks if two tiles are adjacent (connected) to each other
    */
-  // line 389 "../../../../../PlayModeController.ump"
+  // line 316 "../../../../../PlayModeControllerModel.ump"
    public boolean areAdjacent(Tile tile1, Tile tile2){
     int xOne = tile1.getX();
 		int xTwo = tile1.getX();
@@ -649,7 +740,7 @@ public class PlayModeController
   /**
    * Sets the current card on the deck to the next one
    */
-  // line 413 "../../../../../PlayModeController.ump"
+  // line 340 "../../../../../PlayModeControllerModel.ump"
    public void advanceCurrentCard(Deck deck){
     ActionCard card = deck.getCurrentCard();
 		int index = deck.indexOfCard(card);
@@ -668,8 +759,8 @@ public class PlayModeController
    * Returns a list of possible moves the current player can make based on the
    * number they roll
    */
-  // line 428 "../../../../../PlayModeController.ump"
-   public List<Tile> doRollDie(){
+  // line 355 "../../../../../PlayModeControllerModel.ump"
+   public List<Tile> rollDie(){
     Game game = TileOApplication.getCurrentGame();
 		List<Tile> tiles = game.rollDie();
 		return tiles;
@@ -679,8 +770,8 @@ public class PlayModeController
   /**
    * Thomas
    */
-  // line 436 "../../../../../PlayModeController.ump"
-   public void doStartGame(Game selectedGame) throws InvalidInputException{
+  // line 363 "../../../../../PlayModeControllerModel.ump"
+   public void startGame(Game selectedGame) throws InvalidInputException{
     /* VARIABLES */
 		List<Tile> tiles;
 		List<Player> players;
@@ -750,8 +841,8 @@ public class PlayModeController
   /**
    * Thomas
    */
-  // line 503 "../../../../../PlayModeController.ump"
-   public void doLand(Tile tile) throws InvalidInputException{
+  // line 430 "../../../../../PlayModeControllerModel.ump"
+   public void land(Tile tile) throws InvalidInputException{
     // Validation check: Make sure tile exists as one of the game tiles
 		Game game = tile.getGame();
 		List<Tile> tiles = game.getTiles();
@@ -764,7 +855,7 @@ public class PlayModeController
 		}
   }
 
-  // line 516 "../../../../../PlayModeController.ump"
+  // line 443 "../../../../../PlayModeControllerModel.ump"
    public static  void save(){
     TileOApplication.save();
   }
