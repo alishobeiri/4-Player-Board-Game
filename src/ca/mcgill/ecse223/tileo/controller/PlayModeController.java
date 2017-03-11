@@ -653,15 +653,23 @@ public class PlayModeController
    public void advanceCurrentCard(Deck deck){
     ActionCard card = deck.getCurrentCard();
 		int index = deck.indexOfCard(card);
-		if (deck.getCard(index + 1) == null) {
-			// TODO Check that this method works.
+		try{
+			ActionCard nextCard = deck.getCard(index+1);
+			deck.setCurrentCard(nextCard);
+		}catch(IndexOutOfBoundsException e){
 			deck.shuffle();
-			index = 0;
+			index=0;
+			ActionCard nextCard = deck.getCard(index);
+			deck.setCurrentCard(nextCard);
 		}
+<<<<<<< HEAD
 		ActionCard nextCard = deck.getCard(index);
 		deck.setCurrentCard(nextCard);
   }
 
+=======
+	}
+>>>>>>> refs/remotes/origin/master
 
   /**
    * Thomas

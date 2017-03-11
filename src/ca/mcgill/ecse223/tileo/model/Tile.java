@@ -238,29 +238,8 @@ public abstract class Tile implements Serializable
       neighbours.addAll(ns);
     }
     return neighbours;
-
-
   }
-  private static void debug(List<Tile> tiles){
-      System.out.print("[");
-      for (Tile t : tiles){
-        System.out.print("(");
-        System.out.print(Integer.toString(t.getX()));
-        System.out.print(",");
-        System.out.print(Integer.toString(t.getY()));
-        System.out.print(") ");
-      }
-      System.out.println("]");
-      System.out.println();
-  }
-  private static void debug2(Tile tile){
-    System.out.print("(");
-    System.out.print(Integer.toString(tile.getX()));
-    System.out.print(",");
-    System.out.print(Integer.toString(tile.getY()));
-    System.out.println(")");
-
-  }
+  
   public boolean setGame(Game aGame)
   {
     boolean wasSet = false;

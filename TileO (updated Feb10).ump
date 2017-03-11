@@ -98,47 +98,37 @@ class Player {
   unique Integer number;
   Integer turnsUntilActive = 0;
   
-	public ArrayList<Tile> generateMoves(Tile origin, int numberOfMoves){
-		Deque<Tile> toVisit[] = new ArrayDeque[7];
-        Set<Tile> history = new HashSet<>();
-		ArrayList<Tile> visited[] = new ArrayList[7];
-		visited[0] = new ArrayList<>();
-		visited[0].add(origin);
-        toVisit[0] = new ArrayDeque<Tile>();
-        history.add(origin);
-		int layer = 0;
-		toVisit[0].add(origin);
-        while(layer<6){
-            visited[layer+1] = new ArrayList<Tile>();
-            toVisit[layer+1] = new ArrayDeque<Tile>();
-    		while(!toVisit[layer].isEmpty()){
-        		Tile current = toVisit[layer].poll();
-        		for(Tile t : getNeighbours(current)){
-                    if(!history.contains(t)){
-                        visited[layer+1].add(t);
-                        toVisit[layer+1].add(t);
-                        history.add(t);
-                    }
-    	        }
-    	    }
-            layer++;
-        }
-        System.out.println(visited[numberOfMoves]);
-    	return visited[numberOfMoves];
+	public List<Tile> generateMoves(int number){
+        Tile origin = this.getCurrentTile();
+        List<Tile> neighbours = origin.getNeighbours(null, number);
+        return neighbours;
     }
 	
-	public List<Tile> getNeighbours(Tile a){
-		List<Tile> neighbours = new ArrayList<>();
+  public List<Tile> getNeighbours(Tile prev, int number){
+    List<Tile> neighbours = new ArrayList<>();
+    List<Connection> connections = new ArrayList<>();
+    if(number == 0){
+      neighbours.add(this);
+      return neighbours;
+    }
+    for(Connection c : this.getConnections()){
+      if(!c.getTiles().contains(prev)){
+        connections.add(c);
+      }
+    }
+    for(Connection c: connections){
+      List<Tile> ts = c.getTiles();
+      int ind = 0;
+      if(ts.size() != 1){
+    	  ind = ts.indexOf(this)==0 ? 1:0;
+      }
 
-		for(Connection c : a.getConnections()){
-			for(Tile t : c.getTiles()){
-				if(!(t.getX() == a.getX() && t.getY() == a.getY())){
-					neighbours.add(t);
-				}
-			}
-		}
-		return neighbours;
-	}
+      Tile t = ts.get(ind);
+      List<Tile> ns = t.getNeighbours(this, number-1);
+      neighbours.addAll(ns);
+    }
+    return neighbours;
+  }
 }
 
 class Tile {
