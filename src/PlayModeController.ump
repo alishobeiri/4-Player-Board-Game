@@ -24,8 +24,8 @@ class PlayModeController{
       {
         entry / {enableRollDieButton(true);}
         exit / {enableRollDieButton(false);}
-        dieRolled() / {
-          doDieRolled();
+        dieRoll() / {
+          doRollDie();
         } -> Move;
       }
 

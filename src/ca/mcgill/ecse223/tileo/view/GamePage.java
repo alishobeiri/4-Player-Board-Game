@@ -113,7 +113,7 @@ public class GamePage extends JFrame {
 		// clear error message
 
 				// Call the controller
-				PlayModeController toc = new PlayModeController();
+				PlayModeController pmc = new PlayModeController();
 				Game game = TileOApplication.getCurrentGame();
 				Player currentPlayer = game.getCurrentPlayer();
 				Tile currentTile = currentPlayer.getCurrentTile();
@@ -123,13 +123,13 @@ public class GamePage extends JFrame {
 				// the list of tiles is returned
 				
 				java.util.List<Tile> tiles = new ArrayList<Tile>();
-					tiles = toc.doDieRolled();
+					tiles = pmc.doRollDie();
 					
 					if(tiles == null || tiles.size() == 0){
 						showMessage("No possible moves!");
-						toc.land(currentPlayer.getCurrentTile());
+						pmc.land(currentPlayer.getCurrentTile());
 						//TODO Might need error check to see if land worked
-						toc.setNextPlayer();
+						pmc.setNextPlayer();
 						TileOApplication.getDesignPanel().refresh();
 						return;
 					}

@@ -89,7 +89,7 @@ public class PlayModeController
       case RollDie:
         exitMode();
         // line 27 "../../../../../PlayModeController.ump"
-        doDieRolled();
+        doRollDie();
         setMode(Mode.Move);
         wasEventProcessed = true;
         break;
@@ -783,12 +783,6 @@ public class PlayModeController
    
   public void doAddConnection(Tile tile1, Tile tile2){
 	  
-  }
-  
-  public List<Tile> doDieRolled(){
-	  
-	  
-	  return new ArrayList<Tile>();
   }
   
   public void displayCard(){
