@@ -57,8 +57,8 @@ public class WinTile extends Tile implements Serializable {
 
 		this.setHasBeenVisited(true);
 		
-		TileOApplication.getDesignPanel().refresh();
-		TileOApplication.getDesignPanel().showMessage("You have found the hidden tile and won the game, good job big boy!");
+		TileOApplication.getGamePage().refresh();
+		TileOApplication.getGamePage().showMessage("You have found the hidden tile and won the game, good job big boy!");
 		TileOApplication.getCurrentGame().setMode(Game.Mode.GAME_WON);
 		TileOApplication.deleteGame();
 

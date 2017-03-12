@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import ca.mcgill.ecse223.tileo.model.*;
 
 public class DeckPanel extends JPanel {
 	
@@ -42,9 +43,27 @@ public class DeckPanel extends JPanel {
 		refresh();
 	}
 	
-	public void setCardInfo(String aTitle, String aDescription){
-		titleText = aTitle;
-		descriptionText = aDescription;
+	public void setCardInfo(ActionCard card){
+		if(card instanceof RollDieActionCard){
+			titleText = "Roll Die Action Card";
+			descriptionText = "You can roll the die again.";
+		}
+		else if(card instanceof ConnectTilesActionCard){
+			titleText = "Connect Tiles Action Card";
+			descriptionText = "You can create a new connection by selecting two adjacent tiles.";
+		}
+		else if(card instanceof RemoveConnectionActionCard){
+			titleText = "Remove Connection Action Card";
+			descriptionText = "You can remove a connection by selecting two connected tiles.";
+		}
+		else if(card instanceof TeleportActionCard){
+			titleText = "Teleport Action Card";
+			descriptionText = "You can move to any tile on the board.";
+		}
+		else if(card instanceof LoseTurnActionCard){
+			titleText = "Lose Turn Action Card";
+			descriptionText = "You lost a turn.";
+		}
 		refresh();
 	}
 	

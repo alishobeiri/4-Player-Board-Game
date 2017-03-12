@@ -761,6 +761,8 @@ public class PlayModeController
 		selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
 		// Set the game mode to GAME
 		selectedGame.setMode(Game.Mode.GAME);
+		
+		TileOApplication.changeGameMode();
   }
 
 
@@ -786,7 +788,8 @@ public class PlayModeController
   }
   
   public void displayCard(){
-	  
+	  ActionCard c = TileOApplication.getCurrentGame().getDeck().getCurrentCard();
+	  TileOApplication.getGamePage().getDeckPanel().setCardInfo(c);
   }
   
   public void doRemoveConnection(Tile tile1, Tile tile2){
@@ -794,7 +797,7 @@ public class PlayModeController
   }
   
   public void enableRollDieButton(boolean flag){
-	  
+	  TileOApplication.enableRollDieButton(flag);
   }
   
   public void endGame(){
@@ -807,7 +810,7 @@ public class PlayModeController
  
 
   // line 516 "../../../../../PlayModeController.ump"
-   public static  void save(){
+   public void save(){
     TileOApplication.save();
   }
    

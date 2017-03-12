@@ -87,7 +87,6 @@ public class CreateGamePage extends JFrame {
 			try{
 				dmc.createGame(players);
 				TileO tileO = TileOApplication.getTileO();
-				System.out.println(tileO.getGames().size());
 			}
 			catch(InvalidInputException e){
 				System.out.println(e.getMessage());

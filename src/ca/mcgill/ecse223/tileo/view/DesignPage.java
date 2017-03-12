@@ -109,7 +109,7 @@ public class DesignPage extends JFrame {
 		play.addActionListener(new PlayGameListener());
 
 		//play.addActionListener(new PlayGameListener());
-		play.addActionListener(new PlayerToAddListener());
+		//play.addActionListener(new PlayerToAddListener());
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
 		setLayout(layout);
@@ -299,12 +299,13 @@ public class DesignPage extends JFrame {
 	
 	class PlayGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-		
-		PlayModeController poc=new PlayModeController();
+			
+			DesignModeController dmc = new DesignModeController();
+			dmc.goToGameMode();
+			/*PlayModeController poc=new PlayModeController();
 			poc.startGame();
-			TileOApplication.changeGameMode(getBoard());
 			poc.save();
-			mainMenu.refresh();
+			mainMenu.refresh();*/
 
 		}
 	}
