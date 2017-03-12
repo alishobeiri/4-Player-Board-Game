@@ -822,55 +822,6 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
-	class Rectangle2DCoord{
-		Rectangle2D coordRectangle;
-		int coordX;
-		int coordY;
-		Color color;
-		
-		public Rectangle2DCoord(Rectangle2D aRectangle, int x, int y){
-			coordRectangle = aRectangle;
-			coordX = x;
-			coordY = y;
-			color=Color.WHITE;
-		}
-		
-		public void setColor(Color c){
-			color=c;
-		}
-	}
-	
-	class Ellipse2DCoord{
-		Ellipse2D circle;
-		int coordX;
-		int coordY;
-		Color color;
-		Player player;
-		
-		public Ellipse2DCoord(int x, int y){
-			coordX = x;
-			coordY = y;
-		} 
-		
-		public void setColor(Color c){
-			color=c;
-		}
-	}
-	
-	class Connector2D{
-		Tile tileOne;
-		Tile tileTwo;
-		Rectangle2D c;
-		Connection connect;
-		
-		public Connector2D(Tile first, Tile second,Rectangle2D rect,Connection d){
-			tileOne=first;
-			tileTwo=second;
-			c=rect;
-			connect=d;
-		}
-		
-	}
 	
 	public enum Mode{
 

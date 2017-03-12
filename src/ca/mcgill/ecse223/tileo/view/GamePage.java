@@ -10,6 +10,7 @@ import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
 import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
+import ca.mcgill.ecse223.tileo.view.*;
 
 
 public class GamePage extends JFrame {
@@ -136,7 +137,7 @@ public class GamePage extends JFrame {
 				
 				//This shows the possible moves in pink
 				for(Tile t : tiles){
-					Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
+					Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
 
 						rect.setColor(Color.pink);
