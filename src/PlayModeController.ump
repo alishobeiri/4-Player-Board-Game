@@ -512,6 +512,10 @@ class PlayModeController{
 		}
 	}
 	
+	public void enableRollDieButton(boolean flag){
+	  TileOApplication.enableRollDieButton(flag);
+ 	}
+	
 	public static void save() {
 		TileOApplication.save();
     }

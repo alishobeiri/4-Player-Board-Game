@@ -301,8 +301,8 @@ public class DesignPage extends JFrame {
 		public void actionPerformed(ActionEvent ev){
 		
 		PlayModeController poc=new PlayModeController();
-			poc.startGame();
 			TileOApplication.changeGameMode(getBoard());
+			poc.startGame();
 			poc.save();
 			mainMenu.refresh();
 

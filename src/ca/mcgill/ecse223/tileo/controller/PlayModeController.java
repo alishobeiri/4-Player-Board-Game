@@ -786,7 +786,8 @@ public class PlayModeController
   }
   
   public void displayCard(){
-	  
+	  ActionCard c = TileOApplication.getCurrentGame().getDeck().getCurrentCard();
+	  TileOApplication.getGamePage().getDeckPanel().setCardInfo(c);
   }
   
   public void doRemoveConnection(Tile tile1, Tile tile2){
@@ -794,7 +795,7 @@ public class PlayModeController
   }
   
   public void enableRollDieButton(boolean flag){
-	  
+	  TileOApplication.enableRollDieButton(flag);
   }
   
   public void endGame(){

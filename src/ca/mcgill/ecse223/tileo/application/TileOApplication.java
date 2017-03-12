@@ -151,6 +151,10 @@ public class TileOApplication {
 		return tileO;
 	}
 	
+	public static void enableRollDieButton(boolean enable){
+		gamePage.enableRollDieButton(enable);
+	}
+	
 	public static void saveBoard(BoardPanel oldBoard){
 		board=new BoardPanel(oldBoard);
 	}
