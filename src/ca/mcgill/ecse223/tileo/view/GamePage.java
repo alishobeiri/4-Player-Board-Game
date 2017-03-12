@@ -31,10 +31,15 @@ public class GamePage extends JFrame {
 	boolean flag=false;
 	
 	//Initialize the controller
-	PlayModeController pmc = new PlayModeController();
-
-	public GamePage(BoardPanel oldBoard) {
+	PlayModeController pmc;
+	
+	//Constructor to initialize a game from design mode
+	public GamePage(BoardPanel oldBoard, PlayModeController aController) {
 		game=TileOApplication.getCurrentGame();
+		
+		//Set controller
+		pmc = aController;
+		
 		int player=game.getCurrentPlayer().getNumber();
 		if(player%4==0){
 			player=4;
@@ -47,8 +52,11 @@ public class GamePage extends JFrame {
 		board.setVisible(true);
 		mainMenu = TileOApplication.getMainMenu();
 		initComponents();
+		
+		mainMenu.refresh();
 	}
 	
+	//Constructor to re-initialize game from game mode
 	public GamePage(TileOPage aMainMenu){
 		mainMenu = aMainMenu;
 		game = TileOApplication.getCurrentGame();
@@ -138,7 +146,7 @@ public class GamePage extends JFrame {
 						pmc.land(currentPlayer.getCurrentTile());
 						//TODO Might need error check to see if land worked
 						pmc.setNextPlayer();
-						TileOApplication.getDesignPanel().refresh();
+						refresh();
 						return;
 					}
 				

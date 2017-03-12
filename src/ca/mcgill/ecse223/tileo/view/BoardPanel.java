@@ -519,7 +519,7 @@ public class BoardPanel extends JPanel {
 				if(!visitedTiles.contains(rect)){
 					visitedTiles.add(rect);
 				}		
-				TileOApplication.getDesignPanel().refresh();
+				TileOApplication.getGamePage().refresh();
 				pmc.save();
 				repaint();
 			} catch (Exception e) {
@@ -527,7 +527,7 @@ public class BoardPanel extends JPanel {
 				e.printStackTrace();
 			}
 		}else{
-			if(TileOApplication.getDesignPanel().flag){
+			if(TileOApplication.getGamePage().flag){
 				showMessage("Please roll die again");
 			}else{
 				showMessage("Please select a valid tile");
@@ -676,7 +676,7 @@ public class BoardPanel extends JPanel {
 			Tile t=boardTiles.get(rect);
 			try{
 				pmc.playTeleportActionCard(t);
-				TileOApplication.getDesignPanel().refresh();
+				TileOApplication.getGamePage().refresh();
 				repaint();
 				pmc.save();
 			}catch(Exception e){
@@ -684,7 +684,7 @@ public class BoardPanel extends JPanel {
 			}
 			
 		}else{
-			if(TileOApplication.getDesignPanel().flag){
+			if(TileOApplication.getGamePage().flag){
 				showMessage("Please roll die to teleport");
 			}else{
 				showMessage("Please select a valid tile");
@@ -788,7 +788,7 @@ public class BoardPanel extends JPanel {
 						mode=Mode.MOVE_PLAYER;
 						movePlayer(rect);
 						resetTileColor();
-						TileOApplication.getDesignPanel().flag=false;
+						TileOApplication.getGamePage().flag=false;
 						repaint();
 					}
 				}
@@ -821,57 +821,7 @@ public class BoardPanel extends JPanel {
 			
 		}
 	}
-	
-	class Rectangle2DCoord{
-		Rectangle2D coordRectangle;
-		int coordX;
-		int coordY;
-		Color color;
-		
-		public Rectangle2DCoord(Rectangle2D aRectangle, int x, int y){
-			coordRectangle = aRectangle;
-			coordX = x;
-			coordY = y;
-			color=Color.WHITE;
-		}
-		
-		public void setColor(Color c){
-			color=c;
-		}
-	}
-	
-	class Ellipse2DCoord{
-		Ellipse2D circle;
-		int coordX;
-		int coordY;
-		Color color;
-		Player player;
-		
-		public Ellipse2DCoord(int x, int y){
-			coordX = x;
-			coordY = y;
-		} 
-		
-		public void setColor(Color c){
-			color=c;
-		}
-	}
-	
-	class Connector2D{
-		Tile tileOne;
-		Tile tileTwo;
-		Rectangle2D c;
-		Connection connect;
-		
-		public Connector2D(Tile first, Tile second,Rectangle2D rect,Connection d){
-			tileOne=first;
-			tileTwo=second;
-			c=rect;
-			connect=d;
-		}
-		
-	}
-	
+
 	public enum Mode{
 
 		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD, REMOVE_CONNECTION_ACTION_CARD, ROLL_DIE

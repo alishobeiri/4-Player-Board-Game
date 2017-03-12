@@ -69,27 +69,8 @@ public class TileOApplication {
 		return wasSet;
 	}
 
-	public static void changeGameMode(BoardPanel board){
-		java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-            	Game game=getCurrentGame();
-            	System.out.println("Num of player " + game.numberOfPlayers());
-            	System.out.println("Num of connection " + game.getCurrentConnectionPieces());
-            	System.out.println("Num of tiles " + game.getTiles().size());
-            	System.out.println("Num of cards " + game.getDeck().numberOfCards());
-            	//Check the setMode here
-            	//game.setMode(Game.Mode.GAME);
-            	
+	public static void changeGameMode(){
             	getCurrentGame().setMode(Game.Mode.GAME);
-            	//board.setVisible(true);
-            	designPage.deleteWindow();
-        		gamePage = new GamePage(board);
-            	TileOApplication.gamePage.setVisible(true);
-            	TileOApplication.gamePage.setResizable(true);
-                //TODO remove following line after testing
-//                new GamePage().setVisible(true);
-            }
-        });
 	}
 	
 	public static void setMainMenu(TileOPage d){
@@ -115,11 +96,11 @@ public class TileOApplication {
 		gamePage.dispose();
 	}
 	
-	public static void addPrevDesignGame(DesignPage d){
+	public static void setDesignGame(DesignPage d){
 		designPage = d;
 	}
 	
-	public static void addPrevGamePage(GamePage g){
+	public static void setGamePage(GamePage g){
 		gamePage = g;
 	}
 	
@@ -134,8 +115,9 @@ public class TileOApplication {
 		PersistenceObjectStream.serialize(tileO);
 	}
 	
-	public static GamePage getDesignPanel(){
-		return gamePage;
+	//TODO : Fix
+	public static DesignPage getDesignPage(){
+		return designPage;
 	}
 	
 	public static TileO load() {
@@ -152,7 +134,12 @@ public class TileOApplication {
 	}
 	
 	public static void enableRollDieButton(boolean enable){
-		gamePage.enableRollDieButton(enable);
+		try{
+			gamePage.enableRollDieButton(enable);
+		}
+		catch(NullPointerException e){
+			System.out.println("GamePage is null.");
+		}
 	}
 	
 	public static void saveBoard(BoardPanel oldBoard){

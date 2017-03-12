@@ -761,6 +761,8 @@ public class PlayModeController
 		selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
 		// Set the game mode to GAME
 		selectedGame.setMode(Game.Mode.GAME);
+		
+		TileOApplication.changeGameMode();
   }
 
 
@@ -808,7 +810,7 @@ public class PlayModeController
  
 
   // line 516 "../../../../../PlayModeController.ump"
-   public static  void save(){
+   public void save(){
     TileOApplication.save();
   }
    

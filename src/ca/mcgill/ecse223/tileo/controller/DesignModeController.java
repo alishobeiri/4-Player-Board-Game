@@ -4,6 +4,7 @@ import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.tileo.view.GamePage;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
 
 import java.security.InvalidParameterException;
@@ -231,6 +232,16 @@ public class DesignModeController {
 			}
 		}
 		throw new InvalidInputException("No tile exists");
+	}
+	
+	public void goToGameMode(){
+		PlayModeController pmc = new PlayModeController();
+		pmc.startGame();
+		GamePage gamePage = new GamePage(TileOApplication.getBoard(), pmc);
+		TileOApplication.setGamePage(gamePage);
+		gamePage.setVisible(true);
+		TileOApplication.getDesignPage().dispose();
+		pmc.save();
 	}
 	
 	
