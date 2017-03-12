@@ -16,8 +16,8 @@ public class GamePage extends JFrame {
 
 	private Game game;
 	
-	ArrayList<BoardPanel.Rectangle2DCoord> possibleMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
-	ArrayList<BoardPanel.Rectangle2DCoord> secondMoves=new ArrayList<BoardPanel.Rectangle2DCoord>();
+	ArrayList<Rectangle2DCoord> possibleMoves=new ArrayList<Rectangle2DCoord>();
+	ArrayList<Rectangle2DCoord> secondMoves=new ArrayList<Rectangle2DCoord>();
 	// Components
 	JPanel rightPanel = new JPanel();
 	BoardPanel board;
@@ -136,7 +136,7 @@ public class GamePage extends JFrame {
 				
 				//This shows the possible moves in pink
 				for(Tile t : tiles){
-					BoardPanel.Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
+					Rectangle2DCoord rect = this.board.getRectangle(t.getX(), t.getY());
 					if(rect != null){
 
 						rect.setColor(Color.pink);
@@ -338,7 +338,7 @@ public class GamePage extends JFrame {
 			refresh();
 		}
 		for(Tile t : moves){
-			BoardPanel.Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
+			Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
 			rect.setColor(Color.pink);
 			System.out.println("sup homie");
 		}
@@ -353,7 +353,7 @@ public class GamePage extends JFrame {
 	
 	class rollDieListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
-				for(BoardPanel.Rectangle2DCoord rect: possibleMoves){
+				for(Rectangle2DCoord rect: possibleMoves){
 					rect.setColor(Color.WHITE);
 				}
 				possibleMoves.clear();
