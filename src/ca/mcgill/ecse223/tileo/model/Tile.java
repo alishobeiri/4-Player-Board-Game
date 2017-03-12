@@ -5,6 +5,8 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.view.Rectangle2DCoord;
+
 // line 30 "../../../../../TileO (updated Feb10).ump"
 public abstract class Tile implements Serializable
 {
@@ -302,4 +304,7 @@ public abstract class Tile implements Serializable
   
   //Thomas
   public abstract void land();
+
+  public abstract void land(Rectangle2DCoord rect);
+
 }

@@ -12,6 +12,7 @@ import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel;
+import ca.mcgill.ecse223.tileo.view.Rectangle2DCoord;
 
 // line 3 "../../../../../PlayModeController.ump"
 public class PlayModeController
@@ -100,18 +101,18 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
-  public boolean land(Tile aTile)
+  public boolean land(Tile aTile, Rectangle2DCoord rect)
   {
     boolean wasEventProcessed = false;
     
     Mode aMode = mode;
-    switch (aMode)
+    switch (Mode.Move)
     {
       case Move:
         if (isNormalTile(aTile))
         {
         // line 34 "../../../../../PlayModeController.ump"
-          doLand(aTile);
+          doLand(aTile, rect);
           setMode(Mode.RollDie);
           wasEventProcessed = true;
           break;
@@ -120,7 +121,7 @@ public class PlayModeController
         {
         // line 38 "../../../../../PlayModeController.ump"
           // Here the player is not set to the next one
-          doLand(aTile);
+          doLand(aTile, rect);
           setMode(Mode.Action);
           wasEventProcessed = true;
           break;
@@ -128,7 +129,7 @@ public class PlayModeController
         if (isWinTile(aTile))
         {
         // line 43 "../../../../../PlayModeController.ump"
-          doLand(aTile);
+          doLand(aTile, rect);
           setMode(Mode.GameOver);
           wasEventProcessed = true;
           break;
@@ -609,13 +610,18 @@ public class PlayModeController
   // line 364 "../../../../../PlayModeController.ump"
    public void setNextPlayer(){
 	   game=TileOApplication.getCurrentGame();
-    List<Player> players = game.getPlayers();
+	   List<Player> players = game.getPlayers();
 		Player current = game.getCurrentPlayer();
 		int index = game.indexOfPlayer(current);
-		if(index==game.numberOfPlayers()){
-			index=1;
+		System.out.println("Player index is " + index);
+		System.out.println("Player size " + players.size());
+		System.out.println("Number of players " + game.numberOfPlayers());
+		Player next;
+		try{
+			next = players.get(index+1);
+		}catch(IndexOutOfBoundsException e){
+			next = players.get(0);
 		}
-		Player next = players.get(index);
 		game.setCurrentPlayer(next);
   }
 
@@ -722,13 +728,16 @@ public class PlayModeController
 		// Check there are the right number of cards in the deck
 		if (deck.numberOfCards() != selectedGame.NumberOfActionCards) {
 			showMessage("The deck has the wrong number of Action Cards");
+			return;
 		}
 		// Check the game has a specified Win Tile
 		if (!selectedGame.hasWinTile()) {
 			showMessage("The game does not have a Win Tile");
+			return;
 		}
 		if(!selectedGame.hasPlayers()){
 			showMessage("The game does not have any added players");
+			return;
 		}
 
 		/* ACTION */
@@ -770,17 +779,12 @@ public class PlayModeController
    * Thomas
    */
   // line 503 "../../../../../PlayModeController.ump"
-   public void doLand(Tile tile) {
+   public void doLand(Tile tile, Rectangle2DCoord rect) {
     // Validation check: Make sure tile exists as one of the game tiles
-		Game game = tile.getGame();
-		List<Tile> tiles = game.getTiles();
-		// If the tile is in the list of game tiles
-		if(tiles.indexOf(tile)!=-1){
-			tile.land();
-			//TileOApplication.save();
-		}else{
-			showMessage("Tile is not part of the game");
-		}
+
+			tile.land(rect);
+			//setNextPlayer();
+
   }
    
   public void doAddConnection(Tile tile1, Tile tile2){
@@ -805,7 +809,7 @@ public class PlayModeController
   }
    
   public void showMessage(String s){
-	  JOptionPane.showConfirmDialog(null, s);
+	  JOptionPane.showMessageDialog(null, s);
   }
  
 

@@ -478,7 +478,15 @@ public class BoardPanel extends JPanel {
 
 
 	public void movePlayer(Rectangle2DCoord rect){
-		int playerNumber;
+		PlayModeController pmc = new PlayModeController();
+		Tile t = boardTiles.get(rect);
+		if(rect.color.equals(Color.pink)){
+			boolean flag = pmc.land(t, rect);
+			System.out.println(pmc.getMode());
+		}
+		
+		
+/*		int playerNumber;
 		PlayModeController pmc = new PlayModeController();
 		Player player=game.getCurrentPlayer();
 		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
@@ -532,7 +540,7 @@ public class BoardPanel extends JPanel {
 			}else{
 				showMessage("Please select a valid tile");
 			}
-		}
+		}*/
 		
 	}
 	

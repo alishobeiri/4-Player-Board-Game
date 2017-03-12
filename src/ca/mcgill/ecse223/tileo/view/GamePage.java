@@ -144,7 +144,7 @@ public class GamePage extends JFrame {
 					
 					if(tiles == null || tiles.size() == 0){
 						showMessage("No possible moves!");
-						pmc.land(currentPlayer.getCurrentTile());
+						//pmc.land(currentPlayer.getCurrentTile());
 						//TODO Might need error check to see if land worked
 						pmc.setNextPlayer();
 						refresh();
