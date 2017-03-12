@@ -106,7 +106,7 @@ public class PlayModeController
     boolean wasEventProcessed = false;
     
     Mode aMode = mode;
-    switch (Mode.Move)
+    switch (aMode)
     {
       case Move:
         if (isNormalTile(aTile))
