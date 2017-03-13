@@ -351,6 +351,7 @@ public class BoardPanel extends JPanel {
 			repaint();
 	}
 	
+	// This method is used for design mode
 	public void removeConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
 		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
 			Tile tile1 = boardTiles.get(rect1);
@@ -369,11 +370,8 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
-	public void removeConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2, boolean isAction){
-		System.out.println("In right method");
-		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
-			Tile tile1 = boardTiles.get(rect1);
-			Tile tile2 = boardTiles.get(rect2);
+	// This method is used for the remove connnection action card
+	public void removeConnectionAction(Tile tile1, Tile tile2){
 			
 			ArrayList<Connector2D> connector=getConnector(tile1, tile2);
 			
@@ -387,9 +385,8 @@ public class BoardPanel extends JPanel {
 			System.out.println("Setting conntetion");
 			System.out.println(currentConnection);
 			
-			new DesignModeController().save();
+			TileOApplication.getPlayModeController().save();
 			repaint();
-		}
 	}
 	
 	
@@ -747,16 +744,30 @@ public class BoardPanel extends JPanel {
 								curr = null;
 								repaint();
 							}
-							/*GamePage gamePage = TileOApplication.getGamePage();
-							gamePage.refresh();
-							prev = null;
-							curr = null;
-							mode = Mode.GAME;
-							gamePage.refresh();*/
 						}
 					}
 					else if(mode == Mode.REMOVE_CONNECTION_ACTION_CARD){
 						if(prev == null){
+							if(boardTiles.containsKey(rect)){
+								prev = rect;
+								repaint();
+							}
+						}
+						else{
+							if(boardTiles.containsKey(rect)){
+								curr = rect;
+								
+								Tile tile1 = getTileFromBoard(prev);
+								Tile tile2 = getTileFromBoard(curr);
+								
+								PlayModeController pmc = TileOApplication.getPlayModeController();				
+								pmc.removeConnection(tile1, tile2);
+								prev = null;
+								curr = null;
+								repaint();
+							}
+						}
+						/*if(prev == null){
 							prev = rect;
 							repaint();
 						}
@@ -773,7 +784,7 @@ public class BoardPanel extends JPanel {
 							prev = null;
 							curr = null;
 							repaint();	
-						}
+						}*/
 					}
 					else if(mode == Mode.ROLL_DIE){
 						mode=Mode.MOVE_PLAYER;
