@@ -9,7 +9,8 @@ class PlayModeController{
 	depend ca.mcgill.ecse223.tileo.application.TileOApplication;
 	depend ca.mcgill.ecse223.tileo.model.*;
 	depend ca.mcgill.ecse223.tileo.model.Game.Mode;
-	depend ca.mcgill.ecse223.tileo.view.BoardPanel;
+	depend ca.mcgill.ecse223.tileo.view.*;
+	depend javax.swing.*;
 
   Mode {
 
@@ -24,9 +25,12 @@ class PlayModeController{
       {
         entry / {enableRollDieButton(true);}
         exit / {enableRollDieButton(false);}
-        dieRoll() / {
+        
+        dieRolled() / {
           doRollDie();
         } -> Move;
+        
+        noPossibleMoves() -> RollDie;
       }
 
       Move
@@ -51,7 +55,10 @@ class PlayModeController{
     }
 
     Action{
-      getActionCard() [isCurrentCardRollDie()] / {displayCard();} -> RollDieAgain;
+      entry / {enableGetActionCardButton(true);};
+      exit / {enableGetActionCardButton(false);};
+      
+      getActionCard() [isCurrentCardRollDie()] / {displayCard();} -> RollDie;
 
       getActionCard() [isCurrentCardAddConnection()] / {displayCard();} -> AddConnection;
 
@@ -62,10 +69,11 @@ class PlayModeController{
       getActionCard() [isCurrentCardLoseTurn()] / {displayCard();} -> LoseTurn;
     }
 
-    RollDieAgain{
+   // RollDieAgain{
         //Because the current player is still the same one at this point this is ok
-        dieRolledAgain() -> RollDie;
-    }
+               
+    //    dieRolledAgain() -> RollDie;
+    //}
 
     Teleport{
         //This is similar to just rolling the die but now all the tiles on the board are passed as possible moves
@@ -73,6 +81,12 @@ class PlayModeController{
     }
 
     AddConnection{
+    	entry / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD);
+    	};
+    	exit / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.GAME);
+    	};
         addConnection(Tile tile1, Tile tile2) / {
           doAddConnection(tile1, tile2);
         }
@@ -80,9 +94,16 @@ class PlayModeController{
     }
 
     RemoveConnection{
+    	entry / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.REMOVE_CONNECTION_ACTION_CARD);
+    	};
+    	exit / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.GAME);
+    	};
         removeConnection(Tile tile1, Tile tile2) / {
           doRemoveConnection(tile1, tile2);
-        }-> RollDie;
+        }
+        -> RollDie;
     }
 
     LoseTurn{
@@ -125,48 +146,42 @@ class PlayModeController{
   }
 
   boolean isCurrentCardRollDie(){
-    if(game.getDeck().getCurrentCard() instanceof RollDieActionCard){
+    if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof RollDieActionCard){
       return true;
     }
     return false;
   }
 
   boolean isCurrentCardAddConnection(){
-        if(game.getDeck().getCurrentCard() instanceof ConnectTilesActionCard){
+        if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ConnectTilesActionCard){
       return true;
     }
     return false;
   }
 
   boolean isCurrentCardRemoveConnection(){
-        if(game.getDeck().getCurrentCard() instanceof RemoveConnectionActionCard){
+        if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof RemoveConnectionActionCard){
       return true;
     }
     return false;
   }
 
   boolean isCurrentCardTeleport(){
-        if(game.getDeck().getCurrentCard() instanceof TeleportActionCard){
+        if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof TeleportActionCard){
       return true;
     }
     return false;
   }
 
   boolean isCurrentCardLoseTurn(){
-        if(game.getDeck().getCurrentCard() instanceof LoseTurnActionCard){
+        if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof LoseTurnActionCard){
       return true;
     }
     return false;
   }
   
-  /*----------------------------------------------------*
-   *													*
-   *  Added methods from previous verion of controller  *
-   *													*
-   *----------------------------------------------------*/
-  
-  	public ActionCard pickActionCard(Game game){
-		game = TileOApplication.getCurrentGame();
+   public ActionCard pickActionCard(Game game){
+    game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		ActionCard newCard;
 		if(deck.indexOfCard(deck.getCurrentCard()) == Deck.maximumNumberOfCards()){
@@ -191,34 +206,37 @@ class PlayModeController{
 		newCard = deck.getCard(deck.indexOfCard(deck.getCurrentCard())+1);
 		deck.setCurrentCard(newCard);
 		return newCard;
-	}
-	
-	/*public void action(){
-		Game game = TileOApplication.getCurrentGame();
-		Game.Mode mode = game.getMode();
-		
-		if(mode == Mode.GAME_CONNECTTILESACTIONCARD){
-	
-		}
-		
-		else if(mode == Mode.GAME_LOSETURNACTIONCARD){
-			
-		}
-		
-		else if(mode == Mode.GAME_REMOVECONNECTIONACTIONCARD){
-			
-		}
-		
-		else if(mode == Mode.GAME_ROLLDIEACTIONCARD){
-			
-		}
-		else if(mode == Mode.GAME_TELEPORTACTIONCARD){
-			
-		}
-	}*/
+  }
 
-	public List<Tile> playRollDieActionCard() throws InvalidInputException {
-		Game game = TileOApplication.getCurrentGame();
+
+  /**
+   * public void action(){
+   * Game game = TileOApplication.getCurrentGame();
+   * Game.Mode mode = game.getMode();
+   * 
+   * if(mode == Mode.GAME_CONNECTTILESACTIONCARD){
+   * 
+   * }
+   * 
+   * else if(mode == Mode.GAME_LOSETURNACTIONCARD){
+   * 
+   * }
+   * 
+   * else if(mode == Mode.GAME_REMOVECONNECTIONACTIONCARD){
+   * 
+   * }
+   * 
+   * else if(mode == Mode.GAME_ROLLDIEACTIONCARD){
+   * 
+   * }
+   * else if(mode == Mode.GAME_TELEPORTACTIONCARD){
+   * 
+   * }
+   * 
+   */
+  // line 221 "../../../../../PlayModeController.ump"
+   public List<Tile> playRollDieActionCard() throws InvalidInputException{
+    Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		ActionCard card = deck.getCurrentCard();
 
@@ -234,15 +252,16 @@ class PlayModeController{
 
 		advanceCurrentCard(deck);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 		
 		//TileOApplication.save();
 
 		return tiles;
-	}
+  }
 
-	public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException {
-		Game game = TileOApplication.getCurrentGame();
+  // line 245 "../../../../../PlayModeController.ump"
+   public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException{
+    Game game = TileOApplication.getCurrentGame();
 
 		// Valid input checks
 		if (!(game.getTiles().contains(tile1)) || !(game.getTiles().contains(tile2))) {
@@ -270,21 +289,19 @@ class PlayModeController{
 
 		connectTilesCard.play(tile1, tile2);
 		
-		setNextPlayer(game);
+		setNextPlayer();
 
 		advanceCurrentCard(deck);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 
 		
 		//TileOApplication.save();
+  }
 
-	}
-	
-	
-
-	public void playRemoveConnectionActionCard(Connection aConnection) throws InvalidInputException {
-		Game game = TileOApplication.getCurrentGame();
+  // line 287 "../../../../../PlayModeController.ump"
+   public void playRemoveConnectionActionCard(Connection aConnection) throws InvalidInputException{
+    Game game = TileOApplication.getCurrentGame();
 
 		if (!(game.getConnections().contains(aConnection))) {
 			throw new InvalidInputException("The connections did not exist.");
@@ -301,18 +318,18 @@ class PlayModeController{
 
 		removeConnectionCard.play(aConnection);
 
-		setNextPlayer(game);
+		setNextPlayer();
 
 		advanceCurrentCard(deck);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 		
 		//TileOApplication.save();
+  }
 
-	}
-
-	public void playTeleportActionCard(Tile tile) throws InvalidInputException {
-		Game game = TileOApplication.getCurrentGame();
+  // line 315 "../../../../../PlayModeController.ump"
+   public void playTeleportActionCard(Tile tile) throws InvalidInputException{
+    Game game = TileOApplication.getCurrentGame();
 
 		if (!(game.getTiles().contains(tile))) {
 			throw new InvalidInputException("The tile is not in the game.");
@@ -334,59 +351,66 @@ class PlayModeController{
 
 		tile.setHasBeenVisited(true);
 
-		game.setMode(Mode.GAME);
+		game.setMode(Game.Mode.GAME);
 		
 		//TileOApplication.save();
-	}
-/*	public List<Tile> generateMoves(Tile origin, int numberOfMoves){
-		Deque<Tile> toVisit = new ArrayDeque<>();
-		List<Tile> visited[] = new List[6];
-		visited[0] = new ArrayList<>();
-		visited[0].add(origin);
-		int layer = 0;
-		toVisit.add(origin);
-		while(!toVisit.isEmpty() && layer < 5){
-			Tile current = toVisit.poll();
-			layer++;
-			visited[layer] = new ArrayList<Tile>();
-			for(Tile t : getNeighbours(current)){
-				visited[layer].add(t);
-				toVisit.add(t);
-			}
-		}
-		return visited[numberOfMoves-1];
-	}*/
+  }
 
-	// Helper methods
 
-	// Sets the current player to the next player
-	public void setNextPlayer(Game game) {
-		List<Player> players = game.getPlayers();
-		Player current = game.getCurrentPlayer();
-		int index = game.indexOfPlayer(current);
-		if(index==game.numberOfPlayers()){
-			index=1;
-		}
-		Player next = players.get(index);
-		game.setCurrentPlayer(next);
-	}
-/*	public List<Tile> getNeighbours(Tile a){
-		List<Tile> neighbours = new ArrayList<>();
+  /**
+   * public List<Tile> generateMoves(Tile origin, int numberOfMoves){
+   * Deque<Tile> toVisit = new ArrayDeque<>();
+   * List<Tile> visited[] = new List[6];
+   * visited[0] = new ArrayList<>();
+   * visited[0].add(origin);
+   * int layer = 0;
+   * toVisit.add(origin);
+   * while(!toVisit.isEmpty() && layer < 5){
+   * Tile current = toVisit.poll();
+   * layer++;
+   * visited[layer] = new ArrayList<Tile>();
+   * for(Tile t : getNeighbours(current)){
+   * visited[layer].add(t);
+   * toVisit.add(t);
+   * }
+   * }
+   * return visited[numberOfMoves-1];
+   * 
+   * Helper methods
+   * Sets the current player to the next player
+   */
+  // line 364 "../../../../../PlayModeController.ump"
+   public void setNextPlayer(){
+		Game currentGame = TileOApplication.getCurrentGame();
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+		// Loop back if it is the last player
+		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
+		// Get the next player
+		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
+		// Set the next player as the current player
+		currentGame.setCurrentPlayer(nextPlayer);
+  }
 
-		for(Connection c : a.getConnections()){
-			for(Tile t : c.getTiles()){
-				if(!(t.getX() == a.getX() && t.getY() == a.getY())){
-					neighbours.add(t);
-				}
-			}
-		}
-		return neighbours;
-	}*/
 
-	// Checks if two tiles are adjacent (connected) to each other
-	public boolean areAdjacent(Tile tile1, Tile tile2)
-	{
-		int xOne = tile1.getX();
+  /**
+   * public List<Tile> getNeighbours(Tile a){
+   * List<Tile> neighbours = new ArrayList<>();
+   * 
+   * for(Connection c : a.getConnections()){
+   * for(Tile t : c.getTiles()){
+   * if(!(t.getX() == a.getX() && t.getY() == a.getY())){
+   * neighbours.add(t);
+   * }
+   * }
+   * }
+   * return neighbours;
+   * 
+   * Checks if two tiles are adjacent (connected) to each other
+   */
+  // line 389 "../../../../../PlayModeController.ump"
+   public boolean areAdjacent(Tile tile1, Tile tile2){
+    int xOne = tile1.getX();
 		int xTwo = tile1.getX();
 		int yOne = tile1.getY();
 		int yTwo = tile1.getY();
@@ -406,34 +430,64 @@ class PlayModeController{
 		
 
 		return adjacent;
-	}
+  }
 
-	// Sets the current card on the deck to the next one
-	public void advanceCurrentCard(Deck deck) {
-		ActionCard card = deck.getCurrentCard();
+
+  /**
+   * Sets the current card on the deck to the next one
+   */
+  // line 413 "../../../../../PlayModeController.ump"
+   public void advanceCurrentCard(Deck deck){
+    ActionCard card = deck.getCurrentCard();
 		int index = deck.indexOfCard(card);
-		if (deck.getCard(index + 1) == null) {
-			// TODO Check that this method works.
+		try{
+			ActionCard nextCard = deck.getCard(index+1);
+			deck.setCurrentCard(nextCard);
+		}catch(IndexOutOfBoundsException e){
 			deck.shuffle();
-			index = 0;
+			index=0;
+			ActionCard nextCard = deck.getCard(index);
+			deck.setCurrentCard(nextCard);
 		}
-		ActionCard nextCard = deck.getCard(index);
-		deck.setCurrentCard(nextCard);
-	}
+  }
 
-	// Thomas
-	// Returns a list of possible moves the current player can make based on the
-	// number they roll
-	public List<Tile> doRollDie() {
-		Game game = TileOApplication.getCurrentGame();
-		List<Tile> tiles = game.rollDie();
-		return tiles;
-	}
 
-	// Thomas
-	public void doStartGame(Game selectedGame) throws InvalidInputException {
+  /**
+   * Thomas
+   * Returns a list of possible moves the current player can make based on the
+   * number they roll
+   */
+  // line 428 "../../../../../PlayModeController.ump"
+   public void doRollDie(){
+	   Game game = TileOApplication.getCurrentGame();
+	   List<Tile> tiles = game.rollDie();
+	   
+	   if(tiles.size() == 0 || tiles == null){
+		   TileOApplication.getGamePage().showMessage("No possible moves!");
+		   //TODO: Add event to sm to allow to go back to ROLL DIE without landing
+		   setNextPlayer();
+		   noPossibleMoves();
+	   }
+	   else{
+		   ArrayList tilesArray = new ArrayList<Tile>(tiles);
+		   GamePage gamePage = TileOApplication.getGamePage();
+		   gamePage.setPossibleMoves(tilesArray);
+		   
+		   BoardPanel board = TileOApplication.getBoard();
+		   board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+		   board.refreshBoard();
+	   }
+	   
+  }
 
-		/* VARIABLES */
+
+  /**
+   * Thomas
+   */
+  // line 436 "../../../../../PlayModeController.ump"
+   public void doStartGame(){
+    /* VARIABLES */
+	   	Game selectedGame=TileOApplication.getCurrentGame();
 		List<Tile> tiles;
 		List<Player> players;
 		Tile startingTile;
@@ -456,14 +510,17 @@ class PlayModeController{
 		/* VALIDATION */
 		// Check there are the right number of cards in the deck
 		if (deck.numberOfCards() != selectedGame.NumberOfActionCards) {
-			throw new InvalidInputException("The deck has the wrong number of Action Cards");
+			showMessage("The deck has the wrong number of Action Cards");
+			return;
 		}
 		// Check the game has a specified Win Tile
 		if (!selectedGame.hasWinTile()) {
-			throw new InvalidInputException("The game does not have a Win Tile");
+			showMessage("The game does not have a Win Tile");
+			return;
 		}
 		if(!selectedGame.hasPlayers()){
-			throw new InvalidInputException("The game does not have any added players");
+			showMessage("The game does not have any added players");
+			return;
 		}
 
 		/* ACTION */
@@ -485,7 +542,7 @@ class PlayModeController{
 				startingTile.setHasBeenVisited(true);
 				TileOApplication.save();
 			} else {
-				throw new InvalidInputException("The starting position is not set for a player");
+				showMessage("The starting position is not set for a player");
 			}
 		}
 
@@ -495,29 +552,80 @@ class PlayModeController{
 		// Set the number of connection pieces to the default value
 		selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
 		// Set the game mode to GAME
-		selectedGame.setMode(Mode.GAME);
-	}
+		selectedGame.setMode(Game.Mode.GAME);
+		
+		TileOApplication.changeGameMode();
+  }
 
-	// Thomas
-	public void doLand(Tile tile) throws InvalidInputException {
-		// Validation check: Make sure tile exists as one of the game tiles
-		Game game = tile.getGame();
-		List<Tile> tiles = game.getTiles();
-		// If the tile is in the list of game tiles
-		if(tiles.indexOf(tile)!=-1){
+
+  /**
+   * Thomas
+   */
+  // line 503 "../../../../../PlayModeController.ump"
+   public void doLand(Tile tile) {
 			tile.land();
-			//TileOApplication.save();
-		}else{
-			throw new InvalidInputException("Tile is not part of the game");
-		}
-	}
-	
-	public void enableRollDieButton(boolean flag){
+			
+			BoardPanel board = TileOApplication.getBoard();
+			board.movePlayer(tile);
+			
+			board.setMode(BoardPanel.Mode.GAME);	
+			board.resetTileColor();
+			board.refreshBoard();
+			
+			setNextPlayer();
+			TileOApplication.getGamePage().getDeckPanel().setToDefault();
+  }
+   
+  public void doAddConnection(Tile tile1, Tile tile2){
+	  boolean isValid;
+	  try{
+		  playConnectTilesActionCard(tile1, tile2);
+		  isValid = true;
+	  }
+	  catch(InvalidInputException e){
+		  TileOApplication.getGamePage().showMessage("You cannot connect those tiles!");
+		  isValid = false;
+	  }
+	  
+	  if(isValid){
+		  TileOApplication.getBoard().addConnectionAction(tile1, tile2);
+	  }
+	  	  
+	  setNextPlayer();
+	  TileOApplication.getGamePage().getDeckPanel().setToDefault();
+  }
+  
+  public void displayCard(){
+	  //Display the current Action 
+	  ActionCard c = TileOApplication.getCurrentGame().getDeck().getCurrentCard();
+	  TileOApplication.getGamePage().getDeckPanel().setCardInfo(c);
+	  
+	  
+  }
+  
+  public void doRemoveConnection(Tile tile1, Tile tile2){
+	  
+  }
+  
+  public void enableRollDieButton(boolean flag){
 	  TileOApplication.enableRollDieButton(flag);
- 	}
-	
-	public static void save() {
-		TileOApplication.save();
-    }
+  }
+  
+  public void endGame(){
+	  
+  }
+   
+  public void showMessage(String s){
+	  JOptionPane.showMessageDialog(null, s);
+  }
+  
+  public void enableGetActionCardButton(boolean enable){
+  	TileOApplication.getGamePage().enableGetActionCardButton(enable);
+  }
 
-}
+  // line 516 "../../../../../PlayModeController.ump"
+   public void save(){
+    TileOApplication.save();
+  }
+  
+ }

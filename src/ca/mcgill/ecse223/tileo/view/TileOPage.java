@@ -61,7 +61,6 @@ public class TileOPage extends JFrame {
 		}
 		
 		for(String s: existingGames.keySet()){
-			System.out.println(s);
 			model.addElement(s);
 		}
 		
@@ -115,7 +114,6 @@ public class TileOPage extends JFrame {
 		}
 		
 		for(String s: existingGames.keySet()){
-			System.out.println(s);
 			model.addElement(s);
 		}
 		

@@ -305,6 +305,4 @@ public abstract class Tile implements Serializable
   //Thomas
   public abstract void land();
 
-  public abstract void land(Rectangle2DCoord rect);
-
 }
