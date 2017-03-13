@@ -24,7 +24,7 @@ class PlayModeController{
       {
         entry / {enableRollDieButton(true);}
         exit / {enableRollDieButton(false);}
-        dieRoll() / {
+        dieRolled() / {
           doRollDie();
         } -> Move;
       }
@@ -64,6 +64,7 @@ class PlayModeController{
 
     RollDieAgain{
         //Because the current player is still the same one at this point this is ok
+               
         dieRolledAgain() -> RollDie;
     }
 
@@ -73,6 +74,12 @@ class PlayModeController{
     }
 
     AddConnection{
+    	entry / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD);
+    	};
+    	exit / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.GAME);
+    	};
         addConnection(Tile tile1, Tile tile2) / {
           doAddConnection(tile1, tile2);
         }
@@ -80,9 +87,16 @@ class PlayModeController{
     }
 
     RemoveConnection{
+    	entry / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.REMOVE_CONNECTION_ACTION_CARD);
+    	};
+    	exit / {
+    		TileOApplication.getBoard().setMode(BoardPanel.Mode.GAME);
+    	};
         removeConnection(Tile tile1, Tile tile2) / {
           doRemoveConnection(tile1, tile2);
-        }-> RollDie;
+        }
+        -> RollDie;
     }
 
     LoseTurn{

@@ -8,6 +8,7 @@ import ca.mcgill.ecse223.tileo.view.DeckPanel;
 import ca.mcgill.ecse223.tileo.view.DesignPage;
 import ca.mcgill.ecse223.tileo.view.GamePage;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 
 
 public class TileOApplication {
@@ -18,6 +19,8 @@ public class TileOApplication {
 	private static GamePage gamePage;
 	private static BoardPanel board;
 	private static CreateGamePage createPage;
+	private static PlayModeController pmc;
+	
 
 	public static void main(String args[]){
 
@@ -140,6 +143,14 @@ public class TileOApplication {
 		catch(NullPointerException e){
 			System.out.println("GamePage is null.");
 		}
+	}
+	
+	public static PlayModeController getPlayModeController(){
+		return pmc;
+	}
+	
+	public static void setPlayModeController(PlayModeController aPMC){
+		pmc = aPMC;
 	}
 	
 	public static void saveBoard(BoardPanel oldBoard){

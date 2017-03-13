@@ -125,44 +125,6 @@ public class GamePage extends JFrame {
 						.addComponent(line2, 20 , 20, 20)
 						.addComponent(rollDie)
 						.addComponent(dieResult, 60, 60, 60)));
-	}
-
-	public void rollDieActionPerformed(ActionEvent ev) {
-		// clear error message
-
-				// Call the controller
-				Game game = TileOApplication.getCurrentGame();
-				Player currentPlayer = game.getCurrentPlayer();
-				Tile currentTile = currentPlayer.getCurrentTile();
-
-				// pass the returned list of tiles somewhere
-				// need to update the visual with the number of the die roll but only
-				// the list of tiles is returned
-				
-				java.util.List<Tile> tiles = new ArrayList<Tile>();
-					tiles = pmc.doRollDie();
-					
-					if(tiles == null || tiles.size() == 0){
-						showMessage("No possible moves!");
-						//pmc.land(currentPlayer.getCurrentTile());
-						//TODO Might need error check to see if land worked
-						pmc.setNextPlayer();
-						refresh();
-						return;
-					}
-				
-				//This shows the possible moves in pink
-				for(Tile t : tiles){
-					Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
-					if(rect != null){
-
-						rect.setColor(Color.pink);
-						
-					}
-				}
-				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
-				refresh();
-				board.refreshBoard();
 	}	
 
 	public void refresh() {
@@ -198,19 +160,19 @@ public class GamePage extends JFrame {
 			
 			case GAME_CONNECTTILESACTIONCARD:
 				if(board.prev != null && board.curr != null){
-					Tile tile1 = board.boardTiles.get(board.prev);
-					Tile tile2 = board.boardTiles.get(board.curr);
-					try{
-						pmc.playConnectTilesActionCard(tile1, tile2);
-						board.addConnection(board.getRectangle(tile1.getX(), tile1.getY()), board.getRectangle(tile2.getX(), tile2.getY()), true);
+					//Tile tile1 = board.boardTiles.get(board.prev);
+					//Tile tile2 = board.boardTiles.get(board.curr);
+					/*try{
+						//pmc.playConnectTilesActionCard(tile1, tile2);
+						//board.addConnection(board.getRectangle(tile1.getX(), tile1.getY()), board.getRectangle(tile2.getX(), tile2.getY()), true);
 					}
 					catch(InvalidInputException e){
 						System.out.println("Connect Tiles Error");
 						e.printStackTrace();
-					}
+					}*/
 				}else{
-					board.mode=BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD;
-					board.addConnection(board.prev, board.curr, true);
+					//board.mode=BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD;
+					//board.addConnection(board.prev, board.curr, true);
 				}
 				board.refreshBoard();
 				break;
@@ -320,7 +282,7 @@ public class GamePage extends JFrame {
 		Game.Mode mode = game.getMode();
 			board.paintAllPink();
 			board.mode=BoardPanel.Mode.TELEPORT;
-			flag=true;
+			flag = true;
 			board.refreshBoard();
 
 	}
@@ -356,6 +318,45 @@ public class GamePage extends JFrame {
 	
 	public void enableGetActionCardButton(boolean enable){
 		getActionCard.setEnabled(enable);
+	}
+	
+	public void rollDieActionPerformed(ActionEvent ev) {
+		// clear error message
+
+				// Call the controller
+				Game game = TileOApplication.getCurrentGame();
+				Player currentPlayer = game.getCurrentPlayer();
+				Tile currentTile = currentPlayer.getCurrentTile();
+
+				// pass the returned list of tiles somewhere
+				// need to update the visual with the number of the die roll but only
+				// the list of tiles is returned
+				
+				java.util.List<Tile> tiles = new ArrayList<Tile>();
+					tiles = pmc.doRollDie();
+					
+					if(tiles == null || tiles.size() == 0){
+						showMessage("No possible moves!");
+						//pmc.land(currentPlayer.getCurrentTile());
+						//TODO Might need error check to see if land worked
+						pmc.setNextPlayer();
+						refresh();
+						return;
+					}
+				
+				//This shows the possible moves in pink
+				for(Tile t : tiles){
+					Rectangle2DCoord rect = board.getRectangle(t.getX(), t.getY());
+					if(rect != null){
+
+						rect.setColor(Color.pink);
+						
+					}
+				}
+				board.setMode(BoardPanel.Mode.MOVE_PLAYER);
+				refresh();
+				board.refreshBoard();
+
 	}
 	
 	class rollDieListener implements ActionListener {

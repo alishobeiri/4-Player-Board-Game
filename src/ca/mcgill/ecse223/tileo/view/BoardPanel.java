@@ -282,6 +282,7 @@ public class BoardPanel extends JPanel {
 		return list;
 	}
 	
+	//This add connection is used for design
 	public void addConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
 		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
 			Tile tile1 = boardTiles.get(rect1);
@@ -325,30 +326,27 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
-	public void addConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2, boolean isAction){
-		if(boardTiles.containsKey(rect1) && boardTiles.containsKey(rect2)){
-			Tile tile1 = boardTiles.get(rect1);
-			Tile tile2 = boardTiles.get(rect2);
-			Connection c = null;
-	
+	//This add connection is used for game mode
+	public void addConnectionAction(Tile tile1, Tile tile2){
+		
 			Connector2D connector;
-			Rectangle2D connect=null;
+			Rectangle2D connectRectangle = null;
+			
 			if(tile1.getX() == tile2.getX()){
-			connect = getVerticalConnectionRect(tile1, tile2);
+				connectRectangle = getVerticalConnectionRect(tile1, tile2);
 			}
 			else if(tile1.getY() == tile2.getY()){
-			connect = getHorizontalConnectionRect(tile1, tile2);
+				connectRectangle = getHorizontalConnectionRect(tile1, tile2);
 			}
-			System.out.println("if entered");
-			if(connect != null){
-			System.out.println("2nd if entered");
-			connector=new Connector2D(tile1, tile2, connect, c);
-			connectors.add(connector);
-			boardConnections.put(connector, c);
+			
+			if(connectRectangle != null){
+				connector=new Connector2D(tile1, tile2, connectRectangle, null);
+				connectors.add(connector);
+				//boardConnections.put(connector, c);
 			}
-			new DesignModeController().save();
+			
+			TileOApplication.getPlayModeController().save();
 			repaint();
-		}
 	}
 	
 	public void removeConnection(Rectangle2DCoord rect1, Rectangle2DCoord rect2){
@@ -763,13 +761,24 @@ public class BoardPanel extends JPanel {
 							}
 						}
 						else{
-							curr = rect;
-							GamePage gamePage = TileOApplication.getGamePage();
+							if(boardTiles.containsKey(rect)){
+								curr = rect;
+								
+								Tile tile1 = getTileFromBoard(prev);
+								Tile tile2 = getTileFromBoard(curr);
+								
+								PlayModeController pmc = TileOApplication.getPlayModeController();				
+								pmc.addConnection(tile1, tile2);
+								prev = null;
+								curr = null;
+								repaint();
+							}
+							/*GamePage gamePage = TileOApplication.getGamePage();
 							gamePage.refresh();
 							prev = null;
 							curr = null;
 							mode = Mode.GAME;
-							gamePage.refresh();
+							gamePage.refresh();*/
 						}
 					}
 					else if(mode == Mode.REMOVE_CONNECTION_ACTION_CARD){
@@ -802,8 +811,16 @@ public class BoardPanel extends JPanel {
 				}
 			}
 		}
-
-
+		
+		//Helper method
+		public Tile getTileFromBoard(Rectangle2DCoord rect){
+			for(Tile t: boardTiles.values()){
+				if(rect.coordX == t.getX() && rect.coordY == t.getY()){
+					return t;
+				}
+			}
+			return null;
+		}
 		
 		@Override
 		public void mousePressed(MouseEvent e) {

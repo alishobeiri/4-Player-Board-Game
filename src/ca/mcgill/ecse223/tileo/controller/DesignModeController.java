@@ -239,6 +239,7 @@ public class DesignModeController {
 		pmc.startGame();
 		GamePage gamePage = new GamePage(TileOApplication.getBoard(), pmc);
 		TileOApplication.setGamePage(gamePage);
+		TileOApplication.setPlayModeController(pmc);
 		gamePage.setVisible(true);
 		TileOApplication.getDesignPage().dispose();
 		pmc.save();

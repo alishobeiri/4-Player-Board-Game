@@ -788,12 +788,27 @@ public class PlayModeController
   }
    
   public void doAddConnection(Tile tile1, Tile tile2){
+	  boolean isValid;
+	  try{
+		  playConnectTilesActionCard(tile1, tile2);
+		  isValid = true;
+	  }
+	  catch(InvalidInputException e){
+		  TileOApplication.getGamePage().showMessage("You cannot connect those tiles!");
+		  isValid = false;
+	  }
 	  
+	  if(isValid){
+		  TileOApplication.getBoard().addConnectionAction(tile1, tile2);
+	  }
   }
   
   public void displayCard(){
+	  //Display the current Action 
 	  ActionCard c = TileOApplication.getCurrentGame().getDeck().getCurrentCard();
 	  TileOApplication.getGamePage().getDeckPanel().setCardInfo(c);
+	  
+	  
   }
   
   public void doRemoveConnection(Tile tile1, Tile tile2){
