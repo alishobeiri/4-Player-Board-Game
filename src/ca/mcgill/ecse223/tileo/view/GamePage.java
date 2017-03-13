@@ -199,7 +199,7 @@ public class GamePage extends JFrame {
 				}
 				else if(board.prev != null && board.curr != null){
 					System.out.println("if 2");
-					board.removeConnection(board.prev, board.curr, true);
+					//board.removeConnection(board.prev, board.curr, true);
 				}
 				else{
 					System.out.println("if 1");
