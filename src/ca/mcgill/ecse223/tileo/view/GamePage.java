@@ -31,8 +31,11 @@ public class GamePage extends JFrame {
 	TileOPage mainMenu;
 	boolean flag=false;
 	
-	//Initialize the controller
 	PlayModeController pmc;
+	
+	public void setCurrentPlayerLabel(int n){
+		currentPlayer.setText("Player " + n + "'s turn");
+	}
 	
 	//Constructor to initialize a game from design mode
 	public GamePage(BoardPanel oldBoard, PlayModeController aController) {
@@ -61,6 +64,11 @@ public class GamePage extends JFrame {
 	public GamePage(TileOPage aMainMenu){
 		mainMenu = aMainMenu;
 		game = TileOApplication.getCurrentGame();
+		
+		//Set controller
+		//TODO: Set initial mode correctly
+		pmc = new PlayModeController();
+		
 		board = new BoardPanel(game.getMode());
 		board.resetTileColor();
 		initComponents();
@@ -89,6 +97,7 @@ public class GamePage extends JFrame {
 
 		// Add listeners for buttons
 		rollDie.addActionListener(new rollDieListener());
+		getActionCard.addActionListener(new getActionCardListener());
 		
 		//Disable getActionCardButton at start
 		enableGetActionCardButton(false);
@@ -333,7 +342,7 @@ public class GamePage extends JFrame {
 				// the list of tiles is returned
 				
 				java.util.List<Tile> tiles = new ArrayList<Tile>();
-					tiles = pmc.doRollDie();
+					//tiles = pmc.doRollDie();
 					
 					if(tiles == null || tiles.size() == 0){
 						showMessage("No possible moves!");
@@ -359,13 +368,23 @@ public class GamePage extends JFrame {
 
 	}
 	
+	public void setPossibleMoves(ArrayList<Tile> tiles){
+		//possibleMoves = tiles;
+		BoardPanel board = TileOApplication.getBoard();
+		for(Tile t: tiles){
+			Rectangle2DCoord rect = board.findRectangleFromBoard(t);
+			rect.setColor(Color.pink);
+		}
+	}
+	
 	class rollDieListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev) {
 				for(Rectangle2DCoord rect: possibleMoves){
 					rect.setColor(Color.WHITE);
 				}
-				possibleMoves.clear();
-				rollDieActionPerformed(ev);
+				pmc.dieRolled();
+				//possibleMoves.clear();
+				//rollDieActionPerformed(ev);
 				
 	
 		}

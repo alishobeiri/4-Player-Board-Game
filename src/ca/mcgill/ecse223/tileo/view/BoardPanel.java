@@ -215,6 +215,7 @@ public class BoardPanel extends JPanel {
 				g2d.draw(rectangle.coordRectangle);
 		}
 		
+		//Paint the connections
 		for(Connector2D connector: connectors){
 			g2d.setColor(Color.DARK_GRAY);
 			g2d.fill(connector.c);
@@ -239,6 +240,7 @@ public class BoardPanel extends JPanel {
 			g2d.draw(prev.coordRectangle);
 		}
 		
+		//Paint players
 		for(Ellipse2DCoord circle: playerTiles.values()){
 			Ellipse2D player = new Ellipse2D.Float(GAP*(circle.coordX+1) + WIDTH*(circle.coordX), GAP*(circle.coordY+1) + HEIGHT*(circle.coordY), WIDTH, HEIGHT);
 			g2d.setColor(circle.color);
@@ -474,72 +476,24 @@ public class BoardPanel extends JPanel {
 			}
 	}
 
-
-	public void movePlayer(Rectangle2DCoord rect){
-		PlayModeController pmc = new PlayModeController();
-		Tile t = boardTiles.get(rect);
+	// This method calls land on the controller when the board is in move player mode
+	public void landPlayer(Rectangle2DCoord rect){
+		PlayModeController pmc = TileOApplication.getPlayModeController();
 		if(rect.color.equals(Color.pink)){
-			boolean flag = pmc.land(t, rect);
+			Tile t = boardTiles.get(rect);
+			boolean flag = pmc.land(t);
 			System.out.println(pmc.getMode());
-		}
-		
-		
-/*		int playerNumber;
-		PlayModeController pmc = new PlayModeController();
-		Player player=game.getCurrentPlayer();
-		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
-		if(rect.color.equals(Color.pink)){
-			playerNumber=(gameIndex*4)+(game.getCurrentPlayer().getNumber()%4);
-			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
-			switch(player.getColorFullName()){
-				case "RED":
-					circle.setColor(Color.RED);
-					break;
-				case "YELLOW":
-					circle.setColor(Color.YELLOW);
-					break;
-				case "BLUE":
-					circle.setColor(Color.BLUE);
-					break;
-				case "GREEN":
-					circle.setColor(Color.GREEN);
-					break;
-			}
-			System.out.println("Original player number");
-			if(playerNumber%4!=0){
-				playerNumber=playerNumber-4;
-			}
-			System.out.println("The player number is " + playerNumber);
-			System.out.println("The hashmap after put is " + playerTiles.keySet());
-			playerTiles.put(playerNumber, circle);
-			System.out.println("The hashmap after put is " + playerTiles.keySet());
-			Tile t=boardTiles.get(rect);
-			player.setCurrentTile(boardTiles.get(rect));
-			try {
-				
-				pmc.land(t);
-				if(game.getMode()==Game.Mode.GAME){
-					pmc.setNextPlayer();
-				}
-				System.out.println("Homie we made it");
-				if(!visitedTiles.contains(rect)){
-					visitedTiles.add(rect);
-				}		
-				TileOApplication.getGamePage().refresh();
-				pmc.save();
-				repaint();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}else{
-			if(TileOApplication.getGamePage().flag){
-				showMessage("Please roll die again");
-			}else{
-				showMessage("Please select a valid tile");
-			}
-		}*/
-		
+		}	
+	}
+	
+	// This method changes the position of the circle that represents a player
+	public void movePlayer(Tile aTile){
+		Integer num = TileOApplication.getCurrentGame().getCurrentPlayer().getNumber();
+		System.out.println(num + "The number");
+		Ellipse2DCoord player = playerTiles.get(num);
+		System.out.println(player);
+		player.coordX = aTile.getX();
+		player.coordY = aTile.getY();
 	}
 	
 	public void showMessage(String s){
@@ -698,6 +652,25 @@ public class BoardPanel extends JPanel {
 		}
 	}
 	
+	//Helper method
+	public Tile getTileFromBoard(Rectangle2DCoord rect){
+		for(Tile t: boardTiles.values()){
+			if(rect.coordX == t.getX() && rect.coordY == t.getY()){
+				return t;
+			}
+		}
+		return null;
+	}
+	
+	public Rectangle2DCoord findRectangleFromBoard(Tile aTile) {
+		for(Rectangle2DCoord rect: boardTiles.keySet()){
+			if(aTile.getX() == rect.coordX && aTile.getY() == rect.coordY){
+				return rect;
+			}
+		}
+		return null;
+	}
+	
 	class MouseSelectionListener implements MouseListener{
 		public void mouseClicked(MouseEvent ev){
 			int x = ev.getX();
@@ -742,10 +715,11 @@ public class BoardPanel extends JPanel {
 							removeConnection(prev, rect);
 							prev = null;
 						}
-					}else if(mode == Mode.MOVE_PLAYER){
-						movePlayer(rect);
-						resetTileColor();
-						repaint();
+					}
+					else if(mode == Mode.MOVE_PLAYER){
+						landPlayer(rect);
+						//resetTileColor();
+						//repaint();
 					}
 					else if(mode == Mode.TELEPORT){
 						repaint();
@@ -803,23 +777,13 @@ public class BoardPanel extends JPanel {
 					}
 					else if(mode == Mode.ROLL_DIE){
 						mode=Mode.MOVE_PLAYER;
-						movePlayer(rect);
+						//movePlayer(rect);
 						resetTileColor();
 						TileOApplication.getGamePage().flag=false;
 						repaint();
 					}
 				}
 			}
-		}
-		
-		//Helper method
-		public Tile getTileFromBoard(Rectangle2DCoord rect){
-			for(Tile t: boardTiles.values()){
-				if(rect.coordX == t.getX() && rect.coordY == t.getY()){
-					return t;
-				}
-			}
-			return null;
 		}
 		
 		@Override

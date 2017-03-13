@@ -232,12 +232,12 @@ public void shuffle() {
     List<ActionCard> temp = cards;
     Collections.shuffle(temp);
     //shuffle the array list called 'cards'
-    System.out.println("Before shuffle: " + Arrays.toString(cards.toArray()));
+   // System.out.println("Before shuffle: " + Arrays.toString(cards.toArray()));
     //Fisher-Yates shuffle, assuming we can shuffle in place?
     // theres another method that will shuffle into a temp
     Collections.shuffle(cards, rand);
     //Fisher-Yates in-place shuffle
-    System.out.println("YEEEET After shuffle: " + Arrays.toString(cards.toArray()));
+    //System.out.println("YEEEET After shuffle: " + Arrays.toString(cards.toArray()));
 	
 	//After shuffle set the current card to the first card in the stack
 	currentCard = getCard(0);
