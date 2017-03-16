@@ -832,7 +832,7 @@ public class PlayModeController
    */
   // line 566 "../../../../../PlayModeController.ump"
    public void doLand(Tile tile){
-    tile.land();
+	   		tile.land();
 			
 			BoardPanel board = TileOApplication.getBoard();
 			board.movePlayer(tile);
@@ -842,8 +842,10 @@ public class PlayModeController
 			board.refreshBoard();
 			
 			if(!(tile instanceof ActionTile)){
+				System.out.println("Player set to next");
 				setNextPlayer();
 			}
+			
 			TileOApplication.getGamePage().getDeckPanel().setToDefault();
   }
 
@@ -863,7 +865,7 @@ public class PlayModeController
 		  TileOApplication.getBoard().addConnectionAction(tile1, tile2);
 	  }
 	  	  
-	  setNextPlayer();
+	  System.out.println("Was here");
 	  TileOApplication.getGamePage().getDeckPanel().setToDefault();
   }
 
@@ -876,7 +878,29 @@ public class PlayModeController
 
   // line 608 "../../../../../PlayModeController.ump"
    public void doRemoveConnection(Tile tile1, Tile tile2){
-    
+	   ArrayList<Connection> connections = new ArrayList<Connection>(TileOApplication.getCurrentGame().getConnections());
+	   Connection current = null;
+	   for(Connection c: connections){
+		   if((c.getTile(0) == tile1 && c.getTile(1) == tile2) || (c.getTile(0) == tile2 && c.getTile(1) == tile1)){
+			   current = c;
+		   }
+	   }
+	   
+	    boolean isValid;
+		  try{
+			  playRemoveConnectionActionCard(current);
+			  isValid = true;
+		  }
+		  catch(InvalidInputException e){
+			  TileOApplication.getGamePage().showMessage("Those tiles are not connected.");
+			  isValid = false;
+		  }
+		  
+		  if(isValid){
+			  TileOApplication.getBoard().removeConnectionAction(tile1, tile2);
+		  }
+		  	  
+		  TileOApplication.getGamePage().getDeckPanel().setToDefault();
   }
 
   // line 611 "../../../../../PlayModeController.ump"
