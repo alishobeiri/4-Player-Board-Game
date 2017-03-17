@@ -3,16 +3,19 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
+import java.io.Serializable;
 
 // line 94 "../../../../../../../../ump/tmp587765/model.ump"
 // line 341 "../../../../../../../../ump/tmp587765/model.ump"
-public class Player
+public class Player implements Serializable
 {
 
   //------------------------
   // STATIC VARIABLES
   //------------------------
 
+	private static final long serialVersionUID=1273309447595594009L;
+	
   private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
 
   //------------------------
