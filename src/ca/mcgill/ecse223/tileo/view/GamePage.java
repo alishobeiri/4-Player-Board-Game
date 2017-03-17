@@ -103,6 +103,7 @@ public class GamePage extends JFrame {
 		
 		//Disable getActionCardButton at start
 		enableGetActionCardButton(false);
+		enableSkipTurnButton(false);
 		
 		JSeparator line1 = new JSeparator();
 		JSeparator line2 = new JSeparator();
@@ -213,7 +214,7 @@ public class GamePage extends JFrame {
 				
 			case GAME_TELEPORTACTIONCARD:
 				//showMessage("You have received a teleport card, please choose any tile to move to");
-				teleportCard();
+				//teleportCard();
 
 /*				try{
 					//gmc.playTeleportActionCard();
@@ -291,16 +292,6 @@ public class GamePage extends JFrame {
 		}
 	}*/
 
-	public void teleportCard(){
-		Game.Mode mode = game.getMode();
-			board.paintAllPink();
-			board.mode=BoardPanel.Mode.TELEPORT;
-			flag = true;
-			board.refreshBoard();
-
-	}
-
-
 	private void rollDieAgain(){
 		java.util.List<Tile> moves = null;
 		System.out.println("My fird");
@@ -331,6 +322,10 @@ public class GamePage extends JFrame {
 	
 	public void enableGetActionCardButton(boolean enable){
 		getActionCard.setEnabled(enable);
+	}
+	
+	public void enableSkipTurnButton(boolean enable){
+		skipTurn.setEnabled(enable);
 	}
 	
 	public void rollDieActionPerformed(ActionEvent ev) {
@@ -373,12 +368,18 @@ public class GamePage extends JFrame {
 	}
 	
 	public void setPossibleMoves(ArrayList<Tile> tiles){
-		//possibleMoves = tiles;
 		BoardPanel board = TileOApplication.getBoard();
 		for(Tile t: tiles){
 			Rectangle2DCoord rect = board.findRectangleFromBoard(t);
 			rect.setColor(Color.pink);
 		}
+	}
+	
+	public void setAllTilesToPossible(){
+		for(Rectangle2DCoord rect: board.boardTiles.keySet()){
+			rect.setColor(Color.pink);
+		}
+		board.refreshBoard();
 	}
 	
 	class rollDieListener implements ActionListener {
@@ -402,7 +403,7 @@ public class GamePage extends JFrame {
 	
 	class skipTurnListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			
+			TileOApplication.getPlayModeController().skipTurn();
 		}
 	}
 	

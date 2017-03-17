@@ -221,10 +221,19 @@ public class BoardPanel extends JPanel {
 			g2d.fill(connector.c);
 		}
 		
-/*		for(Rectangle2DCoord rect: visitedTiles){
+		for(Rectangle2DCoord rect: visitedTiles){
 			g2d.setColor(Color.GRAY);
 			g2d.fill(rect.coordRectangle);
-		}*/
+		}
+		
+		for(Rectangle2DCoord rectangle: boardTiles.keySet()){
+			if(rectangle.color == Color.pink){
+			g2d.setColor(rectangle.color);
+			g2d.fill(rectangle.coordRectangle);
+			g2d.setColor(Color.GRAY);
+			g2d.draw(rectangle.coordRectangle);
+			}
+	}
 		
 		if(currentWinRectangle != null && game.getMode() == Game.Mode.DESIGN){
 			g2d.setColor(Color.DARK_GRAY);
@@ -491,6 +500,9 @@ public class BoardPanel extends JPanel {
 		System.out.println(player);
 		player.coordX = aTile.getX();
 		player.coordY = aTile.getY();
+		
+		Rectangle2DCoord rect = findRectangleFromBoard(aTile);
+		visitedTiles.add(rect);
 	}
 	
 	public void showMessage(String s){
@@ -604,50 +616,7 @@ public class BoardPanel extends JPanel {
 			System.out.println("Please choose a valid tile");
 		}
 	}
-	public void teleportPlayer(Rectangle2DCoord rect){
-		int playerNumber;
-		PlayModeController pmc = new PlayModeController();
-		Player player=game.getCurrentPlayer();
-		int gameIndex=TileOApplication.getTileO().indexOfGame(game)+1;
-		if(rect.color.equals(Color.pink)){
-			playerNumber=(gameIndex*4)+(game.getCurrentPlayer().getNumber()%4);
-			Ellipse2DCoord circle=new Ellipse2DCoord(rect.coordX, rect.coordY);
-			switch(player.getColorFullName()){
-				case "RED":
-					circle.setColor(Color.RED);
-					break;
-				case "YELLOW":
-					circle.setColor(Color.YELLOW);
-					break;
-				case "BLUE":
-					circle.setColor(Color.BLUE);
-					break;
-				case "GREEN":
-					circle.setColor(Color.GREEN);
-					break;
-			}
-			if(playerNumber%4!=0){
-				playerNumber=playerNumber-4;
-			}
-			playerTiles.put(playerNumber, circle);
-			Tile t=boardTiles.get(rect);
-			try{
-				pmc.playTeleportActionCard(t);
-				TileOApplication.getGamePage().refresh();
-				repaint();
-				pmc.save();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			
-		}else{
-			if(TileOApplication.getGamePage().flag){
-				showMessage("Please roll die to teleport");
-			}else{
-				showMessage("Please select a valid tile");
-			}
-		}
-	}
+
 	
 	//Helper method
 	public Tile getTileFromBoard(Rectangle2DCoord rect){
@@ -717,12 +686,6 @@ public class BoardPanel extends JPanel {
 						landPlayer(rect);
 						//resetTileColor();
 						//repaint();
-					}
-					else if(mode == Mode.TELEPORT){
-						repaint();
-						teleportPlayer(rect);
-						resetTileColor();
-						repaint();
 					}
 					else if(mode == Mode.ADD_CONNECTION_ACTION_CARD){
 						if(prev == null){
@@ -824,7 +787,7 @@ public class BoardPanel extends JPanel {
 
 	public enum Mode{
 
-		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, TELEPORT, ADD_CONNECTION_ACTION_CARD, REMOVE_CONNECTION_ACTION_CARD, ROLL_DIE
+		ADD_TILE, REMOVE_TILE, PLACE_PLAYER, ADD_CONNECTION, REMOVE_CONNECTION, GAME, MOVE_PLAYER, ADD_CONNECTION_ACTION_CARD, REMOVE_CONNECTION_ACTION_CARD, ROLL_DIE
 
 
 	}
