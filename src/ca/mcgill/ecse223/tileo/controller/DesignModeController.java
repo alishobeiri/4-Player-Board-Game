@@ -160,18 +160,34 @@ public class DesignModeController {
 	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
 	{
 		Game game = TileOApplication.getCurrentGame();
-		Connection c = game.connectTiles(tileOne, tileTwo);
-		
-		return c;
+		Connection c = null;
+		if(checkAdjacentTiles(tileOne, tileTwo) == true)
+		{
+			c = game.connectTiles(tileOne, tileTwo);
+			return c;
+		}
+		else 
+		{
+			throw new InvalidInputException("The two tiles are not adjacent.");
+		}
 	}
 	
 	public boolean checkAdjacentTiles(Tile tile1, Tile tile2)
 	{
 		int xOne = tile1.getX();
-		int xTwo = tile1.getX();
+		int xTwo = tile2.getX();
 		int yOne = tile1.getY();
-		int yTwo = tile1.getY();
-		boolean adjacent = true;
+		int yTwo = tile2.getY();
+		boolean adjacent = false;
+		if((Math.abs(xOne - xTwo) == 1) && (yOne == yTwo));
+		{
+			adjacent = true;
+		}
+		if((Math.abs(yOne - yTwo) == 1) && (xOne == xTwo));
+		{
+			adjacent = true;
+		}
+		/*boolean adjacent = true;
 		if(Math.abs(xOne - xTwo) > 1)
 		{
 			adjacent = false;
@@ -183,7 +199,7 @@ public class DesignModeController {
 		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
 		{
 			adjacent = false;
-		}
+		}*/
 		
 
 		return adjacent;
