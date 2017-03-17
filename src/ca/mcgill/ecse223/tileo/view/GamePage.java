@@ -30,6 +30,7 @@ public class GamePage extends JFrame {
 	JButton getActionCard = new JButton("Get Action Card");
 	TileOPage mainMenu;
 	boolean flag=false;
+	JButton skipTurn = new JButton("Skip Turn");
 	
 	PlayModeController pmc;
 	
@@ -98,6 +99,7 @@ public class GamePage extends JFrame {
 		// Add listeners for buttons
 		rollDie.addActionListener(new rollDieListener());
 		getActionCard.addActionListener(new getActionCardListener());
+		skipTurn.addActionListener(new skipTurnListener());
 		
 		//Disable getActionCardButton at start
 		enableGetActionCardButton(false);
@@ -121,6 +123,7 @@ public class GamePage extends JFrame {
 								.addGap(85, 85, 85)
 								.addComponent(dieResult, 50, 50, 50)
 								)
+						.addComponent(skipTurn, 220, 220, 220)
 				)
 		);
 		layout.setVerticalGroup(layout.createParallelGroup()
@@ -133,7 +136,8 @@ public class GamePage extends JFrame {
 						.addComponent(getActionCard)
 						.addComponent(line2, 20 , 20, 20)
 						.addComponent(rollDie)
-						.addComponent(dieResult, 60, 60, 60)));
+						.addComponent(dieResult, 60, 60, 60)
+						.addComponent(skipTurn)));
 	}	
 
 	public void refresh() {
@@ -393,6 +397,12 @@ public class GamePage extends JFrame {
 	class getActionCardListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev){
 			pmc.getActionCard();
+		}
+	}
+	
+	class skipTurnListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			
 		}
 	}
 	
