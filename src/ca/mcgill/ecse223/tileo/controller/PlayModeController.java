@@ -609,6 +609,30 @@ public class PlayModeController
 		//TileOApplication.save();
   }
 
+   
+   public void playLoseTurnActionCard() throws InvalidInputException{
+	    Game game = TileOApplication.getCurrentGame();
+
+			Deck deck = game.getDeck();
+
+			ActionCard card = deck.getCurrentCard();
+
+			advanceCurrentCard(deck);
+
+			if (!(card instanceof LoseTurnActionCard)) {
+				throw new InvalidInputException("Current card is not a Lose Turn Action Card");
+			}
+
+			LoseTurnActionCard loseTurnCard = (LoseTurnActionCard) card;
+
+			setNextPlayer();
+			
+			loseTurnCard.play();
+			
+			advanceCurrentCard(deck);
+
+			game.setMode(Game.Mode.GAME);
+   }
 
   /**
    * 
@@ -824,6 +848,7 @@ public class PlayModeController
 		TileOApplication.changeGameMode();
   }
 
+   
 
   /**
    * 

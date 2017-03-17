@@ -70,6 +70,9 @@ public class ActionTile extends Tile implements Serializable {
 		Player currentPlayer = currentGame.getCurrentPlayer();
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
+		
+		//TODO CHECK THIS METHOD
+		currentPlayer.takeTurn();
 
 		// Get increase the index of the current player by one
 /*		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;

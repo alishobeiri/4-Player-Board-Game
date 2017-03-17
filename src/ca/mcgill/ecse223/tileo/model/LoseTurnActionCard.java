@@ -42,5 +42,11 @@ public class LoseTurnActionCard extends ActionCard implements Serializable
   {
     super.delete();
   }
+  
+  public void play(){
+	  Game game = this.getDeck().getGame();
+	  Player player = game.getCurrentPlayer();
+	  player.loseTurns(1);
+  }
 
 }
