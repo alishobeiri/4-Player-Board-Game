@@ -168,7 +168,6 @@ public class BoardPanel extends JPanel {
 	}
 	// Constructor
 	public BoardPanel(Game.Mode m){
-		//TESTING TODO: REMOVE
 		game.setMode(m);
 		initComponents();
 		this.mode=BoardPanel.Mode.GAME;

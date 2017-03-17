@@ -110,7 +110,17 @@ public class TileOPage extends JFrame {
 		for(int i = 0; i < tileOGames.size(); i++){
 			Game current = tileOGames.get(i);
 			int index = i+1;
-			existingGames.put("Game " + index + " - " + current.getMode(), current);
+			String currentMode;
+			if(current.getMode() == Game.Mode.DESIGN){
+				currentMode = "DESIGN MODE";
+			}
+			else if(current.getMode() == Game.Mode.GAME_WON){
+				currentMode = "GAME OVER";
+			}
+			else{
+				currentMode = "GAME MODE";
+			}
+			existingGames.put("Game " + index + " - " + currentMode, current);
 		}
 		
 		for(String s: existingGames.keySet()){
