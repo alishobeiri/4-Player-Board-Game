@@ -1,20 +1,15 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-1dcc48b modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-import java.io.Serializable;
 import java.util.*;
 
-// line 22 "../../../../../TileO (updated Feb10).ump"
-public class Player implements Serializable
+// line 94 "../../../../../../../../ump/tmp587765/model.ump"
+// line 341 "../../../../../../../../ump/tmp587765/model.ump"
+public class Player
 {
 
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1273309447595594009L;
-
-//------------------------
+  //------------------------
   // STATIC VARIABLES
   //------------------------
 
@@ -31,6 +26,8 @@ public class Player implements Serializable
   //Player State Machines
   public enum Color { RED, BLUE, GREEN, YELLOW }
   private Color color;
+  public enum PlayerStatus { Active, Inactive }
+  private PlayerStatus playerStatus;
 
   //Player Associations
   private Tile startingTile;
@@ -54,6 +51,7 @@ public class Player implements Serializable
       throw new RuntimeException("Unable to create player due to game");
     }
     setColor(Color.RED);
+    setPlayerStatus(PlayerStatus.Active);
   }
 
   //------------------------
@@ -110,15 +108,97 @@ public class Player implements Serializable
     return answer;
   }
 
+  public String getPlayerStatusFullName()
+  {
+    String answer = playerStatus.toString();
+    return answer;
+  }
+
   public Color getColor()
   {
     return color;
+  }
+
+  public PlayerStatus getPlayerStatus()
+  {
+    return playerStatus;
+  }
+
+  public boolean loseTurns(int n)
+  {
+    boolean wasEventProcessed = false;
+    
+    PlayerStatus aPlayerStatus = playerStatus;
+    switch (aPlayerStatus)
+    {
+      case Active:
+        if (n>0)
+        {
+        // line 103 "../../../../../../../../ump/tmp587765/model.ump"
+          setTurnsUntilActive(getTurnsUntilActive() + n);
+          setPlayerStatus(PlayerStatus.Inactive);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      case Inactive:
+        if (n>0)
+        {
+        // line 114 "../../../../../../../../ump/tmp587765/model.ump"
+          setTurnsUntilActive(getTurnsUntilActive() + n);
+          setPlayerStatus(PlayerStatus.Inactive);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean takeTurn()
+  {
+    boolean wasEventProcessed = false;
+    
+    PlayerStatus aPlayerStatus = playerStatus;
+    switch (aPlayerStatus)
+    {
+      case Inactive:
+        if (getTurnsUntilActive()>1)
+        {
+        // line 108 "../../../../../../../../ump/tmp587765/model.ump"
+          setTurnsUntilActive(getTurnsUntilActive() - 1);
+          setPlayerStatus(PlayerStatus.Inactive);
+          wasEventProcessed = true;
+          break;
+        }
+        if (getTurnsUntilActive()<=1)
+        {
+        // line 111 "../../../../../../../../ump/tmp587765/model.ump"
+          setTurnsUntilActive(0);
+          setPlayerStatus(PlayerStatus.Active);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
   }
 
   public boolean setColor(Color aColor)
   {
     color = aColor;
     return true;
+  }
+
+  private void setPlayerStatus(PlayerStatus aPlayerStatus)
+  {
+    playerStatus = aPlayerStatus;
   }
 
   public Tile getStartingTile()
@@ -205,22 +285,20 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
+  // line 120 "../../../../../../../../ump/tmp587765/model.ump"
+   public List<Tile> generateMoves(int number){
+    Tile origin = this.getCurrentTile();
+        List<Tile> neighbours = origin.getNeighbours(null, number);
+        return neighbours;
+  }
 
   public String toString()
-    {
-    String outputString = "";
+  {
     return super.toString() + "["+
             "number" + ":" + getNumber()+ "," +
             "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startingTile = "+(getStartingTile()!=null?Integer.toHexString(System.identityHashCode(getStartingTile())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
-     + outputString;
-    }
-
-	public List<Tile> generateMoves(int number){
-        Tile origin = this.getCurrentTile();
-        List<Tile> neighbours = origin.getNeighbours(null, number);
-        return neighbours;
-    }
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
+  }
 }
