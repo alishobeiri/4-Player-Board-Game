@@ -71,7 +71,10 @@ class PlayModeController{
       doTeleport();
       } -> Move;
 
-      getActionCard() [isCurrentCardLoseTurn()] / {displayCard();} -> LoseTurn;
+      getActionCard() [isCurrentCardLoseTurn()] / {
+      displayCard();
+      doLoseTurn();
+      } -> RollDie;
     }
 
    // RollDieAgain{
@@ -422,6 +425,28 @@ class PlayModeController{
 		
 		//TileOApplication.save();
   }
+  public void playLoseTurnActionCard() throws InvalidInputException{
+      Game game = TileOApplication.getCurrentGame();
+
+      Deck deck = game.getDeck();
+
+      ActionCard card = deck.getCurrentCard();
+
+      advanceCurrentCard(deck);
+
+      if (!(card instanceof LoseTurnActionCard)) {
+        throw new InvalidInputException("Current card is not a Lose Turn Action Card");
+      }
+
+      LoseTurnActionCard loseTurnCard = (LoseTurnActionCard) card;
+      
+      loseTurnCard.play();
+      System.out.println(game.getCurrentPlayer().getTurnsUntilActive());
+      setNextPlayer();
+      advanceCurrentCard(deck);
+
+      game.setMode(Game.Mode.GAME);
+   }
 
 
   /**
@@ -451,21 +476,27 @@ class PlayModeController{
    * line 384 "../../../../../PlayModeController.ump"
    */
   // line 412 "../../../../../PlayModeController.ump"
-   public void setNextPlayer(){
+  public void setNextPlayer(){
     Game currentGame = TileOApplication.getCurrentGame();
-		Player currentPlayer = currentGame.getCurrentPlayer();
-		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
-		// Loop back if it is the last player
-		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
-		// Get the next player
-		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
-		// Set the next player as the current player
-		currentGame.setCurrentPlayer(nextPlayer);
-		int num = TileOApplication.getCurrentGame().getCurrentPlayer().getNumber() % 4;
-		if(num == 0){
-			num = 4;
-		}
-		TileOApplication.getGamePage().setCurrentPlayerLabel(num);
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+    // Loop back if it is the last player
+    int nextPlayerNumber = nextPlayerIndex % currentGame.numberOfPlayers();
+    // Get the next player
+    Player nextPlayer = currentGame.getPlayer(nextPlayerNumber);
+    while(nextPlayer.getPlayerStatus() == Player.PlayerStatus.Inactive){
+      nextPlayer.takeTurn();
+      nextPlayerIndex = currentGame.indexOfPlayer(nextPlayer) + 1;
+      nextPlayerNumber = nextPlayerIndex % 4;
+      nextPlayer = currentGame.getPlayer(nextPlayerNumber);
+    }
+    // Set the next player as the current player
+    currentGame.setCurrentPlayer(nextPlayer);
+    int num = TileOApplication.getCurrentGame().getCurrentPlayer().getNumber() % 4;
+    if(num == 0){
+      num = 4;
+    }
+    TileOApplication.getGamePage().setCurrentPlayerLabel(num);
   }
 
 
@@ -582,6 +613,13 @@ class PlayModeController{
     		gamePage.setAllTilesToPossible();
     		TileOApplication.getBoard().setMode(BoardPanel.Mode.MOVE_PLAYER);
     	}
+  }
+    public void doLoseTurn(){
+      try{
+        playLoseTurnActionCard();
+      }catch(InvalidInputException e){
+        System.out.println("There was an error");
+      }
   }
 
 
