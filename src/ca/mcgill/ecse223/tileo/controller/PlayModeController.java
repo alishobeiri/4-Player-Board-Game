@@ -687,7 +687,7 @@ public class PlayModeController
 			
 			loseTurnCard.play();
 			System.out.println(game.getCurrentPlayer().getTurnsUntilActive());
-      setNextPlayer();
+			setNextPlayer();
 			advanceCurrentCard(deck);
 
 			game.setMode(Game.Mode.GAME);
@@ -874,7 +874,7 @@ public class PlayModeController
       try{
         playLoseTurnActionCard();
       }catch(InvalidInputException e){
-        System.out.println("There was an error");
+        System.out.println(e.getMessage());
       }
   }
 

@@ -97,7 +97,26 @@ class Player {
   0..4 -> 0..1 Tile currentTile;
   unique Integer number;
   Integer turnsUntilActive = 0;
+	playerStatus { 
+	    Active {
+	      loseTurns(int n) [n>0] / {
+	        setTurnsUntilActive(getTurnsUntilActive() + n);
+	      }  -> Inactive; 
+	    } 
+	    Inactive {
+	      takeTurn() [getTurnsUntilActive() > 1] / { 
+	    setTurnsUntilActive(getTurnsUntilActive() - 1);
+	 }  -> Inactive; 
+	      takeTurn() [getTurnsUntilActive() <= 1] / {
+	        setTurnsUntilActive(0);
+	      }  -> Active; 
+	      loseTurns(int n) [n>0] / {
+	        setTurnsUntilActive(getTurnsUntilActive() + n);
+	      }  -> Inactive; 
+	    } 
+	  }
   
+
 	public List<Tile> generateMoves(int number){
         Tile origin = this.getCurrentTile();
         List<Tile> neighbours = origin.getNeighbours(null, number);
