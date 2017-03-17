@@ -30,6 +30,7 @@ public class ActionTile extends Tile implements Serializable {
 		super(aX, aY, aGame);
 		inactivityPeriod = aInactivityPeriod;
 		turnsUntilActive = 0;
+		setStatus(Status.Active);
 	}
 
 	// ------------------------
@@ -61,8 +62,6 @@ public class ActionTile extends Tile implements Serializable {
 				+ ":" + getTurnsUntilActive() + "]" + outputString;
 	}
 
-	// Thomas
-	// TODO
 	public void land() {
 		// Get the game that this tile is a part of
 		Game currentGame = this.getGame();
@@ -71,17 +70,7 @@ public class ActionTile extends Tile implements Serializable {
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
 		
-		//TODO CHECK THIS METHOD
 		currentPlayer.takeTurn();
-
-		// Get increase the index of the current player by one
-/*		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
-		// Loop back if it is the last player
-		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
-		// Get the next player
-		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
-		// Set the next player as the current player
-		currentGame.setCurrentPlayer(nextPlayer);*/
 
 		this.setHasBeenVisited(true);
 		
@@ -89,5 +78,87 @@ public class ActionTile extends Tile implements Serializable {
 		ActionCard currentCard = deck.getCurrentCard();
 		
 		currentCard.changeGameModeToActionCard();
+		
+		deactivate();
 	}
+	
+	 //Test State Machines
+	  public enum Status { Active, Inactive }
+	  private Status status;
+	  
+	  //------------------------
+	  // INTERFACE
+	  //------------------------
+
+	  public String getStatusFullName()
+	  {
+	    String answer = status.toString();
+	    return answer;
+	  }
+
+	  public Status getStatus()
+	  {
+	    return status;
+	  }
+
+	  public boolean deactivate()
+	  {
+	    boolean wasEventProcessed = false;
+	    
+	    Status aStatus = status;
+	    switch (aStatus)
+	    {
+	      case Active:
+	        if (getInactivityPeriod()>0)
+	        {
+	        // line 5 "ActionTile.ump"
+	          setTurnsUntilActive(getInactivityPeriod() + 1);
+	          setStatus(Status.Inactive);
+	          wasEventProcessed = true;
+	          break;
+	        }
+	        break;
+	      default:
+	        // Other states do respond to this event
+	    }
+
+	    return wasEventProcessed;
+	  }
+
+	  public boolean takeTurn()
+	  {
+	    boolean wasEventProcessed = false;
+	    
+	    Status aStatus = status;
+	    switch (aStatus)
+	    {
+	      case Inactive:
+	        if (getTurnsUntilActive()>1)
+	        {
+	        // line 12 "ActionTile.ump"
+	          setTurnsUntilActive(getTurnsUntilActive() - 1);
+	          setStatus(Status.Inactive);
+	          wasEventProcessed = true;
+	          break;
+	        }
+	        if (getTurnsUntilActive()<=1)
+	        {
+	        // line 16 "ActionTile.ump"
+	          setTurnsUntilActive(0);
+	          setStatus(Status.Active);
+	          wasEventProcessed = true;
+	          break;
+	        }
+	        break;
+	      default:
+	        // Other states do respond to this event
+	    }
+
+	    return wasEventProcessed;
+	  }
+
+	  private void setStatus(Status aStatus)
+	  {
+	    status = aStatus;
+	  }
 }

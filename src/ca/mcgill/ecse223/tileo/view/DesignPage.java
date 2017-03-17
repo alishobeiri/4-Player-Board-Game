@@ -37,7 +37,7 @@ public class DesignPage extends JFrame {
 	JRadioButton normalTile = new JRadioButton("Normal Tile");
 	JRadioButton actionTile = new JRadioButton("Action Tile");
 	JRadioButton hiddenTile = new JRadioButton("Hidden Tile");
-	Integer[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+	Integer[] nums = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	JComboBox inactiveTurns = new JComboBox(nums);
 	ButtonGroup ratioButtons = new ButtonGroup();
 	JComboBox playerToAdd;
@@ -47,6 +47,7 @@ public class DesignPage extends JFrame {
 	JButton removeConnection = new JButton("Remove Connection");
 	JButton play = new JButton("Play Game");
 	TileOPage mainMenu;
+	Integer[] playerNums;
 	
 	//Constructor
 	public DesignPage(TileOPage aMainMenu){
@@ -123,7 +124,11 @@ public class DesignPage extends JFrame {
 		JSeparator line4 = new JSeparator();
 		
 		//Initialize JComboBox
-		Integer[] playerNums = new Integer[players];
+		Integer[] viewPlayerNums = new Integer[players];;
+		for(int i = 0 ; i < players ; i++){
+			viewPlayerNums[i] = i+1;
+		}
+		playerNums = new Integer[players];
 		TileO tileO = TileOApplication.getTileO();
 		int gameIndex = tileO.indexOfGame(game);
 		int j = 4*(gameIndex) + 1;
@@ -132,7 +137,7 @@ public class DesignPage extends JFrame {
 			j++;
 		}
 		
-		playerToAdd = new JComboBox(playerNums);
+		playerToAdd = new JComboBox(viewPlayerNums);
 		playerToAdd.addActionListener(new PlayerToAddListener());
 		
 		playerToAdd.addActionListener(new PlayerToAddListener());
@@ -265,7 +270,8 @@ public class DesignPage extends JFrame {
 	class PlacePlayerListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			currentMode.setText("Place Player");
-			board.playerNumber = (int) playerToAdd.getSelectedItem();
+			int index = (int) playerToAdd.getSelectedItem();
+			board.playerNumber = playerNums[index-1];
 			board.mode= Mode.PLACE_PLAYER;
 		}
 	}
@@ -292,7 +298,8 @@ public class DesignPage extends JFrame {
 	
 	class PlayerToAddListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
-			board.playerNumber = (int) playerToAdd.getSelectedItem();
+			int index = (int) playerToAdd.getSelectedItem();
+			board.playerNumber = playerNums[index-1];
 		}
 		
 	}
@@ -302,10 +309,6 @@ public class DesignPage extends JFrame {
 			
 			DesignModeController dmc = new DesignModeController();
 			dmc.goToGameMode();
-			/*PlayModeController poc=new PlayModeController();
-			poc.startGame();
-			poc.save();
-			mainMenu.refresh();*/
 
 		}
 	}

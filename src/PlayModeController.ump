@@ -18,6 +18,10 @@ class PlayModeController{
 	      startGame() / {
 	      doStartGame();
 	      } -> RollDie;
+	      
+	      reStartGame() / {
+	      } -> RollDie;
+
 
       }
 
@@ -37,10 +41,14 @@ class PlayModeController{
           doLand(aTile);
         } -> RollDie;
 
-        land(Tile aTile) [isActionTile(aTile)] / {
-          // Here the player is not set to the next one
+        land(Tile aTile) [isActiveActionTile(aTile)] / {
           doLand(aTile);
         } -> Action;
+        
+        land(Tile aTile) [isInactiveActionTile(aTile)] / {
+        	doLand(aTile);
+        	setNextPlayer();
+        } -> RollDie;
 
         land(Tile aTile) [isWinTile(aTile)] / {
           doLand(aTile);
@@ -77,17 +85,6 @@ class PlayModeController{
       } -> RollDie;
     }
 
-   // RollDieAgain{
-        //Because the current player is still the same one at this point this is ok
-               
-    //    dieRolledAgain() -> RollDie;
-    //}
-
-    //Teleport{
-        //This is similar to just rolling the die but now all the tiles on the board are passed as possible moves
-    //    teleport() -> Move;
-    //}
-
     AddConnection{
     	entry / {
     		TileOApplication.getBoard().setMode(BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD);
@@ -114,9 +111,9 @@ class PlayModeController{
         -> RollDie;
     }
 
-    LoseTurn{
-        changePlayerState() -> RollDie;
-    }
+    //LoseTurn{
+    //    changePlayerState() -> RollDie;
+   // }
 
   }
   
@@ -138,17 +135,23 @@ class PlayModeController{
     return false;
   }
 
-
   /**
    * line 132 "../../../../../PlayModeController.ump"
    */
   // line 137 "../../../../../PlayModeController.ump"
-   public boolean isActionTile(Tile aTile){
+   public boolean isActiveActionTile(Tile aTile){
     if(aTile instanceof ActionTile){
-      return true;
+    	ActionTile at = (ActionTile) aTile;
+    	if(at.getStatus() == ActionTile.Status.Active){
+      		return true;
+      	}
     }
 
     return false;
+  }
+  
+  public boolean isInactiveActionTile(Tile aTile){
+  	return !isActiveActionTile(aTile);
   }
 
 
@@ -497,6 +500,13 @@ class PlayModeController{
       num = 4;
     }
     TileOApplication.getGamePage().setCurrentPlayerLabel(num);
+    
+   
+    for(Tile t: TileOApplication.getCurrentGame().getTiles()){
+    	if(t instanceof ActionTile){
+    		((ActionTile) t).takeTurn();
+    	}
+    }
   }
 
 
