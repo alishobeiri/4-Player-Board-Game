@@ -67,6 +67,38 @@ public class PlayModeController
     return wasEventProcessed;
   }
 
+  public boolean reStartGame()
+  {
+    boolean wasEventProcessed = false;
+    
+    Mode aMode = mode;
+    switch (aMode)
+    {
+      case Idle:
+        if (isGameInNormalMode())
+        {
+        // line 22 "../../../../../PlayModeController.ump"
+          
+          setMode(Mode.RollDie);
+          wasEventProcessed = true;
+          break;
+        }
+        if (isGameInActionMode())
+        {
+        // line 25 "../../../../../PlayModeController.ump"
+          
+          setMode(Mode.Action);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
   public boolean dieRolled()
   {
     boolean wasEventProcessed = false;
@@ -76,7 +108,7 @@ public class PlayModeController
     {
       case RollDie:
         exitMode();
-        // line 29 "../../../../../PlayModeController.ump"
+        // line 35 "../../../../../PlayModeController.ump"
         doRollDie();
         setMode(Mode.Move);
         wasEventProcessed = true;
@@ -99,7 +131,7 @@ public class PlayModeController
         if (isNormalTile(aTile))
         {
           exitMode();
-        // line 36 "../../../../../PlayModeController.ump"
+        // line 42 "../../../../../PlayModeController.ump"
           doLand(aTile);
           setMode(Mode.RollDie);
           wasEventProcessed = true;
@@ -108,7 +140,7 @@ public class PlayModeController
         if (isActiveActionTile(aTile))
         {
           exitMode();
-        // line 40 "../../../../../PlayModeController.ump"
+        // line 46 "../../../../../PlayModeController.ump"
           doLand(aTile);
           setMode(Mode.Action);
           wasEventProcessed = true;
@@ -117,7 +149,7 @@ public class PlayModeController
         if (isInactiveActionTile(aTile))
         {
           exitMode();
-        // line 44 "../../../../../PlayModeController.ump"
+        // line 50 "../../../../../PlayModeController.ump"
           doLand(aTile);
         	setNextPlayer();
           setMode(Mode.RollDie);
@@ -127,7 +159,7 @@ public class PlayModeController
         if (isWinTile(aTile))
         {
           exitMode();
-        // line 49 "../../../../../PlayModeController.ump"
+        // line 55 "../../../../../PlayModeController.ump"
           doLand(aTile);
           setMode(Mode.GameOver);
           wasEventProcessed = true;
@@ -150,7 +182,7 @@ public class PlayModeController
     {
       case Move:
         exitMode();
-        // line 53 "../../../../../PlayModeController.ump"
+        // line 59 "../../../../../PlayModeController.ump"
         setNextPlayer();
         setMode(Mode.RollDie);
         wasEventProcessed = true;
@@ -173,7 +205,7 @@ public class PlayModeController
         if (isCurrentCardRollDie())
         {
           exitMode();
-        // line 66 "../../../../../PlayModeController.ump"
+        // line 72 "../../../../../PlayModeController.ump"
           displayCard();
           setMode(Mode.RollDie);
           wasEventProcessed = true;
@@ -182,7 +214,7 @@ public class PlayModeController
         if (isCurrentCardAddConnection())
         {
           exitMode();
-        // line 68 "../../../../../PlayModeController.ump"
+        // line 74 "../../../../../PlayModeController.ump"
           displayCard();
           setMode(Mode.AddConnection);
           wasEventProcessed = true;
@@ -191,7 +223,7 @@ public class PlayModeController
         if (isCurrentCardRemoveConnection())
         {
           exitMode();
-        // line 70 "../../../../../PlayModeController.ump"
+        // line 76 "../../../../../PlayModeController.ump"
           displayCard();
           setMode(Mode.RemoveConnection);
           wasEventProcessed = true;
@@ -200,7 +232,7 @@ public class PlayModeController
         if (isCurrentCardTeleport())
         {
           exitMode();
-        // line 72 "../../../../../PlayModeController.ump"
+        // line 78 "../../../../../PlayModeController.ump"
           displayCard();
       doTeleport();
           setMode(Mode.Move);
@@ -210,7 +242,7 @@ public class PlayModeController
         if (isCurrentCardLoseTurn())
         {
           exitMode();
-        // line 78 "../../../../../PlayModeController.ump"
+        // line 84 "../../../../../PlayModeController.ump"
           displayCard();
       doLoseTurn();
           setMode(Mode.RollDie);
@@ -234,7 +266,7 @@ public class PlayModeController
     {
       case AddConnection:
         exitMode();
-        // line 91 "../../../../../PlayModeController.ump"
+        // line 97 "../../../../../PlayModeController.ump"
         doAddConnection(tile1, tile2);
         setMode(Mode.RollDie);
         wasEventProcessed = true;
@@ -255,7 +287,7 @@ public class PlayModeController
     {
       case RemoveConnection:
         exitMode();
-        // line 104 "../../../../../PlayModeController.ump"
+        // line 110 "../../../../../PlayModeController.ump"
         doRemoveConnection(tile1, tile2);
         setMode(Mode.RollDie);
         wasEventProcessed = true;
@@ -272,23 +304,23 @@ public class PlayModeController
     switch(mode)
     {
       case RollDie:
-        // line 27 "../../../../../PlayModeController.ump"
+        // line 33 "../../../../../PlayModeController.ump"
         enableRollDieButton(false);
         break;
       case Move:
-        // line 55 "../../../../../PlayModeController.ump"
+        // line 61 "../../../../../PlayModeController.ump"
         TileOApplication.getGamePage().enableSkipTurnButton(false);
         break;
       case Action:
-        // line 64 "../../../../../PlayModeController.ump"
+        // line 70 "../../../../../PlayModeController.ump"
         enableGetActionCardButton(false);
         break;
       case AddConnection:
-        // line 88 "../../../../../PlayModeController.ump"
+        // line 94 "../../../../../PlayModeController.ump"
         TileOApplication.getBoard().setMode(BoardPanel.Mode.GAME);
         break;
       case RemoveConnection:
-        // line 101 "../../../../../PlayModeController.ump"
+        // line 107 "../../../../../PlayModeController.ump"
         TileOApplication.getBoard().setMode(BoardPanel.Mode.GAME);
         break;
     }
@@ -302,23 +334,23 @@ public class PlayModeController
     switch(mode)
     {
       case RollDie:
-        // line 26 "../../../../../PlayModeController.ump"
+        // line 32 "../../../../../PlayModeController.ump"
         enableRollDieButton(true);
         break;
       case GameOver:
-        // line 59 "../../../../../PlayModeController.ump"
+        // line 65 "../../../../../PlayModeController.ump"
         endGame();
         break;
       case Action:
-        // line 63 "../../../../../PlayModeController.ump"
+        // line 69 "../../../../../PlayModeController.ump"
         enableGetActionCardButton(true);
         break;
       case AddConnection:
-        // line 85 "../../../../../PlayModeController.ump"
+        // line 91 "../../../../../PlayModeController.ump"
         TileOApplication.getBoard().setMode(BoardPanel.Mode.ADD_CONNECTION_ACTION_CARD);
         break;
       case RemoveConnection:
-        // line 98 "../../../../../PlayModeController.ump"
+        // line 104 "../../../../../PlayModeController.ump"
         TileOApplication.getBoard().setMode(BoardPanel.Mode.REMOVE_CONNECTION_ACTION_CARD);
         break;
     }
@@ -339,7 +371,7 @@ public class PlayModeController
    * line 123 "../../../../../PlayModeController.ump"
    * line 128 "../../../../../PlayModeController.ump"
    */
-  // line 127 "../../../../../PlayModeController.ump"
+  // line 133 "../../../../../PlayModeController.ump"
    public boolean isNormalTile(Tile aTile){
     if(aTile instanceof NormalTile){
       return true;
@@ -348,13 +380,32 @@ public class PlayModeController
     return false;
   }
 
+  // line 141 "../../../../../PlayModeController.ump"
+   public boolean isGameInNormalMode(){
+    Game g = TileOApplication.getCurrentGame();
+		if(g.getMode() == Game.Mode.GAME){
+			return true;
+		}
+		return false;
+  }
+
+  // line 149 "../../../../../PlayModeController.ump"
+   public boolean isGameInActionMode(){
+    Game g = TileOApplication.getCurrentGame();
+		boolean condition = g.getMode() == Game.Mode.GAME_ROLLDIEACTIONCARD && g.getMode() == Game.Mode.GAME_CONNECTTILESACTIONCARD && g.getMode() == Game.Mode.GAME_REMOVECONNECTIONACTIONCARD && g.getMode() == Game.Mode.GAME_TELEPORTACTIONCARD && g.getMode() == Game.Mode.GAME_LOSETURNACTIONCARD;
+		if(condition){
+			return true;
+		}
+		return false;
+  }
+
 
   /**
    * 
    * line 132 "../../../../../PlayModeController.ump"
    * line 137 "../../../../../PlayModeController.ump"
    */
-  // line 140 "../../../../../PlayModeController.ump"
+  // line 162 "../../../../../PlayModeController.ump"
    public boolean isActiveActionTile(Tile aTile){
     if(aTile instanceof ActionTile){
     	ActionTile at = (ActionTile) aTile;
@@ -366,7 +417,7 @@ public class PlayModeController
     return false;
   }
 
-  // line 151 "../../../../../PlayModeController.ump"
+  // line 173 "../../../../../PlayModeController.ump"
    public boolean isInactiveActionTile(Tile aTile){
     return !isActiveActionTile(aTile);
   }
@@ -377,7 +428,7 @@ public class PlayModeController
    * line 141 "../../../../../PlayModeController.ump"
    * line 146 "../../../../../PlayModeController.ump"
    */
-  // line 160 "../../../../../PlayModeController.ump"
+  // line 182 "../../../../../PlayModeController.ump"
    public boolean isWinTile(Tile aTile){
     if(aTile instanceof WinTile){
       return true;
@@ -392,7 +443,7 @@ public class PlayModeController
    * line 149 "../../../../../PlayModeController.ump"
    * line 155 "../../../../../PlayModeController.ump"
    */
-  // line 173 "../../../../../PlayModeController.ump"
+  // line 195 "../../../../../PlayModeController.ump"
    public boolean isCurrentCardRollDie(){
     if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof RollDieActionCard){
       return true;
@@ -406,7 +457,7 @@ public class PlayModeController
    * line 156 "../../../../../PlayModeController.ump"
    * line 163 "../../../../../PlayModeController.ump"
    */
-  // line 185 "../../../../../PlayModeController.ump"
+  // line 207 "../../../../../PlayModeController.ump"
    public boolean isCurrentCardAddConnection(){
     if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ConnectTilesActionCard){
       return true;
@@ -420,7 +471,7 @@ public class PlayModeController
    * line 163 "../../../../../PlayModeController.ump"
    * line 171 "../../../../../PlayModeController.ump"
    */
-  // line 197 "../../../../../PlayModeController.ump"
+  // line 219 "../../../../../PlayModeController.ump"
    public boolean isCurrentCardRemoveConnection(){
     if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof RemoveConnectionActionCard){
       return true;
@@ -434,7 +485,7 @@ public class PlayModeController
    * line 170 "../../../../../PlayModeController.ump"
    * line 179 "../../../../../PlayModeController.ump"
    */
-  // line 209 "../../../../../PlayModeController.ump"
+  // line 231 "../../../../../PlayModeController.ump"
    public boolean isCurrentCardTeleport(){
     if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof TeleportActionCard){
       return true;
@@ -448,7 +499,7 @@ public class PlayModeController
    * line 177 "../../../../../PlayModeController.ump"
    * line 187 "../../../../../PlayModeController.ump"
    */
-  // line 221 "../../../../../PlayModeController.ump"
+  // line 243 "../../../../../PlayModeController.ump"
    public boolean isCurrentCardLoseTurn(){
     if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof LoseTurnActionCard){
       return true;
@@ -462,7 +513,7 @@ public class PlayModeController
    * line 184 "../../../../../PlayModeController.ump"
    * line 195 "../../../../../PlayModeController.ump"
    */
-  // line 233 "../../../../../PlayModeController.ump"
+  // line 255 "../../../../../PlayModeController.ump"
    public ActionCard pickActionCard(Game game){
     game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
@@ -523,7 +574,7 @@ public class PlayModeController
    * line 239 "../../../../../PlayModeController.ump"
    * line 252 "../../../../../PlayModeController.ump"
    */
-  // line 292 "../../../../../PlayModeController.ump"
+  // line 314 "../../../../../PlayModeController.ump"
    public List<Tile> playRollDieActionCard() throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
@@ -556,7 +607,7 @@ public class PlayModeController
    * line 264 "../../../../../PlayModeController.ump"
    * line 281 "../../../../../PlayModeController.ump"
    */
-  // line 323 "../../../../../PlayModeController.ump"
+  // line 345 "../../../../../PlayModeController.ump"
    public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 
@@ -604,7 +655,7 @@ public class PlayModeController
    * line 304 "../../../../../PlayModeController.ump"
    * line 325 "../../../../../PlayModeController.ump"
    */
-  // line 369 "../../../../../PlayModeController.ump"
+  // line 391 "../../../../../PlayModeController.ump"
    public void playRemoveConnectionActionCard(Connection aConnection) throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 
@@ -640,7 +691,7 @@ public class PlayModeController
    * line 332 "../../../../../PlayModeController.ump"
    * line 357 "../../../../../PlayModeController.ump"
    */
-  // line 403 "../../../../../PlayModeController.ump"
+  // line 425 "../../../../../PlayModeController.ump"
    public void playTeleportActionCard() throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
     Tile tile = game.getCurrentPlayer().getCurrentTile();
@@ -668,7 +719,7 @@ public class PlayModeController
 		//TileOApplication.save();
   }
 
-  // line 429 "../../../../../PlayModeController.ump"
+  // line 451 "../../../../../PlayModeController.ump"
    public void playLoseTurnActionCard() throws InvalidInputException{
     Game game = TileOApplication.getCurrentGame();
 
@@ -721,7 +772,7 @@ public class PlayModeController
    * line 384 "../../../../../PlayModeController.ump"
    * line 412 "../../../../../PlayModeController.ump"
    */
-  // line 480 "../../../../../PlayModeController.ump"
+  // line 502 "../../../../../PlayModeController.ump"
    public void setNextPlayer(){
     Game currentGame = TileOApplication.getCurrentGame();
     Player currentPlayer = currentGame.getCurrentPlayer();
@@ -744,7 +795,7 @@ public class PlayModeController
     }
     TileOApplication.getGamePage().setCurrentPlayerLabel(num);
     
-    //Advance the turn for action tiles
+   
     for(Tile t: TileOApplication.getCurrentGame().getTiles()){
     	if(t instanceof ActionTile){
     		((ActionTile) t).takeTurn();
@@ -774,7 +825,7 @@ public class PlayModeController
    * line 413 "../../../../../PlayModeController.ump"
    * line 448 "../../../../../PlayModeController.ump"
    */
-  // line 524 "../../../../../PlayModeController.ump"
+  // line 553 "../../../../../PlayModeController.ump"
    public boolean areAdjacent(Tile tile1, Tile tile2){
     int xOne = tile1.getX();
 		int xTwo = tile1.getX();
@@ -808,7 +859,7 @@ public class PlayModeController
    * line 441 "../../../../../PlayModeController.ump"
    * line 478 "../../../../../PlayModeController.ump"
    */
-  // line 556 "../../../../../PlayModeController.ump"
+  // line 585 "../../../../../PlayModeController.ump"
    public void advanceCurrentCard(Deck deck){
     ActionCard card = deck.getCurrentCard();
 		int index = deck.indexOfCard(card);
@@ -835,7 +886,7 @@ public class PlayModeController
    * line 462 "../../../../../PlayModeController.ump"
    * line 501 "../../../../../PlayModeController.ump"
    */
-  // line 581 "../../../../../PlayModeController.ump"
+  // line 610 "../../../../../PlayModeController.ump"
    public void doRollDie(){
     Game game = TileOApplication.getCurrentGame();
 	   List<Tile> tiles = game.rollDie();
@@ -860,7 +911,7 @@ public class PlayModeController
   /**
    * line 522 "../../../../../PlayModeController.ump"
    */
-  // line 602 "../../../../../PlayModeController.ump"
+  // line 631 "../../../../../PlayModeController.ump"
    public void doTeleport(){
     GamePage gamePage = TileOApplication.getGamePage();
     	boolean isValid = true;
@@ -878,7 +929,7 @@ public class PlayModeController
     	}
   }
 
-  // line 618 "../../../../../PlayModeController.ump"
+  // line 647 "../../../../../PlayModeController.ump"
    public void doLoseTurn(){
     try{
         playLoseTurnActionCard();
@@ -897,7 +948,7 @@ public class PlayModeController
    * line 489 "../../../../../PlayModeController.ump"
    * line 535 "../../../../../PlayModeController.ump"
    */
-  // line 635 "../../../../../PlayModeController.ump"
+  // line 664 "../../../../../PlayModeController.ump"
    public void doStartGame(){
     /* VARIABLES */
 	   	Game selectedGame=TileOApplication.getCurrentGame();
@@ -936,10 +987,8 @@ public class PlayModeController
 			return;
 		}
 
-		/* ACTION */
 		// Shuffle the deck
 		deck.shuffle();
-		
 
 		// Set all tiles in selectedGame to unvisited
 		for (Tile tile : tiles) {
@@ -970,6 +1019,7 @@ public class PlayModeController
 		
 		TileOApplication.changeGameMode();
   }
+   
 
 
   /**
@@ -981,7 +1031,7 @@ public class PlayModeController
    * line 566 "../../../../../PlayModeController.ump"
    * line 614 "../../../../../PlayModeController.ump"
    */
-  // line 716 "../../../../../PlayModeController.ump"
+  // line 745 "../../../../../PlayModeController.ump"
    public void doLand(Tile tile){
     tile.land();
 			
@@ -1006,7 +1056,7 @@ public class PlayModeController
    * line 580 "../../../../../PlayModeController.ump"
    * line 633 "../../../../../PlayModeController.ump"
    */
-  // line 739 "../../../../../PlayModeController.ump"
+  // line 768 "../../../../../PlayModeController.ump"
    public void doAddConnection(Tile tile1, Tile tile2){
     boolean isValid;
 	  try{
@@ -1032,7 +1082,7 @@ public class PlayModeController
    * line 599 "../../../../../PlayModeController.ump"
    * line 653 "../../../../../PlayModeController.ump"
    */
-  // line 763 "../../../../../PlayModeController.ump"
+  // line 792 "../../../../../PlayModeController.ump"
    public void displayCard(){
     //Display the current Action 
 	  ActionCard c = TileOApplication.getCurrentGame().getDeck().getCurrentCard();
@@ -1045,7 +1095,7 @@ public class PlayModeController
    * line 608 "../../../../../PlayModeController.ump"
    * line 660 "../../../../../PlayModeController.ump"
    */
-  // line 774 "../../../../../PlayModeController.ump"
+  // line 803 "../../../../../PlayModeController.ump"
    public void doRemoveConnection(Tile tile1, Tile tile2){
     ArrayList<Connection> connections = new ArrayList<Connection>(TileOApplication.getCurrentGame().getConnections());
 	   Connection current = null;
@@ -1078,7 +1128,7 @@ public class PlayModeController
    * line 611 "../../../../../PlayModeController.ump"
    * line 687 "../../../../../PlayModeController.ump"
    */
-  // line 805 "../../../../../PlayModeController.ump"
+  // line 834 "../../../../../PlayModeController.ump"
    public void enableRollDieButton(boolean flag){
     TileOApplication.enableRollDieButton(flag);
   }
@@ -1089,7 +1139,7 @@ public class PlayModeController
    * line 616 "../../../../../PlayModeController.ump"
    * line 692 "../../../../../PlayModeController.ump"
    */
-  // line 814 "../../../../../PlayModeController.ump"
+  // line 843 "../../../../../PlayModeController.ump"
    public void endGame(){
     showMessage("You found the hidden tile and won the game!");
   }
@@ -1100,7 +1150,7 @@ public class PlayModeController
    * line 619 "../../../../../PlayModeController.ump"
    * line 697 "../../../../../PlayModeController.ump"
    */
-  // line 823 "../../../../../PlayModeController.ump"
+  // line 852 "../../../../../PlayModeController.ump"
    public void showMessage(String s){
     JOptionPane.showMessageDialog(null, s);
   }
@@ -1111,7 +1161,7 @@ public class PlayModeController
    * line 623 "../../../../../PlayModeController.ump"
    * line 702 "../../../../../PlayModeController.ump"
    */
-  // line 832 "../../../../../PlayModeController.ump"
+  // line 861 "../../../../../PlayModeController.ump"
    public void enableGetActionCardButton(boolean enable){
     TileOApplication.getGamePage().enableGetActionCardButton(enable);
   }
@@ -1124,7 +1174,7 @@ public class PlayModeController
    * line 628 "../../../../../PlayModeController.ump"
    * line 711 "../../../../../PlayModeController.ump"
    */
-  // line 843 "../../../../../PlayModeController.ump"
+  // line 872 "../../../../../PlayModeController.ump"
    public void save(){
     TileOApplication.save();
   }

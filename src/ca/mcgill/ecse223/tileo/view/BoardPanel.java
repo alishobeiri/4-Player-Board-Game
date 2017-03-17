@@ -168,7 +168,6 @@ public class BoardPanel extends JPanel {
 	}
 	// Constructor
 	public BoardPanel(Game.Mode m){
-		//TESTING TODO: REMOVE
 		game.setMode(m);
 		initComponents();
 		this.mode=BoardPanel.Mode.GAME;
@@ -603,13 +602,10 @@ public class BoardPanel extends JPanel {
 					playerIndex = 4;
 				}	
 				
-				//System.out.println("PlayerIndex: " + playerIndex);
 				Tile t=toc.assignStartingTile(rect.coordX, rect.coordY, playerIndex);
-				System.out.println("Added player");
 				new DesignModeController().save();
 				repaint();
 			} catch (Exception e) {
-				System.out.println("Player exists");
 				e.printStackTrace();
 			}
 		}else{

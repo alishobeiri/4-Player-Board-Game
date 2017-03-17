@@ -45,11 +45,6 @@ public class GamePage extends JFrame {
 		//Set controller
 		pmc = aController;
 		
-		int player=game.getCurrentPlayer().getNumber();
-		if(player%4==0){
-			player=4;
-		}
-		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber()%4 + "'s turn");
 		game.setMode(Game.Mode.GAME);
 		board=oldBoard;
 		board.setMode(BoardPanel.Mode.GAME);
@@ -67,11 +62,13 @@ public class GamePage extends JFrame {
 		game = TileOApplication.getCurrentGame();
 		
 		//Set controller
-		//TODO: Set initial mode correctly
 		pmc = new PlayModeController();
+		TileOApplication.setPlayModeController(pmc);
+		pmc.reStartGame();
 		
 		board = new BoardPanel(game.getMode());
 		board.resetTileColor();
+		TileOApplication.setBoard(board);
 		initComponents();
 	}
 
@@ -79,6 +76,13 @@ public class GamePage extends JFrame {
 		setSize(885, 682);
 		setResizable(false);
 		addWindowListener(new CloseListener());
+		
+		//Initialize the current player label
+		int player=game.getCurrentPlayer().getNumber();
+		if(player%4==0){
+			player=4;
+		}
+		currentPlayer.setText("Player " + game.getCurrentPlayer().getNumber()%4 + "'s turn");
 		
 		board.resetTileColor();
 
