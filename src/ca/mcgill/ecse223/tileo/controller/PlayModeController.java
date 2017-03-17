@@ -956,6 +956,7 @@ public class PlayModeController
 				TileOApplication.save();
 			} else {
 				showMessage("The starting position is not set for a player");
+				return;
 			}
 		}
 
