@@ -306,6 +306,10 @@ public class BoardPanel extends JPanel {
 				if(tile1.equals(tile2)){
 					throw new InvalidInputException("They are the same tile");
 				}
+				else if(!dmc.checkAdjacentTiles(tile1, tile2))
+				{
+					throw new InvalidInputException("The tiles are not adjacent!");
+				}
 			c = dmc.connectTiles(tile1, tile2);
 			}
 			catch(InvalidInputException e){

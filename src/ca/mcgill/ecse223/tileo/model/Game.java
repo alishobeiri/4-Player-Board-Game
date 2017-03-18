@@ -613,6 +613,7 @@ public class Game implements Serializable
 
 	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
 	{
+		Connection connector = new Connection(this);
 		if(!(getTiles().contains(tileOne)) || !(getTiles().contains(tileTwo)))
 		{
 			throw new InvalidInputException("There is no tile in that space.");
@@ -621,11 +622,10 @@ public class Game implements Serializable
 		{
 			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
 		}
-		
-		Connection connector = new Connection(this);
+		if(checkAdjacentTiles(tileOne,tileTwo)){
 		connector.addTile(tileOne);
 		connector.addTile(tileTwo);
-		
+		}
 		return connector;
 	}
 	
@@ -633,25 +633,39 @@ public class Game implements Serializable
 	public boolean checkAdjacentTiles(Tile tile1, Tile tile2)
 	{
 		int xOne = tile1.getX();
-		int xTwo = tile1.getX();
+		int xTwo = tile2.getX();
 		int yOne = tile1.getY();
-		int yTwo = tile1.getY();
-		boolean adjacent = true;
-		if(Math.abs(xOne - xTwo) > 1)
+		int yTwo = tile2.getY();
+		boolean adjacent = false;
+		if((Math.abs(xOne - xTwo) == 1) && (yOne == yTwo));
 		{
-			adjacent = false;
+			adjacent = true;
 		}
-		if(Math.abs(yOne - yTwo) > 1)
+		if((Math.abs(yOne - yTwo) == 1) && (xOne == xTwo));
 		{
-			adjacent = false;
+			adjacent = true;
 		}
-		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
-		{
-			adjacent = false;
-		}
-		
-
 		return adjacent;
+//		int xOne = tile1.getX();
+//		int xTwo = tile1.getX();
+//		int yOne = tile1.getY();
+//		int yTwo = tile1.getY();
+//		boolean adjacent = true;
+//		if(Math.abs(xOne - xTwo) > 1)
+//		{
+//			adjacent = false;
+//		}
+//		if(Math.abs(yOne - yTwo) > 1)
+//		{
+//			adjacent = false;
+//		}
+//		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
+//		{
+//			adjacent = false;
+//		}
+//		
+//
+//		return adjacent;
 	}
 	
 	public Connection deleteConnection(Connection connector)
