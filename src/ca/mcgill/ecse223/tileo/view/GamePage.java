@@ -77,6 +77,10 @@ public class GamePage extends JFrame {
 		setResizable(false);
 		addWindowListener(new CloseListener());
 		
+		//Set initial location
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		
 		//Initialize the current player label
 		int player=game.getCurrentPlayer().getNumber();
 		if(player%4==0){

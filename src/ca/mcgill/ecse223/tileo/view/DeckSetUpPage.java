@@ -8,10 +8,11 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 
+
 public class DeckSetUpPage extends JFrame{
 	
 	//Value Fields
-	private int[] values = new int[5];
+	private int[] values = new int[6];
 	boolean done;
 	DesignPage designPage;
 	
@@ -21,12 +22,14 @@ public class DeckSetUpPage extends JFrame{
 	JLabel removeConnectionCard = new JLabel("Remove Connection Action Card");
 	JLabel teleportCard = new JLabel("Teleport Action Card");
 	JLabel loseTurnCard = new JLabel("Lose Turn Action Card");
+	JLabel chooseMoveCard = new JLabel("Choose Additional Move Action Card");
 	Integer[] nums = new Integer[33];
 	JComboBox rollDieNum;
 	JComboBox connectTilesNum;
 	JComboBox removeConnectionNum;
 	JComboBox teleportNum;
 	JComboBox loseTurnNum;
+	JComboBox chooseMoveNum;
 	JLabel title = new JLabel("Deck Settings");
 	JLabel description1 = new JLabel("  Select the number of Action Cards of each kind you want to have");
 	JLabel description2 = new JLabel("  in the deck. There must be exactly 32 cards in the deck.");
@@ -41,8 +44,12 @@ public class DeckSetUpPage extends JFrame{
 	
 	public void initComponents(){
 		//Frame settings
-		setSize(625, 400);
+		setSize(625, 410);
 		setResizable(false);
+		
+		//Set initial location
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		for(int i = 0; i <= 32; i++){
 			nums[i] = i;
@@ -62,6 +69,7 @@ public class DeckSetUpPage extends JFrame{
 		removeConnectionCard.setFont(labelFont);
 		teleportCard.setFont(labelFont);
 		loseTurnCard.setFont(labelFont);
+		chooseMoveCard.setFont(labelFont);
 		
 		//Initialize combo boxes
 		rollDieNum = new JComboBox(nums);
@@ -69,6 +77,7 @@ public class DeckSetUpPage extends JFrame{
 		removeConnectionNum = new JComboBox(nums);
 		teleportNum = new JComboBox(nums);
 		loseTurnNum = new JComboBox(nums);
+		chooseMoveNum = new JComboBox(nums);
 		
 		//Panel layout
 		GroupLayout panelLayout = new GroupLayout(panel);
@@ -97,7 +106,11 @@ public class DeckSetUpPage extends JFrame{
 				.addGroup(panelLayout.createSequentialGroup()
 						.addGap(15, 15, 15)
 						.addComponent(loseTurnCard, 490, 490, 490)
-						.addComponent(loseTurnNum, 70, 70, 70)));
+						.addComponent(loseTurnNum, 70, 70, 70))
+				.addGroup(panelLayout.createSequentialGroup()
+						.addGap(15, 15, 15)
+						.addComponent(chooseMoveCard, 490, 490, 490)
+						.addComponent(chooseMoveNum, 70, 70, 70)));
 		
 		panelLayout.setVerticalGroup(panelLayout.createSequentialGroup()
 				.addGap(15, 15, 15)
@@ -115,7 +128,10 @@ public class DeckSetUpPage extends JFrame{
 						.addComponent(teleportNum))
 				.addGroup(panelLayout.createParallelGroup()
 						.addComponent(loseTurnCard)
-						.addComponent(loseTurnNum)));
+						.addComponent(loseTurnNum))
+				.addGroup(panelLayout.createParallelGroup()
+						.addComponent(chooseMoveCard)
+						.addComponent(chooseMoveNum)));
 		
 		//Change layout to group layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -147,7 +163,7 @@ public class DeckSetUpPage extends JFrame{
 						.addComponent(description2)
 						.addGap(15, 15, 15)
 				)
-				.addComponent(panel, 200, 200, 200)
+				.addComponent(panel, 220, 220, 220)
 				.addGroup(layout.createParallelGroup()
 						.addComponent(save)
 						.addComponent(cancel)));
@@ -163,7 +179,7 @@ public class DeckSetUpPage extends JFrame{
 		
 		public void doDrawing(Graphics g){
 			Graphics2D g2d = (Graphics2D) g;
-			RoundRectangle2D rect = new RoundRectangle2D.Float(5, 5, 580, 190, 10, 10);
+			RoundRectangle2D rect = new RoundRectangle2D.Float(5, 5, 580, 210, 10, 10);
 			g2d.setColor(new Color(226, 226, 226));
 			g2d.fill(rect);
 			g2d.setColor(new Color(210, 210, 210));
@@ -182,6 +198,8 @@ public class DeckSetUpPage extends JFrame{
 			removeConnectionNum.setSelectedItem(values[2]);
 			teleportNum.setSelectedItem(values[3]);
 			loseTurnNum.setSelectedItem(values[4]);
+			chooseMoveNum.setSelectedItem(values[5]);
+			
 			dispose();
 		}
 	}
@@ -193,6 +211,7 @@ public class DeckSetUpPage extends JFrame{
 			values[2] = (int) removeConnectionNum.getSelectedItem();
 			values[3] = (int) teleportNum.getSelectedItem();
 			values[4] = (int) loseTurnNum.getSelectedItem();
+			values[5] = (int) chooseMoveNum.getSelectedItem();
 			
 			try {
 				designPage.setCardNumbers(values);

@@ -9,7 +9,10 @@ import ca.mcgill.ecse223.tileo.controller.PlayModeController;
 import ca.mcgill.ecse223.tileo.model.*;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.Mode;
 import ca.mcgill.ecse223.tileo.view.BoardPanel.TileType;
+
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.*;
 
 public class DesignPage extends JFrame {
@@ -78,6 +81,10 @@ public class DesignPage extends JFrame {
 		setSize(885, 682);
 		setResizable(false);
 		addWindowListener(new CloseListener());
+		
+		//Set initial location
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		mode.setFont(new Font("San Francisco", Font.PLAIN, 20));
 		currentMode.setFont(new Font("San Francisco", Font.BOLD, 20));
@@ -211,6 +218,7 @@ public class DesignPage extends JFrame {
 		removeConnectionCards = values[2];
 		teleportCards = values[3];
 		loseTurnCards = values[4];
+		//TODO: Add 6th argument for the new action card.
 		toc.buildDeck(values[0], values[1], values[2], values[3], values[4]);
 	}
 	

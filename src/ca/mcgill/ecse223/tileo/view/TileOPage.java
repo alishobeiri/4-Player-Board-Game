@@ -1,6 +1,8 @@
 package ca.mcgill.ecse223.tileo.view;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.DesignModeController;
@@ -47,6 +49,10 @@ public class TileOPage extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(400, 270);
 		setResizable(false);
+		
+		//Set initial location
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		title.setFont(new Font("Futura", Font.BOLD, 38));
 		description.setFont(new Font("San Francisco", Font.PLAIN, 18));

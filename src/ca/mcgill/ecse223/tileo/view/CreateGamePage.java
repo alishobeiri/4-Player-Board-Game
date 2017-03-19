@@ -11,11 +11,6 @@ import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.model.TileO;
 
 public class CreateGamePage extends JFrame {
-	
-	//Testing
-	/*public static void main(String[] args){
-		new CreateGamePage().setVisible(true);
-	}*/
 
 	//Components
 	JButton create = new JButton("Create Game");
@@ -34,6 +29,10 @@ public class CreateGamePage extends JFrame {
 		setTitle("New Game");
 		setSize(300, 165);
 		setResizable(false);
+		
+		//Set initial location
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		
 		//Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());

@@ -57,6 +57,10 @@ public class BoardPanel extends JPanel {
 	
 	public void initComponents(){
 		
+		//Set initial location
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		
 		//Initialize the rectangles list to cover the whole board
 		for(int i = 0; i < HORIZONTAL_RECTANGLES; i++){
 			for(int j = 0; j < VERTICAL_RECTANGLES; j++){
