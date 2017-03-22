@@ -1,6 +1,9 @@
 package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
+
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -63,6 +66,8 @@ public class ChooseMovePopUp extends JFrame {
 	
 	class OKListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+			//Need to incorporate OK button into action card
+			//Logic
 			dispose();
 			//System.exit(0);
 		}
