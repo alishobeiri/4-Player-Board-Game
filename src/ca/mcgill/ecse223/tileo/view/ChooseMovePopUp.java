@@ -10,9 +10,11 @@ public class ChooseMovePopUp extends JFrame {
 	JButton OK = new JButton("OK");
 	JLabel label = new JLabel("Choose the number of tiles that you want to move:");
 	JComboBox num;
+	GamePage gamePage;
 	
-	public ChooseMovePopUp(){
+	public ChooseMovePopUp(GamePage gPage){
 		initComponents();
+		gamePage= gPage;
 	}
 	
 	public void initComponents(){
