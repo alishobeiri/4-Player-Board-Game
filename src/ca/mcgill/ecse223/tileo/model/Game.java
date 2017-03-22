@@ -31,7 +31,7 @@ public class Game implements Serializable
   private int currentConnectionPieces;
 
   //Game State Machines
-  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
+  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD, GAME_CHOOSEMOVEACTIONCARD }
   private Mode mode;
 
   //Game Associations
@@ -599,6 +599,23 @@ public class Game implements Serializable
 
 		// roll the die
 		int dieValue = die.roll();
+		
+		// Get the current player
+		Player currentPlayer = this.getCurrentPlayer();
+		TileOApplication.refreshDie(dieValue);
+		//TODO Check getPossibleMoves is implemented
+		// Tiles is a list of possible moves the current player can make based
+		// on their die role
+		tiles = currentPlayer.generateMoves(dieValue);
+
+		return tiles;
+	}
+	
+	public List<Tile> rollDie(int dieValue) {
+		// List of tiles to return that represents possible moves
+		List<Tile> tiles = new ArrayList<Tile>();
+		// 'this' is the game
+		Die die = this.getDie();
 		
 		// Get the current player
 		Player currentPlayer = this.getCurrentPlayer();
