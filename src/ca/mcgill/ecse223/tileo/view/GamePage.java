@@ -31,7 +31,7 @@ public class GamePage extends JFrame {
 	TileOPage mainMenu;
 	boolean flag=false;
 	JButton skipTurn = new JButton("Skip Turn");
-	
+	ChooseMovePopUp chooseMove = new ChooseMovePopUp(this);
 	PlayModeController pmc;
 	
 	public void setCurrentPlayerLabel(int n){
@@ -325,6 +325,7 @@ public class GamePage extends JFrame {
 	}
 	
 	public void enableRollDieButton(boolean enabled){
+		chooseMove.setVisible(true);
 		rollDie.setEnabled(enabled);
 	}
 	

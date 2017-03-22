@@ -506,6 +506,13 @@ public class PlayModeController
     }
     return false;
   }
+   
+   public boolean isCurrentCardChooseMove(){
+	    if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ChooseMoveActionCard){
+	      return true;
+	    }
+	    return false;
+   }
 
 
   /**
@@ -742,6 +749,30 @@ public class PlayModeController
 
       game.setMode(Game.Mode.GAME);
   }
+   
+   public List<Tile> playChooseMoveActionCard(int dieValue) throws InvalidInputException{
+	    Game game = TileOApplication.getCurrentGame();
+			Deck deck = game.getDeck();
+			ActionCard card = deck.getCurrentCard();
+
+			// Check if the current card is a Choose Move Card
+			if (!(card instanceof ChooseMoveActionCard)) {
+				throw new InvalidInputException("The current card is not a Choose Move Action Card");
+			}
+
+			ChooseMoveActionCard chooseMoveActionCard = (ChooseMoveActionCard) card;
+
+			List<Tile> tiles = new ArrayList<Tile>();
+			tiles = chooseMoveActionCard.play(5);
+
+			advanceCurrentCard(deck);
+
+			game.setMode(Game.Mode.GAME);
+			
+			//TileOApplication.save();
+
+			return tiles;
+   }
 
 
 
@@ -975,6 +1006,7 @@ public class PlayModeController
 		/* VALIDATION */
 		// Check there are the right number of cards in the deck
 		if (deck.numberOfCards() != selectedGame.NumberOfActionCards) {
+			System.out.println(deck.numberOfCards());
 			showMessage("The deck has the wrong number of Action Cards");
 			return;
 		}

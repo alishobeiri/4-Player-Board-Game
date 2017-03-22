@@ -1,6 +1,9 @@
 package ca.mcgill.ecse223.tileo.view;
 
 import javax.swing.*;
+
+import ca.mcgill.ecse223.tileo.controller.PlayModeController;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -10,9 +13,11 @@ public class ChooseMovePopUp extends JFrame {
 	JButton OK = new JButton("OK");
 	JLabel label = new JLabel("Choose the number of tiles that you want to move:");
 	JComboBox num;
+	GamePage gamePage;
 	
-	public ChooseMovePopUp(){
+	public ChooseMovePopUp(GamePage gPage){
 		initComponents();
+		gamePage= gPage;
 	}
 	
 	public void initComponents(){
@@ -61,6 +66,8 @@ public class ChooseMovePopUp extends JFrame {
 	
 	class OKListener implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
+			//Need to incorporate OK button into action card
+			//Logic
 			dispose();
 			//System.exit(0);
 		}
