@@ -1006,6 +1006,7 @@ public class PlayModeController
 		/* VALIDATION */
 		// Check there are the right number of cards in the deck
 		if (deck.numberOfCards() != selectedGame.NumberOfActionCards) {
+			System.out.println(deck.numberOfCards());
 			showMessage("The deck has the wrong number of Action Cards");
 			return;
 		}

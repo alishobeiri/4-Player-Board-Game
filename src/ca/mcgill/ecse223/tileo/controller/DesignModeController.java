@@ -159,7 +159,7 @@ public class DesignModeController {
 		for (int i = 0; i < loseTurn; i++) {
 			new LoseTurnActionCard("You have lost your turn", deck);
 		}
-		for (int i = 0; i < loseTurn; i++) {
+		for (int i = 0; i < chooseTurn; i++) {
 			new ChooseMoveActionCard("Please choose your die roll", deck);
 		}
 	}
