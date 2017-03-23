@@ -2,6 +2,7 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -46,9 +47,9 @@ public class WinTile extends Tile implements Serializable {
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
 
-		//TODO CHECK THIS METHOD
+		// TODO CHECK THIS METHOD
 		currentPlayer.takeTurn();
-		
+
 		// Get increase the index of the current player by one
 		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
 		// Loop back if it is the last player
@@ -59,9 +60,10 @@ public class WinTile extends Tile implements Serializable {
 		currentGame.setCurrentPlayer(nextPlayer);
 
 		this.setHasBeenVisited(true);
-		
+
 		TileOApplication.getGamePage().refresh();
-		TileOApplication.getGamePage().showMessage("You have found the hidden tile and won the game, good job big boy!");
+		TileOApplication.getGamePage()
+				.showMessage("You have found the hidden tile and won the game, good job big boy!");
 		TileOApplication.getCurrentGame().setMode(Game.Mode.GAME_WON);
 		TileOApplication.deleteGame();
 

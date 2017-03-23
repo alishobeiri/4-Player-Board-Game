@@ -15,8 +15,8 @@ import javax.swing.*;
 import java.util.*;
 
 public class TileOPage extends JFrame {
-	
-	//Components
+
+	// Components
 	JLabel title = new JLabel("Tile-O");
 	JLabel description = new JLabel("Saved Games:");
 	JButton play = new JButton("Play");
@@ -27,16 +27,17 @@ public class TileOPage extends JFrame {
 	TileO tileO;
 	List<Game> tileOGames;
 	DefaultListModel model;
-	HashMap <String, Game> existingGames = new HashMap<String, Game>();
-	HashMap <Game, Boolean> savedGames = new HashMap<Game, Boolean>();
-	
-	//***TESTING***
-	/*public static void main(String[] args){
-		new TileOPage().setVisible(true);
-	}*/
-	
-	//Constructor
-	public TileOPage(TileO aTileO){
+	HashMap<String, Game> existingGames = new HashMap<String, Game>();
+	HashMap<Game, Boolean> savedGames = new HashMap<Game, Boolean>();
+
+	// ***TESTING***
+	/*
+	 * public static void main(String[] args){ new TileOPage().setVisible(true);
+	 * }
+	 */
+
+	// Constructor
+	public TileOPage(TileO aTileO) {
 		tileO = aTileO;
 		tileOGames = tileO.getGames();
 		model = new DefaultListModel();
@@ -44,129 +45,112 @@ public class TileOPage extends JFrame {
 		TileOApplication.setMainMenu(this);
 		initComponents();
 	}
-	
-	public void initComponents(){
+
+	public void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(400, 270);
 		setResizable(false);
-		
-		//Set initial location
+
+		// Set initial location
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-		
+		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+
 		title.setFont(new Font("Futura", Font.BOLD, 38));
 		description.setFont(new Font("San Francisco", Font.PLAIN, 18));
-		
+
 		scroll = new JScrollPane(games);
-		
-		for(int i = 0; i < tileOGames.size(); i++){
+
+		for (int i = 0; i < tileOGames.size(); i++) {
 			Game current = tileOGames.get(i);
-			int index = i+1;
+			int index = i + 1;
 			String currentMode;
-			if(current.getMode() == Game.Mode.DESIGN){
+			if (current.getMode() == Game.Mode.DESIGN) {
 				currentMode = "DESIGN MODE";
-			}
-			else if(current.getMode() == Game.Mode.GAME_WON){
+			} else if (current.getMode() == Game.Mode.GAME_WON) {
 				currentMode = "GAME OVER";
-			}
-			else{
+			} else {
 				currentMode = "GAME MODE";
 			}
 			existingGames.put("Game " + index + " - " + currentMode, current);
 			savedGames.put(current, true);
 		}
-		
-		for(String s: existingGames.keySet()){
+
+		for (String s : existingGames.keySet()) {
 			model.addElement(s);
 		}
-		
+
 		games.setFont(new Font("San Francisco", Font.PLAIN, 15));
-		
-		//Change layout manager
+
+		// Change layout manager
 		GroupLayout layout = new GroupLayout(getContentPane());
 		setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
-		
-		//Action Listener
+
+		// Action Listener
 		create.addActionListener(new CreateListener());
-		
+
 		play.addActionListener(new PlayListener());
-		
-		//Component positioning
+
+		// Component positioning
 		layout.setHorizontalGroup(layout.createParallelGroup()
-				.addGroup(layout.createSequentialGroup()
-						.addGap(140, 140, 140)
-						.addComponent(title))
-				.addComponent(description)
-				.addComponent(scroll)
-				.addGroup(layout.createSequentialGroup()
-						.addGap(40, 40, 40)
-						.addComponent(play, 150, 150, 150)
-						.addComponent(create, 150, 150, 150)));
-		layout.setVerticalGroup(layout.createSequentialGroup()
-				.addComponent(title)
-				.addGap(20, 20, 20)
-				.addComponent(description)
-				.addComponent(scroll)
-				.addGap(10, 10, 10)
-				.addGroup(layout.createParallelGroup()
-						.addComponent(play)
-						.addComponent(create)));
+				.addGroup(layout.createSequentialGroup().addGap(140, 140, 140).addComponent(title))
+				.addComponent(description).addComponent(scroll).addGroup(layout.createSequentialGroup()
+						.addGap(40, 40, 40).addComponent(play, 150, 150, 150).addComponent(create, 150, 150, 150)));
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(title).addGap(20, 20, 20)
+				.addComponent(description).addComponent(scroll).addGap(10, 10, 10)
+				.addGroup(layout.createParallelGroup().addComponent(play).addComponent(create)));
 	}
-	
-	public TileOPage getPage(){
+
+	public TileOPage getPage() {
 		return this;
 	}
-	
-	public void refresh(){
+
+	public void refresh() {
 		tileO = TileOApplication.getTileO();
 		tileOGames = tileO.getGames();
 		model = new DefaultListModel();
-		for(int i = 0; i < tileOGames.size(); i++){
+		for (int i = 0; i < tileOGames.size(); i++) {
 			Game current = tileOGames.get(i);
-			int index = i+1;
+			int index = i + 1;
 			String currentMode;
-			if(current.getMode() == Game.Mode.DESIGN){
+			if (current.getMode() == Game.Mode.DESIGN) {
 				currentMode = "DESIGN MODE";
-			}
-			else if(current.getMode() == Game.Mode.GAME_WON){
+			} else if (current.getMode() == Game.Mode.GAME_WON) {
 				currentMode = "GAME OVER";
-			}
-			else{
+			} else {
 				currentMode = "GAME MODE";
 			}
 			existingGames.put("Game " + index + " - " + currentMode, current);
 		}
-		
-		for(String s: existingGames.keySet()){
+
+		for (String s : existingGames.keySet()) {
 			model.addElement(s);
 		}
-		
+
 		games.setModel(model);
 	}
-	
-	class CreateListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
+
+	class CreateListener implements ActionListener {
+		public void actionPerformed(ActionEvent ev) {
 			new CreateGamePage(getPage()).setVisible(true);
 		}
 	}
-	
-	class PlayListener implements ActionListener{
-		public void actionPerformed(ActionEvent ev){
+
+	class PlayListener implements ActionListener {
+		public void actionPerformed(ActionEvent ev) {
 			DesignModeController dmc = new DesignModeController();
 			Game g = null;
-			if(!games.isSelectionEmpty()){
+			if (!games.isSelectionEmpty()) {
 				String gameName = (String) games.getSelectedValue();
 				g = existingGames.get(gameName);
-				if(g != null){
-					if(g.getMode() == Mode.DESIGN){
+				if (g != null) {
+					if (g.getMode() == Mode.DESIGN) {
 						dmc.setTileOApplicationCurrentGame(g);
 						DesignPage designPage = new DesignPage(getPage());
 						designPage.setVisible(true);
 						TileOApplication.setDesignGame(designPage);
-					}
-					else{
+					} else {
 						dmc.setTileOApplicationCurrentGame(g);
 						GamePage gamePage = new GamePage(getPage());
 						gamePage.setVisible(true);
@@ -175,13 +159,11 @@ public class TileOPage extends JFrame {
 				}
 			}
 
-			else{
+			else {
 				System.out.println("You must select or create a game");
 			}
 
 		}
 	}
-	
-	
-	
+
 }

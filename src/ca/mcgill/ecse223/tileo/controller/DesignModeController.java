@@ -137,7 +137,8 @@ public class DesignModeController {
 		throw new InvalidInputException("The tile could not be found");
 	}
 
-	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn, int chooseTurn) throws InvalidInputException {
+	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn, int chooseTurn)
+			throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		deck.clearDeck();

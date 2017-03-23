@@ -2,6 +2,7 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -69,96 +70,89 @@ public class ActionTile extends Tile implements Serializable {
 		Player currentPlayer = currentGame.getCurrentPlayer();
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
-		
+
 		currentPlayer.takeTurn();
 
 		this.setHasBeenVisited(true);
-		
+
 		Deck deck = currentGame.getDeck();
 		ActionCard currentCard = deck.getCurrentCard();
-		
+
 		currentCard.changeGameModeToActionCard();
-		
+
 		deactivate();
 	}
-	
-	 //Test State Machines
-	  public enum Status { Active, Inactive }
-	  private Status status;
-	  
-	  //------------------------
-	  // INTERFACE
-	  //------------------------
 
-	  public String getStatusFullName()
-	  {
-	    String answer = status.toString();
-	    return answer;
-	  }
+	// Test State Machines
+	public enum Status {
+		Active, Inactive
+	}
 
-	  public Status getStatus()
-	  {
-	    return status;
-	  }
+	private Status status;
 
-	  public boolean deactivate()
-	  {
-	    boolean wasEventProcessed = false;
-	    
-	    Status aStatus = status;
-	    switch (aStatus)
-	    {
-	      case Active:
-	        if (getInactivityPeriod()>0)
-	        {
-	        // line 5 "ActionTile.ump"
-	          setTurnsUntilActive(getInactivityPeriod() + 1);
-	          setStatus(Status.Inactive);
-	          wasEventProcessed = true;
-	          break;
-	        }
-	        break;
-	      default:
-	        // Other states do respond to this event
-	    }
+	// ------------------------
+	// INTERFACE
+	// ------------------------
 
-	    return wasEventProcessed;
-	  }
+	public String getStatusFullName() {
+		String answer = status.toString();
+		return answer;
+	}
 
-	  public boolean takeTurn()
-	  {
-	    boolean wasEventProcessed = false;
-	    
-	    Status aStatus = status;
-	    switch (aStatus)
-	    {
-	      case Inactive:
-	        if (getTurnsUntilActive()>1)
-	        {
-	        // line 12 "ActionTile.ump"
-	          setTurnsUntilActive(getTurnsUntilActive() - 1);
-	          setStatus(Status.Inactive);
-	          wasEventProcessed = true;
-	          break;
-	        }
-	        if (getTurnsUntilActive()<=1)
-	        {
-	        // line 16 "ActionTile.ump"
-	          setTurnsUntilActive(0);
-	          setStatus(Status.Active);
-	          wasEventProcessed = true;
-	          break;
-	        }
-	        break;
-	      default:
-	        // Other states do respond to this event
-	    }
+	public Status getStatus() {
+		return status;
+	}
 
-	    return wasEventProcessed;
-	  }
+	public boolean deactivate() {
+		boolean wasEventProcessed = false;
 
-	  private void setStatus(Status aStatus)
-	  {
-	    status = aStatus;
-	  }
+		Status aStatus = status;
+		switch (aStatus) {
+		case Active:
+			if (getInactivityPeriod() > 0) {
+				// line 5 "ActionTile.ump"
+				setTurnsUntilActive(getInactivityPeriod() + 1);
+				setStatus(Status.Inactive);
+				wasEventProcessed = true;
+				break;
+			}
+			break;
+		default:
+			// Other states do respond to this event
+		}
+
+		return wasEventProcessed;
+	}
+
+	public boolean takeTurn() {
+		boolean wasEventProcessed = false;
+
+		Status aStatus = status;
+		switch (aStatus) {
+		case Inactive:
+			if (getTurnsUntilActive() > 1) {
+				// line 12 "ActionTile.ump"
+				setTurnsUntilActive(getTurnsUntilActive() - 1);
+				setStatus(Status.Inactive);
+				wasEventProcessed = true;
+				break;
+			}
+			if (getTurnsUntilActive() <= 1) {
+				// line 16 "ActionTile.ump"
+				setTurnsUntilActive(0);
+				setStatus(Status.Active);
+				wasEventProcessed = true;
+				break;
+			}
+			break;
+		default:
+			// Other states do respond to this event
+		}
+
+		return wasEventProcessed;
+	}
+
+	private void setStatus(Status aStatus) {
+		status = aStatus;
+	}
 }
