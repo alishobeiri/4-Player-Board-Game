@@ -169,9 +169,7 @@ class Tile {
   Boolean hasBeenVisited = false;
   
   public abstract void land();
-  
-  
-  
+
 }
 
 class ActionTile {
@@ -187,24 +185,17 @@ class ActionTile {
 		Player currentPlayer = currentGame.getCurrentPlayer();
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
-
-		// Get increase the index of the current player by one
-		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
-		// Loop back if it is the last player
-		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
-		// Get the next player
-		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
-		// Set the next player as the current player
-		currentGame.setCurrentPlayer(nextPlayer);
+		
+		currentPlayer.takeTurn();
 
 		this.setHasBeenVisited(true);
 		
 		Deck deck = currentGame.getDeck();
 		ActionCard currentCard = deck.getCurrentCard();
-		//TODO check that this method works
-		Mode mode = currentCard.getActionCardGameMode();
-
-		currentGame.setMode(mode);
+		
+		currentCard.changeGameModeToActionCard();
+		
+		deactivate();
 	}
   
 }
@@ -239,6 +230,7 @@ class NormalTile {
 class WinTile {
   isA Tile;
   
+	// TODO
 	public void land() {
 		// Get the game that this tile is a part of
 		Game currentGame = this.getGame();
@@ -247,6 +239,9 @@ class WinTile {
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
 
+		//TODO CHECK THIS METHOD
+		currentPlayer.takeTurn();
+		
 		// Get increase the index of the current player by one
 		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
 		// Loop back if it is the last player
@@ -258,8 +253,8 @@ class WinTile {
 
 		this.setHasBeenVisited(true);
 		
-		TileOApplication.getDesignPanel().refresh();
-		TileOApplication.getDesignPanel().showMessage("You have found the hidden tile and won the game, good job big boy!");
+		TileOApplication.getGamePage().refresh();
+		TileOApplication.getGamePage().showMessage("You have found the hidden tile and won the game, good job big boy!");
 		TileOApplication.getCurrentGame().setMode(Game.Mode.GAME_WON);
 		TileOApplication.deleteGame();
 
@@ -276,6 +271,21 @@ class Deck {
   1 -> 0..1 ActionCard currentCard;
   public void clearDeck(){
 	  cards.clear();
+  }
+  
+  public void shuffle() {
+	if(!hasCards()){
+		throw new RuntimeException("Unable to shuffle empty Deck");
+	}
+	//Random
+    Random rand = new Random();
+    
+    List<ActionCard> temp = cards;
+    Collections.shuffle(temp);
+    //shuffle the array list called 'cards'
+    Collections.shuffle(cards, rand);
+	//After shuffle set the current card to the first card in the stack
+	currentCard = getCard(0);
   }
 }
 
@@ -297,7 +307,13 @@ class RollDieActionCard {
 	  tiles = game.rollDie();
 	  
 	  return tiles;
-  	}
+   }
+   
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_ROLLDIEACTIONCARD);
+  }
 }
 
 class ConnectTilesActionCard {
@@ -308,7 +324,15 @@ class ConnectTilesActionCard {
 	  
 	  //TODO Check this method works
 	  game.connectTiles(tile1, tile2);
+	  game.setMode(Mode.GAME);
+	  System.out.println("Mode changed");
   	}
+  	
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_CONNECTTILESACTIONCARD);
+  }
 }
 
 class RemoveConnectionActionCard {
@@ -319,7 +343,14 @@ class RemoveConnectionActionCard {
 	  
 	  //TODO Check this method works
 	  game.removeConnection(aConnection);
+	  game.setMode(Mode.GAME);
   	}
+  	
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+  }
 }
 
 class TeleportActionCard {
@@ -329,24 +360,60 @@ class TeleportActionCard {
 	  	//TODO Check if methods work.
 	  	tile.land();
   	}
+  
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_TELEPORTACTIONCARD);
+  }
 }
 
 class ChooseMoveActionCard {
 	isA ActionCard;
-	  public List<Tile> play(){
+  public List<Tile> play(int n){
 	  List<Tile> tiles = new ArrayList<Tile>();
 	  Game game = this.getDeck().getGame();
+	  game.setMode(Game.Mode.GAME_CHOOSEMOVEACTIONCARD);
 	  
 	  //TODO Check this method works
 	  tiles = game.rollDie();
 	  
 	  return tiles;
-  	}
+  }
+  
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_ROLLDIEACTIONCARD);
+  }
 }
 
 class LoseTurnActionCard {
   isA ActionCard;
+  public void changeGameModeToActionCard(){
+	  Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_LOSETURNACTIONCARD);
+  }
+  
+  public void play(){
+	  Game game = this.getDeck().getGame();
+	  Player player = game.getCurrentPlayer();
+	  player.loseTurns(1);
+  }
 }
 
 class Die {
+	public int roll() {
+    // Thomas
+	// Return a random die roll, [1-6]
+		// Default value
+		int dieValue = 0;
+		Random rand = new Random();
+		// Get a random value between 1 and 6 inclusive
+		dieValue = rand.nextInt(6) + 1;
+		//
+		System.out.println("Roll value " + dieValue);
+		return dieValue;
+	}
 }

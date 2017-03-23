@@ -219,7 +219,7 @@ public void shuffle() {
 		throw new RuntimeException("Unable to shuffle empty Deck");
 	}
 	//Random index to swap cards to/from
-	int randIndex;
+//	int randIndex;
 	//Temporary deck
 //	List<ActionCard> temp;
 	//Temporary Card
@@ -228,16 +228,12 @@ public void shuffle() {
     Random rand = new Random();
     
     //Size of deck
-    int deckSize = numberOfCards();
+//    int deckSize = numberOfCards();
     List<ActionCard> temp = cards;
     Collections.shuffle(temp);
     //shuffle the array list called 'cards'
-   // System.out.println("Before shuffle: " + Arrays.toString(cards.toArray()));
-    //Fisher-Yates shuffle, assuming we can shuffle in place?
-    // theres another method that will shuffle into a temp
     Collections.shuffle(cards, rand);
     //Fisher-Yates in-place shuffle
-    //System.out.println("YEEEET After shuffle: " + Arrays.toString(cards.toArray()));
 	
 	//After shuffle set the current card to the first card in the stack
 	currentCard = getCard(0);
