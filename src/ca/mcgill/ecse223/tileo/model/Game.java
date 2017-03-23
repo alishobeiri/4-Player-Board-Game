@@ -663,26 +663,6 @@ public class Game implements Serializable
 			adjacent = true;
 		}
 		return adjacent;
-//		int xOne = tile1.getX();
-//		int xTwo = tile1.getX();
-//		int yOne = tile1.getY();
-//		int yTwo = tile1.getY();
-//		boolean adjacent = true;
-//		if(Math.abs(xOne - xTwo) > 1)
-//		{
-//			adjacent = false;
-//		}
-//		if(Math.abs(yOne - yTwo) > 1)
-//		{
-//			adjacent = false;
-//		}
-//		if(Math.abs(yOne - yTwo) == 1 && Math.abs(xOne - xTwo) == 1)
-//		{
-//			adjacent = false;
-//		}
-//		
-//
-//		return adjacent;
 	}
 	
 	public Connection deleteConnection(Connection connector)
