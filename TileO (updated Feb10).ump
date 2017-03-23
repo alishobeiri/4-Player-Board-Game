@@ -132,7 +132,8 @@ class Player {
         List<Tile> neighbours = origin.getNeighbours(null, number);
         return neighbours;
     }
-	
+	/**********************************************/
+	/**PRETTY SURE THIS METHOD SHOULDN'T BE HERE***/
   public List<Tile> getNeighbours(Tile prev, int number){
     List<Tile> neighbours = new ArrayList<>();
     List<Connection> connections = new ArrayList<>();
@@ -197,12 +198,19 @@ class ActionTile {
 		
 		deactivate();
 	}
+	
+	/**********************************************/
+	/**THOMAS THINKS DEACTIVATE() AND TAKETURN() **/
+	/**SHOULD BE ADDED HERE ***********************/
   
 }
 
 class NormalTile {
   isA Tile;
   
+    /**********************************************/
+    /**THIS METHOD DOES NOT MATCH THE ONE**********/
+    /**CURRENTLY IN THE JAVA CODE *****************/
   	public void land() {
 		// Get the game that this tile is a part of
 		Game currentGame = this.getGame();
@@ -224,6 +232,8 @@ class NormalTile {
 		
 		currentGame.setMode(Mode.GAME);
 	}
+	/**********************************************/
+    /**THOMAS THINKS LAND(RECT) SHOULD BE ADDEDTOO*/
   
 }
 
