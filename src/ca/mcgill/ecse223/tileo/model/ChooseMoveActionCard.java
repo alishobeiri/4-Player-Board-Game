@@ -35,7 +35,7 @@ public class ChooseMoveActionCard extends ActionCard implements Serializable
   public void changeGameModeToActionCard(){
 	  Deck deck = this.getDeck();
 	  Game game = deck.getGame();
-	  game.setMode(Mode.GAME_ROLLDIEACTIONCARD);
+	  game.setMode(Game.Mode.GAME_CHOOSEMOVEACTIONCARD);
   }
 
   public void delete()
@@ -50,7 +50,7 @@ public class ChooseMoveActionCard extends ActionCard implements Serializable
 	  game.setMode(Game.Mode.GAME_CHOOSEMOVEACTIONCARD);
 	  
 	  //TODO Check this method works
-	  tiles = game.rollDie();
+	  tiles = game.getCurrentPlayer().generateMoves(n);
 	  
 	  return tiles;
   }

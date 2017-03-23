@@ -249,6 +249,14 @@ public class PlayModeController
           wasEventProcessed = true;
           break;
         }
+        if (isCurrentCardChooseMove()){
+          exitMode();
+          displayCard();
+          doChooseMove();
+          setMode(Mode.Move);
+          wasEventProcessed = true;
+          break;
+        }
         break;
       default:
         // Other states do respond to this event
@@ -750,7 +758,7 @@ public class PlayModeController
       game.setMode(Game.Mode.GAME);
   }
    
-   public List<Tile> playChooseMoveActionCard(int dieValue) throws InvalidInputException{
+   public List<Tile> playChooseMoveActionCard(int n) throws InvalidInputException{
 	    Game game = TileOApplication.getCurrentGame();
 			Deck deck = game.getDeck();
 			ActionCard card = deck.getCurrentCard();
@@ -761,9 +769,8 @@ public class PlayModeController
 			}
 
 			ChooseMoveActionCard chooseMoveActionCard = (ChooseMoveActionCard) card;
-
-			List<Tile> tiles = new ArrayList<Tile>();
-			tiles = chooseMoveActionCard.play(5);
+      List<Tile> tiles = new ArrayList<>();
+			tiles = chooseMoveActionCard.play(n);
 
 			advanceCurrentCard(deck);
 
@@ -772,6 +779,20 @@ public class PlayModeController
 			//TileOApplication.save();
 
 			return tiles;
+   }
+   public void doChooseMove(){
+      GamePage gamePage = TileOApplication.getGamePage();
+      int num = gamePage.showChooseMovePopup();
+      try{
+        List<Tile> tiles = playChooseMoveActionCard(num);
+        System.out.println(num*10);
+        gamePage.setPossibleMoves((ArrayList)tiles);
+        TileOApplication.getBoard().setMode(BoardPanel.Mode.MOVE_PLAYER);
+        TileOApplication.getBoard().refreshBoard();
+      }catch(InvalidInputException e){
+        return;
+      }
+    
    }
 
 

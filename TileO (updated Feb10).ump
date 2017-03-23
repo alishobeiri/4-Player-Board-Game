@@ -6,7 +6,7 @@ class TileO {
 }
 
 class Game {
-  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_CHOOSEMOVEACTIONCARD{} }
+  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
   1 <@>- * Connection connections;
@@ -289,6 +289,14 @@ class RollDieActionCard {
 	  return tiles;
   	}
 }
+class ChooseMoveActionCard {
+	isA ActionCard;
+	public List<Tile> play(int a){
+		Game game = this.getDeck().getGame();
+		List<Tile> tiles = game.getCurrentPlayer().generateMoves(a);
+		return tiles;
+	}
+}
 
 class ConnectTilesActionCard {
   isA ActionCard;
@@ -318,19 +326,6 @@ class TeleportActionCard {
     public void play(Tile tile) throws InvalidInputException{ 
 	  	//TODO Check if methods work.
 	  	tile.land();
-  	}
-}
-
-class ChooseMoveActionCard {
-	isA ActionCard;
-	  public List<Tile> play(){
-	  List<Tile> tiles = new ArrayList<Tile>();
-	  Game game = this.getDeck().getGame();
-	  
-	  //TODO Check this method works
-	  tiles = game.rollDie();
-	  
-	  return tiles;
   	}
 }
 

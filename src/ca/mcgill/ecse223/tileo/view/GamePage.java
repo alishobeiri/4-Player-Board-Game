@@ -325,7 +325,6 @@ public class GamePage extends JFrame {
 	}
 	
 	public void enableRollDieButton(boolean enabled){
-		chooseMove.setVisible(true);
 		rollDie.setEnabled(enabled);
 	}
 	
@@ -383,7 +382,11 @@ public class GamePage extends JFrame {
 			rect.setColor(Color.pink);
 		}
 	}
-	
+	public int showChooseMovePopup(){
+		ChooseMoveDialog popup = new ChooseMoveDialog();
+		int n = popup.show();
+		return n;
+	}
 	public void setAllTilesToPossible(){
 		for(Rectangle2DCoord rect: board.boardTiles.keySet()){
 			rect.setColor(Color.pink);
