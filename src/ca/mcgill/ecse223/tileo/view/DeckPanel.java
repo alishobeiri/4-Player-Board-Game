@@ -65,10 +65,10 @@ public class DeckPanel extends JPanel {
 			descriptionText = "You lost a turn.";
 		}
 		//TODO: Uncomment this when class exists
-		/*else if(card instanceof ChooseAdditionalMoveActionCard){
+		else if(card instanceof ChooseMoveActionCard){
 			titleText = "Choose Additional Move Action Card";
-			descriptionTest = "Choose the number of tiles that you want to move.";
-		}*/
+			descriptionText = "Choose the number of tiles that you want to move.";
+		}
 		refresh();
 	}
 	
