@@ -385,18 +385,16 @@ class TeleportActionCard {
 	  game.setMode(Mode.GAME_TELEPORTACTIONCARD);
   }
 }
-
-<<<<<<< HEAD:TileO (updated Feb10).ump
-=======
 class ChooseMoveActionCard {
 	isA ActionCard;
+  //Added play method
   public List<Tile> play(int n){
 	  List<Tile> tiles = new ArrayList<Tile>();
 	  Game game = this.getDeck().getGame();
 	  game.setMode(Game.Mode.GAME_CHOOSEMOVEACTIONCARD);
 	  
 	  //TODO Check this method works
-	  tiles = game.rollDie();
+	  tiles = game.getCurrentPlayer().generateMoves(n);
 	  
 	  return tiles;
   }
@@ -404,11 +402,10 @@ class ChooseMoveActionCard {
   public void changeGameModeToActionCard(){
 	  Deck deck = this.getDeck();
 	  Game game = deck.getGame();
-	  game.setMode(Mode.GAME_ROLLDIEACTIONCARD);
+	  game.setMode(Game.Mode.GAME_CHOOSEMOVEACTIONCARD);
   }
 }
 
->>>>>>> master:TileO(updatedMar22).ump
 class LoseTurnActionCard {
   isA ActionCard;
   public void changeGameModeToActionCard(){
