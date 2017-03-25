@@ -11,21 +11,21 @@ public class Ellipse2DCoord {
 	int coordY;
 	Color color;
 	Player player;
-	
-	public Ellipse2DCoord(int x, int y){
+
+	public Ellipse2DCoord(int x, int y) {
 		coordX = x;
 		coordY = y;
-	} 
-	
-	public void setColor(Color c){
-		color=c;
 	}
-	
-	public int getX(){
+
+	public void setColor(Color c) {
+		color = c;
+	}
+
+	public int getX() {
 		return coordX;
 	}
-	
-	public int getY(){
+
+	public int getY() {
 		return coordY;
 	}
 }
