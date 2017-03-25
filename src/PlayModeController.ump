@@ -83,6 +83,11 @@ class PlayModeController{
       displayCard();
       doLoseTurn();
       } -> RollDie;
+
+      getActionCard() [isCurrentCardChooseMove()] / {
+      displayCard();
+      doChooseMove();
+      } -> Move;
     }
 
     AddConnection{
@@ -459,28 +464,43 @@ class PlayModeController{
       game.setMode(Game.Mode.GAME);
    }
    
-   public List<Tile> playChooseMoveActionCard(int dieValue) throws InvalidInputException{
-	    Game game = TileOApplication.getCurrentGame();
-			Deck deck = game.getDeck();
-			ActionCard card = deck.getCurrentCard();
+   public List<Tile> playChooseMoveActionCard(int n) throws InvalidInputException{
+      Game game = TileOApplication.getCurrentGame();
+      Deck deck = game.getDeck();
+      ActionCard card = deck.getCurrentCard();
 
-			// Check if the current card is a Choose Move Card
-			if (!(card instanceof ChooseMoveActionCard)) {
-				throw new InvalidInputException("The current card is not a Choose Move Action Card");
-			}
+      // Check if the current card is a Choose Move Card
+      if (!(card instanceof ChooseMoveActionCard)) {
+        throw new InvalidInputException("The current card is not a Choose Move Action Card");
+      }
 
-			ChooseMoveActionCard chooseMoveActionCard = (ChooseMoveActionCard) card;
+      ChooseMoveActionCard chooseMoveActionCard = (ChooseMoveActionCard) card;
+      List<Tile> tiles = new ArrayList<>();
+      tiles = chooseMoveActionCard.play(n);
 
-			List<Tile> tiles = new ArrayList<Tile>();
-			tiles = chooseMoveActionCard.play(5);
+      advanceCurrentCard(deck);
 
-			advanceCurrentCard(deck);
+      game.setMode(Game.Mode.GAME);
+      
+      //TileOApplication.save();
 
-			game.setMode(Game.Mode.GAME);
-			
-			//TileOApplication.save();
+      return tiles;
+   }
 
-			return tiles;
+    public void doChooseMove(){
+      GamePage gamePage = TileOApplication.getGamePage();
+      int num = gamePage.showChooseMovePopup();
+      try{
+        List<Tile> tiles = playChooseMoveActionCard(num);
+        TileOApplication.refreshDie(num);
+        System.out.println(num*10);
+        gamePage.setPossibleMoves((ArrayList)tiles);
+        TileOApplication.getBoard().setMode(BoardPanel.Mode.MOVE_PLAYER);
+        TileOApplication.getBoard().refreshBoard();
+      }catch(InvalidInputException e){
+        return;
+      }
+    
    }
 
 
