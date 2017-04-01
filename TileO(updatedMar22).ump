@@ -17,38 +17,22 @@ class Game {
   const Integer SpareConnectionPieces = 32;
   Integer currentConnectionPieces;
   const Integer NumberOfActionCards = 32;
+  depend ca.mcgill.ecse223.tileo.application.TileOApplication;
+  depend ca.mcgill.ecse223.tileo.controller.InvalidInputException;
   
-	public ArrayList<Tile> rollDie() {
+	public List<Tile> rollDie() {
 		// List of tiles to return that represents possible moves
-		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		List<Tile> tiles = new ArrayList<Tile>();
 		// 'this' is the game
 		Die die = this.getDie();
 
 		// roll the die
 		int dieValue = die.roll();
-		
-		// Get the current player
-		Player currentPlayer = this.getCurrentPlayer();
 
-		//TODO Check getPossibleMoves is implemented
-		// Tiles is a list of possible moves the current player can make based
-		// on their die role
-		tiles = currentPlayer.generateMoves(currentPlayer.getCurrentTile(), dieValue);
-
-		return tiles;
-	
-	}
-	
-	public List<Tile> rollDie(int dieValue) {
-		// List of tiles to return that represents possible moves
-		List<Tile> tiles = new ArrayList<Tile>();
-		// 'this' is the game
-		Die die = this.getDie();
-		
 		// Get the current player
 		Player currentPlayer = this.getCurrentPlayer();
 		TileOApplication.refreshDie(dieValue);
-		//TODO Check getPossibleMoves is implemented
+		// TODO Check getPossibleMoves is implemented
 		// Tiles is a list of possible moves the current player can make based
 		// on their die role
 		tiles = currentPlayer.generateMoves(dieValue);
@@ -56,21 +40,34 @@ class Game {
 		return tiles;
 	}
 
-	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException
-	{
-		if(!(getTiles().contains(tileOne)) || !(getTiles().contains(tileTwo)))
-		{
+	public List<Tile> rollDie(int dieValue) {
+		// List of tiles to return that represents possible moves
+		List<Tile> tiles = new ArrayList<Tile>();
+		// 'this' is the game
+		Die die = this.getDie();
+
+		// Get the current player
+		Player currentPlayer = this.getCurrentPlayer();
+		TileOApplication.refreshDie(dieValue);
+		// TODO Check getPossibleMoves is implemented
+		// Tiles is a list of possible moves the current player can make based
+		// on their die role
+		tiles = currentPlayer.generateMoves(dieValue);
+
+		return tiles;
+	}
+
+	public Connection connectTiles(Tile tileOne, Tile tileTwo) throws InvalidInputException {
+		Connection connector = new Connection(this);
+		if (!(getTiles().contains(tileOne)) || !(getTiles().contains(tileTwo))) {
 			throw new InvalidInputException("There is no tile in that space.");
-		}
-		else if(checkAdjacentTiles(tileOne, tileTwo) == false)
-		{
+		} else if (checkAdjacentTiles(tileOne, tileTwo) == false) {
 			throw new InvalidInputException("The two tiles are not adjacent thus they cannot have a connection.");
 		}
-		
-		Connection connector = new Connection(this);
-		connector.addTile(tileOne);
-		connector.addTile(tileTwo);
-		
+		if (checkAdjacentTiles(tileOne, tileTwo)) {
+			connector.addTile(tileOne);
+			connector.addTile(tileTwo);
+		}
 		return connector;
 	}
 	
@@ -81,11 +78,11 @@ class Game {
 		int yOne = tile1.getY();
 		int yTwo = tile2.getY();
 		boolean adjacent = false;
-		if((Math.abs(xOne - xTwo) == 1) && (yOne == yTwo));
+		if((Math.abs(xOne - xTwo) == 1) && (yOne == yTwo))
 		{
 			adjacent = true;
 		}
-		if((Math.abs(yOne - yTwo) == 1) && (xOne == xTwo));
+		if((Math.abs(yOne - yTwo) == 1) && (xOne == xTwo))
 		{
 			adjacent = true;
 		}
@@ -132,33 +129,7 @@ class Player {
         List<Tile> neighbours = origin.getNeighbours(null, number);
         return neighbours;
     }
-	/**********************************************/
-	/**PRETTY SURE THIS METHOD SHOULDN'T BE HERE***/
-  public List<Tile> getNeighbours(Tile prev, int number){
-    List<Tile> neighbours = new ArrayList<>();
-    List<Connection> connections = new ArrayList<>();
-    if(number == 0){
-      neighbours.add(this);
-      return neighbours;
-    }
-    for(Connection c : this.getConnections()){
-      if(!c.getTiles().contains(prev)){
-        connections.add(c);
-      }
-    }
-    for(Connection c: connections){
-      List<Tile> ts = c.getTiles();
-      int ind = 0;
-      if(ts.size() != 1){
-    	  ind = ts.indexOf(this)==0 ? 1:0;
-      }
 
-      Tile t = ts.get(ind);
-      List<Tile> ns = t.getNeighbours(this, number-1);
-      neighbours.addAll(ns);
-    }
-    return neighbours;
-  }
 }
 
 class Tile {
@@ -170,6 +141,44 @@ class Tile {
   Boolean hasBeenVisited = false;
   
   public abstract void land();
+  
+  	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (((Tile) other).x == this.x && ((Tile) other).y == this.y) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public List<Tile> getNeighbours(Tile prev, int number) {
+		List<Tile> neighbours = new ArrayList<>();
+		List<Connection> connections = new ArrayList<>();
+		if (number == 0) {
+			neighbours.add(this);
+			return neighbours;
+		}
+		for (Connection c : this.getConnections()) {
+			if (!c.getTiles().contains(prev)) {
+				connections.add(c);
+			}
+		}
+		for (Connection c : connections) {
+			List<Tile> ts = c.getTiles();
+			int ind = 0;
+			if (ts.size() != 1) {
+				ind = ts.indexOf(this) == 0 ? 1 : 0;
+			}
+
+			Tile t = ts.get(ind);
+			List<Tile> ns = t.getNeighbours(this, number - 1);
+			neighbours.addAll(ns);
+		}
+		return neighbours;
+	}	
 
 }
 
@@ -178,6 +187,22 @@ class ActionTile {
 
   immutable Integer inactivityPeriod;
   Integer turnsUntilActive= 0;
+  	
+	actionTileStatus {
+		Active {
+			deactivate() [getInactivityPeriod() > 0] / { 
+				setTurnsUntilActive(getInactivityPeriod() + 1 ); 
+			}  -> Inactive; 
+		} 
+		Inactive {
+			takeTurn() [getTurnsUntilActive() > 1] / { 
+				setTurnsUntilActive(getTurnsUntilActive() - 1);   
+			}  -> Inactive; 
+			takeTurn() [getTurnsUntilActive() <= 1] / { 
+				setTurnsUntilActive(0);
+			}  -> Active; 
+		} 
+	} 	
   
   	public void land() {
 		// Get the game that this tile is a part of
@@ -207,42 +232,42 @@ class ActionTile {
 
 class NormalTile {
   isA Tile;
-  
-    /**********************************************/
-    /**THIS METHOD DOES NOT MATCH THE ONE**********/
-    /**CURRENTLY IN THE JAVA CODE *****************/
-  	public void land() {
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
+	public void land() {
 		// Get the game that this tile is a part of
 		Game currentGame = this.getGame();
 		// Get the player that wants to move to the tile
 		Player currentPlayer = currentGame.getCurrentPlayer();
 		// Set the current tile to this tile
 		currentPlayer.setCurrentTile(this);
-		
+
+		// TODO CHECK THIS METHOD
+		currentPlayer.takeTurn();
+
 		// Get increase the index of the current player by one
-		int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
-		// Loop back if it is the last player
-		nextPlayerIndex = nextPlayerIndex % currentGame.numberOfPlayers();
-		// Get the next player
-		Player nextPlayer = currentGame.getPlayer(nextPlayerIndex);
-		// Set the next player as the current player
-		currentGame.setCurrentPlayer(nextPlayer);
-		
+		/*
+		 * int nextPlayerIndex = currentGame.indexOfPlayer(currentPlayer) + 1;
+		 * // Loop back if it is the last player nextPlayerIndex =
+		 * nextPlayerIndex % currentGame.numberOfPlayers(); // Get the next
+		 * player Player nextPlayer = currentGame.getPlayer(nextPlayerIndex); //
+		 * Set the next player as the current player
+		 * currentGame.setCurrentPlayer(nextPlayer);
+		 */
+
 		this.setHasBeenVisited(true);
-		
+
 		currentGame.setMode(Mode.GAME);
 	}
-	/**********************************************/
-    /**THOMAS THINKS LAND(RECT) SHOULD BE ADDEDTOO*/
   
 }
 
 class WinTile {
   isA Tile;
-  
+  depend ca.mcgill.ecse223.tileo.application.TileOApplication;
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
 	// TODO
-	public void land() {
-		// Get the game that this tile is a part of
+   public void land(){
+    // Get the game that this tile is a part of
 		Game currentGame = this.getGame();
 		// Get the player that wants to move to the tile
 		Player currentPlayer = currentGame.getCurrentPlayer();
@@ -269,7 +294,7 @@ class WinTile {
 		TileOApplication.deleteGame();
 
 		currentGame.setMode(Mode.GAME_WON);
-	}
+  }
   
 }
 
@@ -308,43 +333,38 @@ public abstract void changeGameModeToActionCard();
 
 class RollDieActionCard {
   isA ActionCard;
+  depend java.util.*;
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
   //Angel
-   public List<Tile> play(){
-	  List<Tile> tiles = new ArrayList<Tile>();
-	  Game game = this.getDeck().getGame();
-	  
-	  //TODO Check this method works
-	  tiles = game.rollDie();
-	  
-	  return tiles;
-   }
-   
-  public void changeGameModeToActionCard(){
-	  Deck deck = this.getDeck();
-	  Game game = deck.getGame();
-	  game.setMode(Mode.GAME_ROLLDIEACTIONCARD);
-  }
-}
-class ChooseMoveActionCard {
-	isA ActionCard;
-	public List<Tile> play(int a){
+	public List<Tile> play() {
+		List<Tile> tiles = new ArrayList<Tile>();
 		Game game = this.getDeck().getGame();
-		List<Tile> tiles = game.getCurrentPlayer().generateMoves(a);
+		game.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
+
+		tiles = game.rollDie();
+
 		return tiles;
+	}
+   
+	public void changeGameModeToActionCard() {
+		Deck deck = this.getDeck();
+		Game game = deck.getGame();
+		game.setMode(Mode.GAME_ROLLDIEACTIONCARD);
 	}
 }
 
 class ConnectTilesActionCard {
   isA ActionCard;
+  depend ca.mcgill.ecse223.tileo.controller.*;
+  depend ca.mcgill.ecse223.tileo.model.*;
   //Angel
-    public void play(Tile tile1, Tile tile2) throws InvalidInputException{
-	  Game game = this.getDeck().getGame();
-	  
-	  //TODO Check this method works
-	  game.connectTiles(tile1, tile2);
-	  game.setMode(Mode.GAME);
-	  System.out.println("Mode changed");
-  	}
+	public void play(Tile tile1, Tile tile2) throws InvalidInputException {
+		Game game = this.getDeck().getGame();
+
+		game.connectTiles(tile1, tile2);
+		game.setMode(Mode.GAME);
+		System.out.println("Mode changed");
+	}
   	
   public void changeGameModeToActionCard(){
 	  Deck deck = this.getDeck();
@@ -355,35 +375,36 @@ class ConnectTilesActionCard {
 
 class RemoveConnectionActionCard {
   isA ActionCard;
+  depend ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
   //Angel
-  	public void play(Connection aConnection) throws InvalidInputException{
-	  Game game = this.getDeck().getGame();
-	  
-	  //TODO Check this method works
-	  game.removeConnection(aConnection);
-	  game.setMode(Mode.GAME);
-  	}
+	public void play(Connection aConnection) throws InvalidInputException {
+		Game game = this.getDeck().getGame();
+		game.deleteConnection(aConnection);
+		game.setMode(Mode.GAME);
+	}
   	
-  public void changeGameModeToActionCard(){
-	  Deck deck = this.getDeck();
-	  Game game = deck.getGame();
-	  game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
-  }
+	public void changeGameModeToActionCard() {
+		Deck deck = this.getDeck();
+		Game game = deck.getGame();
+		game.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+	}
 }
 
 class TeleportActionCard {
   isA ActionCard;
+  depend ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
   //Angel
-    public void play(Tile tile) throws InvalidInputException{ 
-	  	//TODO Check if methods work.
-	  	tile.land();
-  	}
+	public void play(Tile tile) throws InvalidInputException {
+		tile.land();
+	}
   
-  public void changeGameModeToActionCard(){
-	  Deck deck = this.getDeck();
-	  Game game = deck.getGame();
-	  game.setMode(Mode.GAME_TELEPORTACTIONCARD);
-  }
+	public void changeGameModeToActionCard() {
+		Deck deck = this.getDeck();
+		Game game = deck.getGame();
+		game.setMode(Mode.GAME_TELEPORTACTIONCARD);
+	}
 }
 class ChooseMoveActionCard {
 	isA ActionCard;
@@ -408,6 +429,7 @@ class ChooseMoveActionCard {
 
 class LoseTurnActionCard {
   isA ActionCard;
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
   public void changeGameModeToActionCard(){
 	  Deck deck = this.getDeck();
 	  Game game = deck.getGame();
@@ -422,9 +444,8 @@ class LoseTurnActionCard {
 }
 
 class Die {
+	depend java.util.Random;
 	public int roll() {
-    // Thomas
-	// Return a random die roll, [1-6]
 		// Default value
 		int dieValue = 0;
 		Random rand = new Random();
