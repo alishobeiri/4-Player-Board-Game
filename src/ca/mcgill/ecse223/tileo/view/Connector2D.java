@@ -10,11 +10,11 @@ public class Connector2D {
 	Tile tileTwo;
 	Rectangle2D c;
 	Connection connect;
-	
-	public Connector2D(Tile first, Tile second,Rectangle2D rect,Connection d){
-		tileOne=first;
-		tileTwo=second;
-		c=rect;
-		connect=d;
+
+	public Connector2D(Tile first, Tile second, Rectangle2D rect, Connection d) {
+		tileOne = first;
+		tileTwo = second;
+		c = rect;
+		connect = d;
 	}
 }

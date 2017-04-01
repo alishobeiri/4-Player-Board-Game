@@ -37,7 +37,7 @@ public class PersistenceObjectStream {
 		}
 		return o;
 	}
-	
+
 	public static void setFilename(String newFilename) {
 		filename = newFilename;
 	}

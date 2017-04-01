@@ -9,7 +9,7 @@ import java.util.*;
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
 // line 68 "../../../../../TileO (updated Feb10).ump"
-public class RollDieActionCard extends ActionCard implements Serializable {
+public class ChooseMoveActionCard extends ActionCard implements Serializable {
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class RollDieActionCard extends ActionCard implements Serializable {
 	// CONSTRUCTOR
 	// ------------------------
 
-	public RollDieActionCard(String aInstructions, Deck aDeck) {
+	public ChooseMoveActionCard(String aInstructions, Deck aDeck) {
 		super(aInstructions, aDeck);
 	}
 
@@ -42,10 +42,10 @@ public class RollDieActionCard extends ActionCard implements Serializable {
 	}
 
 	// Added play method
-	public List<Tile> play() {
+	public List<Tile> play(int n) {
 		List<Tile> tiles = new ArrayList<Tile>();
 		Game game = this.getDeck().getGame();
-		game.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
+		game.setMode(Game.Mode.GAME_CHOOSEMOVEACTIONCARD);
 
 		// TODO Check this method works
 		tiles = game.rollDie();

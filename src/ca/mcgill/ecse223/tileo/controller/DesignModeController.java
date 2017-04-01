@@ -137,12 +137,12 @@ public class DesignModeController {
 		throw new InvalidInputException("The tile could not be found");
 	}
 
-	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn)
+	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn, int chooseTurn)
 			throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		deck.clearDeck();
-		if (rollDie + addConnect + removeConnect + teleport + loseTurn != 32) {
+		if (rollDie + addConnect + removeConnect + teleport + loseTurn + chooseTurn != 32) {
 			throw new InvalidInputException("Please make sure the total number of cards adds up to 32");
 		}
 		for (int i = 0; i < rollDie; i++) {
@@ -159,6 +159,9 @@ public class DesignModeController {
 		}
 		for (int i = 0; i < loseTurn; i++) {
 			new LoseTurnActionCard("You have lost your turn", deck);
+		}
+		for (int i = 0; i < chooseTurn; i++) {
+			new ChooseMoveActionCard("Please choose your die roll", deck);
 		}
 	}
 
