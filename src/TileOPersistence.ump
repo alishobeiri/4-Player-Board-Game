@@ -1,11 +1,5 @@
 external interface Serializable {}
 
-class TileO {
-  depend java.io.Serializable;
-  isA Serializable;
-  private static final long serialVersionUID = -1402467009912279401L;
-}
-
 class ActionCard{
   depend java.io.Serializable;
   isA Serializable;

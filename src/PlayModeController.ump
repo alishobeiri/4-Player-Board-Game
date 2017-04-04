@@ -190,7 +190,7 @@ class PlayModeController{
   }
 
    public boolean isCurrentCardResetTile(){
-    if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ResetActionTileActionCard){
+    if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ResetActionTilesActionCard){
       return true;
     }
     return false;

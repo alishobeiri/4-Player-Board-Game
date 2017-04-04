@@ -1,5 +1,6 @@
 namespace ca.mcgill.ecse223.tileo.model;
 use TileOPersistence.ump;
+use PlayModeController.ump;
 
 class TileO {
   1 <@>- * Game games;
