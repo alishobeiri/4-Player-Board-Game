@@ -11,7 +11,7 @@ import java.awt.event.*;
 public class DeckSetUpPage extends JFrame {
 
 	// Value Fields
-	private int[] values = new int[6];
+	private int[] values = new int[7];
 	boolean done;
 	DesignPage designPage;
 
@@ -22,6 +22,7 @@ public class DeckSetUpPage extends JFrame {
 	JLabel teleportCard = new JLabel("Teleport Action Card");
 	JLabel loseTurnCard = new JLabel("Lose Turn Action Card");
 	JLabel chooseMoveCard = new JLabel("Choose Additional Move Action Card");
+	JLabel resetActionTileCard = new JLabel("Reset all action tiles to inactive action card");
 	Integer[] nums = new Integer[33];
 	JComboBox rollDieNum;
 	JComboBox connectTilesNum;
@@ -29,6 +30,7 @@ public class DeckSetUpPage extends JFrame {
 	JComboBox teleportNum;
 	JComboBox loseTurnNum;
 	JComboBox chooseMoveNum;
+	JComboBox resetActionTileNum;
 	JLabel title = new JLabel("Deck Settings");
 	JLabel description1 = new JLabel("  Select the number of Action Cards of each kind you want to have");
 	JLabel description2 = new JLabel("  in the deck. There must be exactly 32 cards in the deck.");
@@ -69,6 +71,7 @@ public class DeckSetUpPage extends JFrame {
 		teleportCard.setFont(labelFont);
 		loseTurnCard.setFont(labelFont);
 		chooseMoveCard.setFont(labelFont);
+		resetActionTileCard.setFont(labelFont);
 
 		// Initialize combo boxes
 		rollDieNum = new JComboBox(nums);
@@ -77,6 +80,7 @@ public class DeckSetUpPage extends JFrame {
 		teleportNum = new JComboBox(nums);
 		loseTurnNum = new JComboBox(nums);
 		chooseMoveNum = new JComboBox(nums);
+		resetActionTileNum = new JComboBox(nums);
 
 		// Panel layout
 		GroupLayout panelLayout = new GroupLayout(panel);
@@ -98,7 +102,11 @@ public class DeckSetUpPage extends JFrame {
 				.addGroup(panelLayout.createSequentialGroup().addGap(15, 15, 15)
 						.addComponent(loseTurnCard, 490, 490, 490).addComponent(loseTurnNum, 70, 70, 70))
 				.addGroup(panelLayout.createSequentialGroup().addGap(15, 15, 15)
-						.addComponent(chooseMoveCard, 490, 490, 490).addComponent(chooseMoveNum, 70, 70, 70)));
+						.addComponent(chooseMoveCard, 490, 490, 490).addComponent(chooseMoveNum, 70, 70, 70))
+				.addGroup(panelLayout.createSequentialGroup().addGap(15, 15, 15)
+						.addComponent(resetActionTileCard, 490, 490, 490).addComponent(resetActionTileNum, 70, 70, 70)));
+				
+				
 
 		panelLayout.setVerticalGroup(panelLayout.createSequentialGroup().addGap(15, 15, 15)
 				.addGroup(panelLayout.createParallelGroup().addComponent(rollDieCard).addComponent(rollDieNum))
@@ -108,7 +116,8 @@ public class DeckSetUpPage extends JFrame {
 						.addComponent(removeConnectionNum))
 				.addGroup(panelLayout.createParallelGroup().addComponent(teleportCard).addComponent(teleportNum))
 				.addGroup(panelLayout.createParallelGroup().addComponent(loseTurnCard).addComponent(loseTurnNum))
-				.addGroup(panelLayout.createParallelGroup().addComponent(chooseMoveCard).addComponent(chooseMoveNum)));
+				.addGroup(panelLayout.createParallelGroup().addComponent(chooseMoveCard).addComponent(chooseMoveNum))
+				.addGroup(panelLayout.createParallelGroup().addComponent(resetActionTileCard).addComponent(resetActionTileNum)));
 
 		// Change layout to group layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -174,6 +183,7 @@ public class DeckSetUpPage extends JFrame {
 			values[3] = (int) teleportNum.getSelectedItem();
 			values[4] = (int) loseTurnNum.getSelectedItem();
 			values[5] = (int) chooseMoveNum.getSelectedItem();
+			values[6] = (int) resetActionTileNum.getSelectedItem();
 
 			try {
 				designPage.setCardNumbers(values);

@@ -24,7 +24,7 @@ public class DesignPage extends JFrame {
 	 */
 
 	// Value Fields
-	private int rollDieCards, connectTilesCards, removeConnectionCards, teleportCards, loseTurnCards, chooseMoveCards;
+	private int rollDieCards, connectTilesCards, removeConnectionCards, teleportCards, loseTurnCards, chooseMoveCards, resetActionTileCards;
 	private int players;
 	private Game game;
 
@@ -185,8 +185,10 @@ public class DesignPage extends JFrame {
 		teleportCards = values[3];
 		loseTurnCards = values[4];
 		chooseMoveCards = values[5];
+		resetActionTileCards = values[6];
+		
 		// TODO: Add 6th argument for the new action card.
-		toc.buildDeck(values[0], values[1], values[2], values[3], values[4], values[5]);
+		toc.buildDeck(values[0], values[1], values[2], values[3], values[4], values[5], values[6]);
 	}
 
 	public void setFrameName(String name) {

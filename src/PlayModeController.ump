@@ -88,6 +88,11 @@ class PlayModeController{
       displayCard();
       doChooseMove();
       } -> Move;
+      
+      getActionCard() [isCurrentCardResetTile()] / {
+      displayCard();
+      doResetTile();
+      } -> RollDie;
     }
 
     AddConnection{
@@ -184,6 +189,12 @@ class PlayModeController{
     return false;
   }
 
+   public boolean isCurrentCardResetTile(){
+    if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ResetActionTileActionCard){
+      return true;
+    }
+    return false;
+  }
 
   /**
    * line 156 "../../../../../PlayModeController.ump"
@@ -239,6 +250,12 @@ class PlayModeController{
 	    return false;
    }
   
+  public boolean isCurrentCardResetTile(){
+	    if(TileOApplication.getCurrentGame().getDeck().getCurrentCard() instanceof ChooseMoveActionCard){
+	      return true;
+	    }
+	    return false;
+   }
 
 
   /**
@@ -502,7 +519,16 @@ class PlayModeController{
       }
     
    }
-
+   
+   public void doResetTile(){
+    Game game = TileOApplication.getCurrentGame();
+	Deck deck = game.getDeck();
+	ResetActionTilesActionCard card = (ResetActionTilesActionCard) deck.getCurrentCard();
+	card.play();
+	setNextPlayer();
+	advanceCurrentCard(deck);
+  }
+   
 
   /**
    * 

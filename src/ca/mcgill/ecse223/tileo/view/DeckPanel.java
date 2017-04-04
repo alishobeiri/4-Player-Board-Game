@@ -59,6 +59,9 @@ public class DeckPanel extends JPanel {
 		} else if (card instanceof LoseTurnActionCard) {
 			titleText = "Lose Turn Action Card";
 			descriptionText = "You lost a turn.";
+		} else if (card instanceof ResetActionTilesActionCard){
+			titleText = "Reset Action Tile Action Card";
+			descriptionText = "All action tiles have been set to inactive";
 		}
 
 		//TODO: Uncomment this when class exists

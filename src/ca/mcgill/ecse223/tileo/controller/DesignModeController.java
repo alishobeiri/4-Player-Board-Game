@@ -137,12 +137,12 @@ public class DesignModeController {
 		throw new InvalidInputException("The tile could not be found");
 	}
 
-	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn, int chooseTurn)
+	public void buildDeck(int rollDie, int addConnect, int removeConnect, int teleport, int loseTurn, int chooseTurn, int resetTile)
 			throws InvalidInputException {
 		Game game = TileOApplication.getCurrentGame();
 		Deck deck = game.getDeck();
 		deck.clearDeck();
-		if (rollDie + addConnect + removeConnect + teleport + loseTurn + chooseTurn != 32) {
+		if (rollDie + addConnect + removeConnect + teleport + loseTurn + chooseTurn + resetTile != 32) {
 			throw new InvalidInputException("Please make sure the total number of cards adds up to 32");
 		}
 		for (int i = 0; i < rollDie; i++) {
@@ -162,6 +162,9 @@ public class DesignModeController {
 		}
 		for (int i = 0; i < chooseTurn; i++) {
 			new ChooseMoveActionCard("Please choose your die roll", deck);
+		}
+		for (int i = 0; i < resetTile; i++) {
+			new ResetActionTilesActionCard("All active action tiles will be reset", deck);
 		}
 	}
 
@@ -227,13 +230,15 @@ public class DesignModeController {
 
 	public void goToGameMode() {
 		PlayModeController pmc = new PlayModeController();
-		pmc.startGame();
-		GamePage gamePage = new GamePage(TileOApplication.getBoard(), pmc);
-		TileOApplication.setGamePage(gamePage);
-		TileOApplication.setPlayModeController(pmc);
-		gamePage.setVisible(true);
-		TileOApplication.getDesignPage().dispose();
-		pmc.save();
+		boolean flag = pmc.startGame();
+		if(flag){
+			GamePage gamePage = new GamePage(TileOApplication.getBoard(), pmc);
+			TileOApplication.setGamePage(gamePage);
+			TileOApplication.setPlayModeController(pmc);
+			gamePage.setVisible(true);
+			TileOApplication.getDesignPage().dispose();
+			pmc.save();
+		}
 	}
 
 }

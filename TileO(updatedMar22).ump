@@ -406,6 +406,7 @@ class TeleportActionCard {
 		game.setMode(Mode.GAME_TELEPORTACTIONCARD);
 	}
 }
+
 class ChooseMoveActionCard {
 	isA ActionCard;
   //Added play method
@@ -427,6 +428,27 @@ class ChooseMoveActionCard {
   }
 }
 
+class ResetActionTilesActionCard {
+	isA ActionCard;
+	depend ca.mcgill.ecse223.tileo.model.*;
+	depend java.util.*;
+   public void play(){
+    Game game = this.getDeck().getGame();
+    List<Tile> tiles = game.getTiles();
+	for(Tile t : tiles){
+		if(t instanceof ActionTile){
+			((ActionTile)t).deactivate();
+		}
+	}			
+  }			
+  }
+	  
+	public void changeGameModeToActionCard() {
+		// TODO Auto-generated method stub
+		
+	}	  
+}
+
 class LoseTurnActionCard {
   isA ActionCard;
   depend ca.mcgill.ecse223.tileo.model.Game.Mode;
@@ -442,6 +464,7 @@ class LoseTurnActionCard {
 	  player.loseTurns(1);
   }
 }
+
 
 class Die {
 	depend java.util.Random;
