@@ -8,6 +8,7 @@ import java.util.*;
 
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+import ca.mcgill.ecse223.tileo.util.Cloner;
 
 // line 8 "../../../../../TileO (updated Feb10).ump"
 public class Game implements Serializable {
@@ -610,5 +611,9 @@ public class Game implements Serializable {
 		connector.delete();
 
 		return connector;
+	}
+	
+	public Game clone() {
+		return (Game) Cloner.clone(this);
 	}
 }
