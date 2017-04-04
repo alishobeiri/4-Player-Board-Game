@@ -3,7 +3,7 @@ external interface Serializable {}
 class TileO {
   depend java.io.Serializable;
   isA Serializable;
-  private static final long serialVersionUID = 12L;
+  private static final long serialVersionUID = -1402467009912279401L;
 }
 
 class ActionCard{
@@ -48,7 +48,7 @@ class Game {
   private static final long serialVersionUID = -872799388868582624L;
 }
 
-class LoseTurnActionActionCard {
+class LoseTurnActionCard {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = -6738972650323824494L;
