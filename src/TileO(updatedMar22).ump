@@ -6,7 +6,7 @@ class TileO {
 }
 
 class Game {
-  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} }
+  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_CHOOSEMOVEACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
   1 <@>- * Connection connections;
@@ -356,7 +356,7 @@ class RollDieActionCard {
 class ConnectTilesActionCard {
   isA ActionCard;
   depend ca.mcgill.ecse223.tileo.controller.*;
-  depend ca.mcgill.ecse223.tileo.model.*;
+  depend ca.mcgill.ecse223.tileo.model.Game.Mode;
   //Angel
 	public void play(Tile tile1, Tile tile2) throws InvalidInputException {
 		Game game = this.getDeck().getGame();
@@ -409,6 +409,7 @@ class TeleportActionCard {
 
 class ChooseMoveActionCard {
 	isA ActionCard;
+	depend java.util.*;
   //Added play method
   public List<Tile> play(int n){
 	  List<Tile> tiles = new ArrayList<Tile>();
@@ -441,7 +442,6 @@ class ResetActionTilesActionCard {
 		}
 	}			
   }			
-  }
 	  
 	public void changeGameModeToActionCard() {
 		// TODO Auto-generated method stub
