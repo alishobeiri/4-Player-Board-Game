@@ -424,6 +424,20 @@ class ChooseMoveActionCard {
 	  return tiles;
   }
   
+  class SendBackToStartActionCard {
+ 	isA ActionCard
+ 	depend ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+ 	depend ca.mcgill.ecse223.tileo.model.Game.Mode;
+ 	public void play()
+}
+  
+	public void changeGameModeToActionCard() {
+		Deck deck = this.getDeck();
+		Game game = deck.getGame();
+		game.setMode(Mode.GAME_TELEPORTACTIONCARD);
+	}
+}
+  
   public void changeGameModeToActionCard(){
 	  Deck deck = this.getDeck();
 	  Game game = deck.getGame();
