@@ -21,7 +21,7 @@ class Connection {
 class ConnectTilesActionCard {
   depend java.io.Serializable;
   isA Serializable;
-  private static final long serialVersionUID = -629288172349309738L;s
+  private static final long serialVersionUID = -629288172349309738L;
 }
 
 class Deck {

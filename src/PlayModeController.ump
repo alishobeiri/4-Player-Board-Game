@@ -127,6 +127,14 @@ class PlayModeController{
 
   }
   
+  private void cloneGame() {
+    // TODO the following may have to be adapted to your specific implementation
+    TileO tileO = TileOApplication.getTileO();
+    Game cloned = tileO.getCurrentGame().clone();
+    tileO.addGame(cloned);
+    tileO.setCurrentGame(cloned);
+  }
+  
   /**
    * 
    * ----------------------------------------------------*
@@ -720,6 +728,7 @@ class PlayModeController{
    */
   // line 535 "../../../../../PlayModeController.ump"
    public void doStartGame(){
+   		cloneGame();
     /* VARIABLES */
 	   	Game selectedGame=TileOApplication.getCurrentGame();
 		List<Tile> tiles;

@@ -1,6 +1,8 @@
 namespace ca.mcgill.ecse223.tileo.model;
+external Cloner {}
 use TileOPersistence.ump;
 use PlayModeController.ump;
+
 
 class TileO {
   1 <@>- * Game games;
@@ -21,6 +23,12 @@ class Game {
   const Integer NumberOfActionCards = 32;
   depend ca.mcgill.ecse223.tileo.application.TileOApplication;
   depend ca.mcgill.ecse223.tileo.controller.InvalidInputException;
+  depend ca.mcgill.ecse223.tileo.util.Cloner;
+
+
+	public Game clone() {
+	   return (Game) Cloner.clone(this);
+  	}
   
 	public List<Tile> rollDie() {
 		// List of tiles to return that represents possible moves
