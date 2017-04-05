@@ -1,6 +1,6 @@
 # Group01
 
-#### Umple
+### Umple
   * Make sure to copy any additional Java methods into the Umple code so that they persist across regeneration
   * Specifically:
     * All new model classes must be added to the Persistence ump
@@ -21,8 +21,8 @@
   * Select 32 cards from predefined choices
    
 ### Play Mode (9 features)
-  * Start a game (shuffle the action cards, place players on board) - Thomas (partially implemented)
-  * Take a turn (roll the die, move to new position) - Thomas (roll die implemented, moving not)
+  * Start a game (shuffle the action cards, place players on board) - Thomas
+  * Take a turn (roll the die, move to new position) - Thomas
   * Land on a tile (basic behavior for hidden, regular, and action tiles) - Thomas
   * Take the first card from the deck of cards
   * Action card "Roll the die for an extra turn"
