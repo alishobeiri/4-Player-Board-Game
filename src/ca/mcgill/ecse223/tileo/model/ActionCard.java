@@ -2,105 +2,90 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+
 import java.io.Serializable;
+import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
-// line 3 "../../../../../TileOPersistence.ump"
-// line 337 "../../../../../TileO(updatedMar22).ump"
-public abstract class ActionCard implements Serializable
-{
+// line 62 "../../../../../TileO (updated Feb10).ump"
+public abstract class ActionCard implements Serializable {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
+	// ------------------------
+	// MEMBER VARIABLES
+	// ------------------------
 
-  //ActionCard Attributes
-  private String instructions;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4590779001575729728L;
 
-  //ActionCard Associations
-  private Deck deck;
+	// ActionCard Attributes
+	private String instructions;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
+	// ActionCard Associations
+	private Deck deck;
 
-  public ActionCard(String aInstructions, Deck aDeck)
-  {
-    instructions = aInstructions;
-    boolean didAddDeck = setDeck(aDeck);
-    if (!didAddDeck)
-    {
-      throw new RuntimeException("Unable to create card due to deck");
-    }
-  }
+	// ------------------------
+	// CONSTRUCTOR
+	// ------------------------
 
-  //------------------------
-  // INTERFACE
-  //------------------------
+	public ActionCard(String aInstructions, Deck aDeck) {
+		instructions = aInstructions;
+		boolean didAddDeck = setDeck(aDeck);
+		if (!didAddDeck) {
+			throw new RuntimeException("Unable to create card due to deck");
+		}
+	}
 
-  public String getInstructions()
-  {
-    return instructions;
-  }
+	// ------------------------
+	// INTERFACE
+	// ------------------------
 
-  public Deck getDeck()
-  {
-    return deck;
-  }
+	public String getInstructions() {
+		return instructions;
+	}
 
-  public boolean setDeck(Deck aDeck)
-  {
-    boolean wasSet = false;
-    //Must provide deck to card
-    if (aDeck == null)
-    {
-      return wasSet;
-    }
+	public Deck getDeck() {
+		return deck;
+	}
 
-    //deck already at maximum (32)
-    if (aDeck.numberOfCards() >= Deck.maximumNumberOfCards())
-    {
-      return wasSet;
-    }
-    
-    Deck existingDeck = deck;
-    deck = aDeck;
-    if (existingDeck != null && !existingDeck.equals(aDeck))
-    {
-      boolean didRemove = existingDeck.removeCard(this);
-      if (!didRemove)
-      {
-        deck = existingDeck;
-        return wasSet;
-      }
-    }
-    deck.addCard(this);
-    wasSet = true;
-    return wasSet;
-  }
+	public boolean setDeck(Deck aDeck) {
+		boolean wasSet = false;
+		// Must provide deck to card
+		if (aDeck == null) {
+			return wasSet;
+		}
 
-  public void delete()
-  {
-    Deck placeholderDeck = deck;
-    this.deck = null;
-    placeholderDeck.removeCard(this);
-  }
+		// deck already at maximum (32)
+		if (aDeck.numberOfCards() >= Deck.maximumNumberOfCards()) {
+			return wasSet;
+		}
 
-   public abstract void changeGameModeToActionCard();
+		Deck existingDeck = deck;
+		deck = aDeck;
+		if (existingDeck != null && !existingDeck.equals(aDeck)) {
+			boolean didRemove = existingDeck.removeCard(this);
+			if (!didRemove) {
+				deck = existingDeck;
+				return wasSet;
+			}
+		}
+		deck.addCard(this);
+		wasSet = true;
+		return wasSet;
+	}
 
-  public String toString()
-  {
-    String outputString = "";
-    return super.toString() + "["+
-            "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
-     + outputString;
-  }  
-  //------------------------
-  // DEVELOPER CODE - PROVIDED AS-IS
-  //------------------------
-  
-  // line 6 ../../../../../TileOPersistence.ump
-  private static final long serialVersionUID = 4590779001575729728L ;
+	public void delete() {
+		Deck placeholderDeck = deck;
+		this.deck = null;
+		placeholderDeck.removeCard(this);
+	}
 
-  
+	public String toString() {
+		String outputString = "";
+		return super.toString() + "[" + "instructions" + ":" + getInstructions() + "]"
+				+ System.getProperties().getProperty("line.separator") + "  " + "deck = "
+				+ (getDeck() != null ? Integer.toHexString(System.identityHashCode(getDeck())) : "null") + outputString;
+	}
+
+	public abstract void changeGameModeToActionCard();
 }

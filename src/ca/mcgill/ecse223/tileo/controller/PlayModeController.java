@@ -407,7 +407,7 @@ public class PlayModeController
    public boolean isActiveActionTile(Tile aTile){
     if(aTile instanceof ActionTile){
     	ActionTile at = (ActionTile) aTile;
-    	if(at.getActionTileStatus() == ActionTile.ActionTileStatus.Active){
+    	if(at.getStatus() == ActionTile.Status.Active){
       		return true;
       	}
     }

@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import ca.mcgill.ecse223.tileo.model.*;
 import java.util.*;
 
-// line 460 "../../../../../TileO(updatedMar22).ump"
+// line 431 "../../../../../TileO(updatedMar22).ump"
 public class ResetActionTilesActionCard extends ActionCard
 {
 
@@ -31,7 +31,7 @@ public class ResetActionTilesActionCard extends ActionCard
     super.delete();
   }
 
-  // line 465 "../../../../../TileO(updatedMar22).ump"
+  // line 436 "../../../../../TileO(updatedMar22).ump"
    public void play(){
     Game game = this.getDeck().getGame();
     List<Tile> tiles = game.getTiles();
@@ -39,10 +39,10 @@ public class ResetActionTilesActionCard extends ActionCard
 		if(t instanceof ActionTile){
 			((ActionTile)t).deactivate();
 		}
-	}
+	}			
   }
 
-  // line 475 "../../../../../TileO(updatedMar22).ump"
+  // line 446 "../../../../../TileO(updatedMar22).ump"
    public void changeGameModeToActionCard(){
     // TODO Auto-generated method stub
   }
