@@ -728,7 +728,7 @@ class PlayModeController{
    */
   // line 535 "../../../../../PlayModeController.ump"
    public void doStartGame(){
-   		cloneGame();
+   		//cloneGame();
     /* VARIABLES */
 	   	Game selectedGame=TileOApplication.getCurrentGame();
 		List<Tile> tiles;
