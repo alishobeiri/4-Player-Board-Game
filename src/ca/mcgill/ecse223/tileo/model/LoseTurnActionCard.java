@@ -2,49 +2,56 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-
 import java.io.Serializable;
-
 import ca.mcgill.ecse223.tileo.model.Game.Mode;
 
-// line 84 "../../../../../TileO (updated Feb10).ump"
-public class LoseTurnActionCard extends ActionCard implements Serializable {
+// line 45 "../../../../../TileOPersistence.ump"
+// line 480 "../../../../../TileO(updatedMar22).ump"
+public class LoseTurnActionCard extends ActionCard
+{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6738972650323824494L;
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
 
-	// ------------------------
-	// MEMBER VARIABLES
-	// ------------------------
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
 
-	// ------------------------
-	// CONSTRUCTOR
-	// ------------------------
+  public LoseTurnActionCard(String aInstructions, Deck aDeck)
+  {
+    super(aInstructions, aDeck);
+  }
 
-	public LoseTurnActionCard(String aInstructions, Deck aDeck) {
-		super(aInstructions, aDeck);
-	}
+  //------------------------
+  // INTERFACE
+  //------------------------
 
-	// ------------------------
-	// INTERFACE
-	// ------------------------
+  public void delete()
+  {
+    super.delete();
+  }
 
-	public void changeGameModeToActionCard() {
-		Deck deck = this.getDeck();
-		Game game = deck.getGame();
-		game.setMode(Mode.GAME_LOSETURNACTIONCARD);
-	}
+  // line 484 "../../../../../TileO(updatedMar22).ump"
+   public void changeGameModeToActionCard(){
+    Deck deck = this.getDeck();
+	  Game game = deck.getGame();
+	  game.setMode(Mode.GAME_LOSETURNACTIONCARD);
+  }
 
-	public void delete() {
-		super.delete();
-	}
+  // line 490 "../../../../../TileO(updatedMar22).ump"
+   public void play(){
+    Game game = this.getDeck().getGame();
+	  Player player = game.getCurrentPlayer();
+	  player.loseTurns(1);
+  }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 48 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = -6738972650323824494L ;
 
-	public void play() {
-		Game game = this.getDeck().getGame();
-		Player player = game.getCurrentPlayer();
-		player.loseTurns(1);
-	}
-
+  
 }
