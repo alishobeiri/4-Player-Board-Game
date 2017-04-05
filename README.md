@@ -3,11 +3,11 @@
 #### Umple
   * Make sure to copy any additional Java methods into the Umple code so that they persist across regeneration
   * Specifically:
-   * All new model classes must be added to the Persistence ump
-   * All new methods must be added to their respective classes ump
+    * All new model classes must be added to the Persistence ump
+    * All new methods must be added to their respective classes ump
   * After regeneration 3 changes have to be made to the model: 
-   * in ActionTile.java change the 'status' from private to public
-   * in Game.java and Deck.java comment out the entire method with the error
+    * in ActionTile.java change the 'status' from private to public
+    * in Game.java and Deck.java comment out the entire method with the error
   
 ### Design Mode (10 features)
   * Create a game with a number of players
